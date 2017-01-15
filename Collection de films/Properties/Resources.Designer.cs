@@ -63,9 +63,9 @@ namespace Collection_de_films.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap add_file {
+        internal static System.Drawing.Bitmap _1483073650__thumbnails {
             get {
-                object obj = ResourceManager.GetObject("add_file", resourceCulture);
+                object obj = ResourceManager.GetObject("1483073650__thumbnails", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,39 @@ namespace Collection_de_films.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap add_folder {
+        internal static System.Drawing.Bitmap _1483073717_plus_24 {
             get {
-                object obj = ResourceManager.GetObject("add_folder", resourceCulture);
+                object obj = ResourceManager.GetObject("1483073717_plus-24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _1483073717_plus_241 {
+            get {
+                object obj = ResourceManager.GetObject("1483073717_plus-241", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _1483229032_folder_add {
+            get {
+                object obj = ResourceManager.GetObject("1483229032_folder-add", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _1483229054_File_add {
+            get {
+                object obj = ResourceManager.GetObject("1483229054_File_add", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -111,31 +141,11 @@ namespace Collection_de_films.Properties {
         }
         
         /// <summary>
-        ///   Recherche une ressource localisée de type System.Byte[].
-        /// </summary>
-        internal static byte[] collection_films {
-            get {
-                object obj = ResourceManager.GetObject("collection_films", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap configuration {
             get {
                 object obj = ResourceManager.GetObject("configuration", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap details {
-            get {
-                object obj = ResourceManager.GetObject("details", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,49 +163,9 @@ namespace Collection_de_films.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap film {
-            get {
-                object obj = ResourceManager.GetObject("film", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap film_pas_trouve {
-            get {
-                object obj = ResourceManager.GetObject("film-pas-trouve", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap fondtoolbar {
             get {
                 object obj = ResourceManager.GetObject("fondtoolbar", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icone {
-            get {
-                object obj = ResourceManager.GetObject("icone", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap plus {
-            get {
-                object obj = ResourceManager.GetObject("plus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -226,16 +196,6 @@ namespace Collection_de_films.Properties {
         internal static System.Drawing.Bitmap splash {
             get {
                 object obj = ResourceManager.GetObject("splash", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap thumbnails {
-            get {
-                object obj = ResourceManager.GetObject("thumbnails", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

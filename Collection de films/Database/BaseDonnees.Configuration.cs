@@ -13,7 +13,7 @@ namespace Collection_de_films.Database
         internal void creerTableConfiguration()
         {
             // Table de configuration
-            SQLiteCommand commande = new SQLiteCommand(" TABLE " + TABLE_CONFIGURATION +
+            SQLiteCommand commande = new SQLiteCommand("CREATE TABLE " + TABLE_CONFIGURATION +
                 " ( "
                 + CONFIGURATION_NOM + "	TEXT NOT NULL UNIQUE,"
                 + CONFIGURATION_VALEUR + " TEXT NOT NULL,"

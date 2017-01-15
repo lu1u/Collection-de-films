@@ -23,26 +23,8 @@ namespace Collection_de_films
             }
             else
             {
-                 ListViewItem item = new ListViewItem(f.Titre);
-                item.Text = f.Titre;
-                //int indiceImage = listViewFilms.LargeImageList.Images.Add(f.getImage(), Color.Transparent);
-                //listViewFilms.SmallImageList.Images.Add(f.getImage(), Color.Transparent);
-                //item.ImageIndex = indiceImage;
-                item.SubItems.Add(f.Genres);
-                item.SubItems.Add(f.Realisateur);
-                item.SubItems.Add(f.Acteurs);
-                item.SubItems.Add(f.DateSortie);
-                item.SubItems.Add(f._etiquettes);
-                item.SubItems.Add(f.Resume);
-                item.ToolTipText = f.Tooltip();
-
-                item.Tag = f;
-
-                /*if (listViewFilms.Items.Count % 2 == 0)
-                    item.BackColor = Color.White;*/
-
+                ListViewItem item = f.getListviewItem(listViewFilms);
                 listViewFilms.Items.Add(item);
-                f.setLVItem(item);
             }
         }
 
@@ -105,54 +87,21 @@ namespace Collection_de_films
 
         // Thread-safe method of changing ListView
         public delegate void UpdateDelegate(Film f);
-        public void Update(Film f)
-        {
-            // Use a delegate if called from a different thread,
-            // else just append the text directly
-            if (this.listViewFilms.InvokeRequired)
-            {
-                this.listViewFilms.Invoke(new UpdateDelegate(this.Update), new object[] { f });
-            }
-            else
-            {
-                ListViewItem item = f.getLVItem();
-                if (item == null)
-                    item = new ListViewItem();
-
-                while (item.SubItems.Count < 7)
-                    item.SubItems.Add("");
-
-                item.Text = f.Titre;
-                /*Image image = f.getImage();
-                if (image == null)
-                    image = Resources.film_nouveau;
-                listViewFilms.SmallImageList.Images.Add(image, Color.Transparent);
-                int indiceImage = listViewFilms.LargeImageList.Images.Add(image, Color.Transparent);
-                item.ImageIndex = indiceImage;
-                */
-                //item.SubItems[0].Text = f.Titre();
-                item.SubItems[1].Text = f.Genres;
-                item.SubItems[2].Text = f.Realisateur;
-                item.SubItems[3].Text = f.Acteurs;
-                item.SubItems[4].Text = f.DateSortie;
-                item.SubItems[5].Text = f._etiquettes;
-                item.SubItems[6].Text = f.Resume;
-
-                item.ToolTipText = f.Tooltip();
-                item.Tag = f;
-
-                f.setLVItem(item);
-                listViewFilms.Invalidate();
-
-                if (f == _selected)
-                    updatePanneauInfo(f);
-            }
-        }
 
         internal static void update(Film f)
         {
-            if (f != null)
-                _instance?.Update(f);
+            if  (_instance.InvokeRequired)
+            {
+                _instance.Invoke(new UpdateDelegate(MainForm.update), new object[] { f });
+            }
+            else
+            {
+               f.updateListviewItem(_instance.listViewFilms);                   
+
+                if (f == _instance._selected)
+                    _instance.updatePanneauInfo(f);
+            }
+                
         }
 
         // Thread-safe method of changing ListView

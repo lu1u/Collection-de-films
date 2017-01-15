@@ -28,6 +28,7 @@ namespace Collection_de_films.Fenetres
             {
                 progressBar.Value = v;
                 progressBar.Invalidate();
+                progressBar.Update();
                 Invalidate();
                 Update();                
             }

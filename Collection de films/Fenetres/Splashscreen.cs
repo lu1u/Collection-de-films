@@ -13,14 +13,16 @@ namespace Collection_de_films.Fenetres
     public partial class Splashscreen : Form
     {
         int _pourcent;
+        string _message = "";
         public Splashscreen()
         {
             InitializeComponent();
         }
 
-        public void setPourcent(int pourcent)
+        public void setPourcent(int pourcent, string texte)
         {
-            this._pourcent = pourcent;
+            _pourcent = pourcent;
+            _message = texte;
             Invalidate();
             Update();
         }
@@ -34,11 +36,17 @@ namespace Collection_de_films.Fenetres
             using (Brush b = new SolidBrush(Color.FromArgb(150, 255, 255, 255)))
                 e.Graphics.FillRectangle(b, rect);
 
-            rect.Inflate(-1, -1);
-            rect = new Rectangle(rect.Left, rect.Bottom - rect.Height, (int)(rect.Width * _pourcent / 100.0f), rect.Height);
+            
+            Rectangle rBarre = new Rectangle(rect.Left, rect.Bottom - rect.Height, (int)(rect.Width * _pourcent / 100.0f), rect.Height);
+            rBarre.Inflate(-1, -1);
             using (Brush b = new SolidBrush(Color.FromArgb(200, 255, 255, 255)))
-                e.Graphics.FillRectangle(b, rect);
+                e.Graphics.FillRectangle(b, rBarre);
 
+
+            SizeF tailleTexte = e.Graphics.MeasureString(_message, SystemFonts.DefaultFont, rect.Width);
+            Rectangle rTexte = new Rectangle(0, 0, (int) tailleTexte.Width, (int)tailleTexte.Height);
+            rTexte.Offset(rect.Left, rect.Top - rTexte.Height);
+            e.Graphics.DrawString(_message, SystemFonts.DefaultFont, Brushes.White, rTexte);
         }
     }
 }

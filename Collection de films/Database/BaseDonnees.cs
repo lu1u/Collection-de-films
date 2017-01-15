@@ -65,6 +65,7 @@ namespace Collection_de_films.Database
                     maConnexion = new SQLiteConnection("Data Source=" + DATABASE_NAME + ";Version=3;");
                     maConnexion.Open();
 
+                    creerTableImages();
                     creerTableFilms();
                     creerTableAlternatives();
                     creerTableRecherche();
@@ -79,10 +80,15 @@ namespace Collection_de_films.Database
             }
             else
             {
-                maConnexion = new SQLiteConnection("Data Source=" + DATABASE_NAME + ";Version=3;");
+                maConnexion = new SQLiteConnection($"Data Source={DATABASE_NAME};Version=3;");
             }
         }
 
+        internal void executeNonQuery(string sql)
+        {
+            using (SQLiteCommand cmd = new SQLiteCommand(sql))
+                executeNonQuery(cmd);
+        }
         internal void executeNonQuery(SQLiteCommand command)
         {
             try
@@ -119,7 +125,8 @@ namespace Collection_de_films.Database
 
         internal object executeScalar(string slqCommand)
         {
-            return executeScalar(new SQLiteCommand(slqCommand));
+            using (SQLiteCommand cmd = new SQLiteCommand(slqCommand))
+                return executeScalar(cmd);
         }
 
         internal object executeScalar(SQLiteCommand command)

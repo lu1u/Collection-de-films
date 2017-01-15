@@ -32,42 +32,73 @@ namespace Collection_de_films.Films
 
         public Film(SqlDataReader reader)
         {
-            _id = reader.GetInt32(reader.GetOrdinal("Id"));
-            _chemin = reader.GetString(reader.GetOrdinal("chemin"));
-            _titre = reader.GetString(reader.GetOrdinal("titre"));
-            _infos._realisateur = reader.GetString(reader.GetOrdinal("realisateur"));
-            _infos._acteurs = reader.GetString(reader.GetOrdinal("acteurs"));
-            _infos._genres = reader.GetString(reader.GetOrdinal("genres"));
-            _infos._nationalite = reader.GetString(reader.GetOrdinal("nationalite"));
-            _infos._resume = reader.GetString(reader.GetOrdinal("resume"));
-            _infos._dateSortie = reader.GetString(reader.GetOrdinal("datesortie"));
-            _etiquettes = reader.GetString(reader.GetOrdinal("tag"));
-            _etat = intToEtat(reader.GetInt32(reader.GetOrdinal("etat")));
+            _id = reader.GetInt32(reader.GetOrdinal(BaseDonnees.FILMS_ID));
+            _chemin = reader.GetString(reader.GetOrdinal(BaseDonnees.FILMS_CHEMIN));
+            _titre = reader.GetString(reader.GetOrdinal(BaseDonnees.FILMS_TITRE));
+            _infos._realisateur = reader.GetString(reader.GetOrdinal(BaseDonnees.FILMS_REALISATEUR));
+            _infos._acteurs = reader.GetString(reader.GetOrdinal(BaseDonnees.FILMS_ACTEURS));
+            _infos._genres = reader.GetString(reader.GetOrdinal(BaseDonnees.FILMS_GENRES));
+            _infos._nationalite = reader.GetString(reader.GetOrdinal(BaseDonnees.FILMS_NATIONALITE));
+            _infos._resume = reader.GetString(reader.GetOrdinal(BaseDonnees.FILMS_RESUME));
+            _infos._dateSortie = reader.GetString(reader.GetOrdinal(BaseDonnees.FILMS_DATESORTIE));
 
-            int afficheIndex = reader.GetOrdinal("affiche");
+            if (!reader.IsDBNull(reader.GetOrdinal(BaseDonnees.FILMS_IMAGE_ID)))
+                _infos._imageId = reader.GetInt32(reader.GetOrdinal(BaseDonnees.FILMS_IMAGE_ID));
+            else
+                _infos._imageId = -1;
+
+            _etiquettes = reader.GetString(reader.GetOrdinal(BaseDonnees.FILMS_TAG));
+            _etat = intToEtat(reader.GetInt32(reader.GetOrdinal(BaseDonnees.FILMS_ETAT)));
+
+            /*int afficheIndex = reader.GetOrdinal("affiche");
             // If a column is nullable always check for DBNull...
             if (!reader.IsDBNull(afficheIndex))
-                _infos._affiche = getImage(reader, afficheIndex);
+                _infos._affiche = getImage(reader, afficheIndex);   */
 
             _nbAlternatives = Database.BaseDonnees.getInstance().getNbAlternatives(_id);
         }
 
-        public void FillListviewItem(ListViewItem item)
+        public ListViewItem getListviewItem(ListView lv)
         {
-            item.Text = _titre;
-            //int indiceImage = listViewFilms.LargeImageList.Images.Add(f.getImage(), Color.Transparent);
-            //listViewFilms.SmallImageList.Images.Add(f.getImage(), Color.Transparent);
-            //item.ImageIndex = indiceImage;
-            item.SubItems.Add(Genres);
-            item.SubItems.Add(Realisateur);
-            item.SubItems.Add(Acteurs);
-            item.SubItems.Add(DateSortie);
-            item.SubItems.Add(_etiquettes);
-            item.SubItems.Add(Resume);
+            if (_lvItem == null)
+            {
+                _lvItem = new ListViewItem();
+                _lvItem.Text = Titre;
+                _lvItem.SubItems.Add(Resume);
+                _lvItem.SubItems.Add(Genres);
+                _lvItem.SubItems.Add(Realisateur);
+                _lvItem.SubItems.Add(Acteurs);
+                _lvItem.SubItems.Add(DateSortie);
+                _lvItem.SubItems.Add(_etiquettes);
+                _lvItem.ToolTipText = Tooltip();
+                _lvItem.Tag = this;
+            }
 
-            item.ToolTipText = Tooltip();
-            item.Tag = this;
-            setLVItem(item);
+            return _lvItem;
+        }
+        public void updateListviewItem(ListView lv)
+        {
+            if (_lvItem == null)
+                _lvItem = new ListViewItem();
+            while (_lvItem.SubItems.Count < 7)
+                _lvItem.SubItems.Add("");
+
+            _lvItem.Text = _titre;
+            _lvItem.SubItems[1].Text = Resume;
+            _lvItem.SubItems[2].Text = Genres;
+            _lvItem.SubItems[3].Text = Realisateur;
+            _lvItem.SubItems[4].Text = Acteurs;
+            _lvItem.SubItems[5].Text = DateSortie;
+            _lvItem.SubItems[6].Text = _etiquettes;
+
+            _lvItem.ToolTipText = Tooltip();                                                  
+
+            int index = lv.Items.IndexOf(_lvItem);
+            if (index != -1)
+            {
+                lv.EnsureVisible(index);
+                lv.Invalidate(lv.GetItemRect(index));
+            }
         }
         #region proprietes
         public static ETAT intToEtat(int v)
@@ -157,8 +188,8 @@ namespace Collection_de_films.Films
         }
         internal Image affiche
         {
-            get { return _infos._affiche; }
-            set { _infos._affiche = value; }
+            get { return _infos.affiche; }
+            set { _infos.affiche = value; }
         }
 
         internal string Chemin
@@ -202,6 +233,11 @@ namespace Collection_de_films.Films
             set { _infos._resume = value; }
         }
 
+        internal int imageId
+        {
+            get { return _infos._imageId; }
+            set { _infos._imageId = value; }
+        }
 
         internal string DateSortie
         {
@@ -216,6 +252,10 @@ namespace Collection_de_films.Films
 
         internal ListViewItem getLVItem()
         {
+            if (_lvItem == null)
+            {
+
+            }
             return _lvItem;
         }
 
@@ -259,21 +299,17 @@ namespace Collection_de_films.Films
 
         internal Image getImage()
         {
-            /* switch (_etat)
-             {
-                 case ETAT.NOUVEAU:
-                     return Resources.Resources.film_nouveau;
+            if (_infos == null)
+                return null;
 
-                 case ETAT.RECHERCHE:
-                     return Resources.Resources.film_recherche;
+            if (_infos.affiche != null)
+                return _infos.affiche;
 
-                 case ETAT.PAS_TROUVE:
-                     return Resources.Resources.film_pas_trouve;
+            if (_infos._imageId == -1)
+                return null;
 
-                 case ETAT.TIMEOUT:
-                     return Resources.Resources.film_timeout;
-                 default:*/
-            return _infos?._affiche;
+            _infos.affiche = BaseDonnees.getInstance().getImage(_infos._imageId);
+            return _infos.affiche;
             //}
         }
 
@@ -284,7 +320,7 @@ namespace Collection_de_films.Films
                 MainForm.changeAffiche(img, _lvItem);
         }
 
-        private void UpdateAll()
+        private void updateListView()
         {
             MainForm.update(this);
         }
@@ -302,12 +338,7 @@ namespace Collection_de_films.Films
                 _etat = ETAT.RECHERCHE;
                 UpdateImage();
 
-                /*
-                if (!chargeInfos(new RechercheAllocine()))
-                    chargeInfos(new RechercheIMDB());
-                    */
-
-                bool arretPremier = Configuration.getInstance().getBoolValue(Configuration.CONFIGURATION_ARRET_RECHERCHE_PREMIER);
+                bool arretPremier = Configuration.arretRecherchePremier;
                 _alternatives?.Clear();
                 BaseDonnees.getInstance().supprimeAlternatives(this);
 
@@ -317,7 +348,7 @@ namespace Collection_de_films.Films
                     foreach (RechercheInternet r in recherches)
                         if (r.rechercheInternet(this))
                         {
-                            if ( arretPremier)
+                            if (arretPremier)
                                 break;
                         }
 
@@ -333,7 +364,7 @@ namespace Collection_de_films.Films
                 MainForm.WriteExceptionToConsole(e);
             }
 
-            UpdateAll();
+            updateListView();
         }
 
         internal string getTextEtat()
@@ -385,49 +416,49 @@ namespace Collection_de_films.Films
                     default:
                         _etat = ETAT.OK;
                         MainForm.WriteMessageToConsole("Film trouvé avec plusieurs alternatives");
-                        _alternatives.AddRange( infos) ;
+                        _alternatives.AddRange(infos);
                         break;
                 }
 
             return _etat == ETAT.OK;
         }
-/*
-        private bool chargeInfos(RechercheFilm recherche)
-        {
-            List<InfosFilm> infos = recherche.loadInfosFilm(this);
-            if (infos == null)
-            {
-                _etat = ETAT.PAS_TROUVE;
-                UpdateImage();
-                return false;
-            }
-            else
-
-                switch (infos.Count)
+        /*
+                private bool chargeInfos(RechercheFilm recherche)
                 {
-                    case 0:
-                        MainForm.WriteMessageToConsole("0 pages d'information trouvée");
+                    List<InfosFilm> infos = recherche.loadInfosFilm(this);
+                    if (infos == null)
+                    {
                         _etat = ETAT.PAS_TROUVE;
-                        break;
+                        UpdateImage();
+                        return false;
+                    }
+                    else
+
+                        switch (infos.Count)
+                        {
+                            case 0:
+                                MainForm.WriteMessageToConsole("0 pages d'information trouvée");
+                                _etat = ETAT.PAS_TROUVE;
+                                break;
 
 
-                    case 1:
-                        _etat = ETAT.OK;
-                        MainForm.WriteMessageToConsole("La page du film a été trouvée");
-                        _infos = infos[0];
-                        break;
+                            case 1:
+                                _etat = ETAT.OK;
+                                MainForm.WriteMessageToConsole("La page du film a été trouvée");
+                                _infos = infos[0];
+                                break;
 
 
-                    default:
-                        _etat = ETAT.OK;
-                        MainForm.WriteMessageToConsole("Film trouvé avec plusieurs alternatives");
-                        _alternatives = infos;
-                        break;
+                            default:
+                                _etat = ETAT.OK;
+                                MainForm.WriteMessageToConsole("Film trouvé avec plusieurs alternatives");
+                                _alternatives = infos;
+                                break;
+                        }
+
+                    return _etat == ETAT.OK;
                 }
-
-            return _etat == ETAT.OK;
-        }
-        */
+                */
         static public byte[] imageToByteArray(Image imageIn)
         {
             if (imageIn != null)
@@ -460,8 +491,9 @@ namespace Collection_de_films.Films
                 return;
 
             _infos = _alternatives[indiceAlternative];
-            // Finalement, on garde les alternatives
-            //_alternatives = null;
+            if (Configuration.supprimerAutresAlternatives)
+                BaseDonnees.getInstance().supprimeAlternatives(this);
+
             MainForm.WriteMessageToConsole("Choix d'une alternative pour " + _titre);
             MainForm.WriteMessageToConsole("Réalisateur " + Realisateur);
             MainForm.WriteMessageToConsole("Date sortie " + DateSortie);

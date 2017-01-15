@@ -68,6 +68,7 @@ namespace Collection_de_films.Internet
         {
             try
             {
+                MainForm.WriteMessageToConsole("Recherche: " + nom);
                 string url = string.Format(formatUrlRecherche, requete(film.Titre));
                 List<string> pagesFilms = extract(url, xpathRecherche);
                 if (pagesFilms==null)
@@ -116,7 +117,7 @@ namespace Collection_de_films.Internet
             info._resume = cumuleExtract(doc, xpathResume);
             string imglink = cumuleExtract(doc, xpathAffiche);
             if (imglink != null)
-                info._affiche = Internet.loadImage(imglink, Configuration.getInstance().getIntValue(Configuration.CONFIGURATION_IMAGES_LARGEUR_MAX ));
+                info.affiche = Internet.loadImage(imglink, Configuration.largeurMaxImages);
 
             return info;
         }

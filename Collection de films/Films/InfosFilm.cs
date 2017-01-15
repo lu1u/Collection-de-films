@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Collection_de_films.Database;
+using System;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Drawing;
@@ -15,7 +16,24 @@ namespace Collection_de_films.Films
         public string _nationalite = "";
         public string _resume = "";
         public string _dateSortie = "";
-        public Image _affiche;
+        public int _imageId = -1;
+
+        private Image _affiche;
+
+        public Image affiche
+        {
+            get
+            {
+                if (_affiche == null)
+                    _affiche = BaseDonnees.getInstance().getImage(_imageId);
+                return _affiche;
+            }
+
+            set
+            {
+                _affiche = value;
+            }
+        }
 
         public InfosFilm()
         {
@@ -25,17 +43,13 @@ namespace Collection_de_films.Films
 
         public InfosFilm(SqlDataReader reader)
         {
-            _realisateur = reader.GetString(reader.GetOrdinal("realisateur"));
-            _acteurs = reader.GetString(reader.GetOrdinal("acteurs"));
-            _genres = reader.GetString(reader.GetOrdinal("genres"));
-            _nationalite = reader.GetString(reader.GetOrdinal("nationalite"));
-            _resume = reader.GetString(reader.GetOrdinal("resume"));
-            _dateSortie = reader.GetString(reader.GetOrdinal("datesortie"));
-
-            int afficheIndex = reader.GetOrdinal("affiche");
-            // If a column is nullable always check for DBNull...
-            if (!reader.IsDBNull(afficheIndex))
-                _affiche = Film.getImage(reader, afficheIndex);
+            _realisateur = reader.GetString(reader.GetOrdinal(BaseDonnees.ALTERNATIVES_REALISATEUR));
+            _acteurs = reader.GetString(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_ACTEURS)));
+            _genres = reader.GetString(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_GENRES)));
+            _nationalite = reader.GetString(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_NATIONALITE)));
+            _resume = reader.GetString(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_RESUME)));
+            _dateSortie = reader.GetString(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_DATESORTIE)));
+            _imageId = reader.GetInt32(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_AFFICHE)));
         }
 
         public bool estVide()
@@ -71,8 +85,8 @@ namespace Collection_de_films.Films
             item.SubItems.Add(_acteurs);
             item.SubItems.Add(_dateSortie);
             item.SubItems.Add(_resume);
-            
-            Image img = _affiche;
+
+            Image img = affiche;
             if (img != null)
             {
                 int indiceImage = listView.SmallImageList.Images.Add(img, Color.Transparent);

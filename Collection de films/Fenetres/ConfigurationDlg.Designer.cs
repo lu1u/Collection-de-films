@@ -39,12 +39,11 @@
             this.button3 = new System.Windows.Forms.Button();
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonPrev = new System.Windows.Forms.Button();
+            this.checkBoxSupprimerAlternatives = new System.Windows.Forms.CheckBox();
             this.checkBoxRelanceRecherche = new System.Windows.Forms.CheckBox();
             this.checkBoxMenageFin = new System.Windows.Forms.CheckBox();
-            this.buttonOK = new System.Windows.Forms.Button();
-            this.buttonAnnuler = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxRetailleImages = new System.Windows.Forms.ComboBox();
             groupBox1 = new System.Windows.Forms.GroupBox();
             button4 = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
@@ -66,7 +65,7 @@
             groupBox1.Controls.Add(this.buttonPrev);
             groupBox1.Location = new System.Drawing.Point(13, 61);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new System.Drawing.Size(709, 214);
+            groupBox1.Size = new System.Drawing.Size(709, 264);
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
             groupBox1.Text = "Recherches:";
@@ -75,7 +74,7 @@
             // 
             this.radioButtonPremierSite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radioButtonPremierSite.AutoSize = true;
-            this.radioButtonPremierSite.Location = new System.Drawing.Point(7, 164);
+            this.radioButtonPremierSite.Location = new System.Drawing.Point(7, 214);
             this.radioButtonPremierSite.Name = "radioButtonPremierSite";
             this.radioButtonPremierSite.Size = new System.Drawing.Size(209, 17);
             this.radioButtonPremierSite.TabIndex = 8;
@@ -88,7 +87,7 @@
             // 
             this.radioButtonTousLesSites.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radioButtonTousLesSites.AutoSize = true;
-            this.radioButtonTousLesSites.Location = new System.Drawing.Point(7, 191);
+            this.radioButtonTousLesSites.Location = new System.Drawing.Point(7, 236);
             this.radioButtonTousLesSites.Name = "radioButtonTousLesSites";
             this.radioButtonTousLesSites.Size = new System.Drawing.Size(216, 17);
             this.radioButtonTousLesSites.TabIndex = 9;
@@ -114,7 +113,7 @@
             this.listViewRecherches.Name = "listViewRecherches";
             this.listViewRecherches.ShowGroups = false;
             this.listViewRecherches.ShowItemToolTips = true;
-            this.listViewRecherches.Size = new System.Drawing.Size(626, 138);
+            this.listViewRecherches.Size = new System.Drawing.Size(626, 188);
             this.listViewRecherches.TabIndex = 2;
             this.listViewRecherches.UseCompatibleStateImageBehavior = false;
             this.listViewRecherches.View = System.Windows.Forms.View.Details;
@@ -187,6 +186,19 @@
             this.buttonPrev.UseVisualStyleBackColor = true;
             this.buttonPrev.Click += new System.EventHandler(this.onClickButtonPrev);
             // 
+            // checkBoxSupprimerAlternatives
+            // 
+            this.checkBoxSupprimerAlternatives.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxSupprimerAlternatives.AutoSize = true;
+            this.checkBoxSupprimerAlternatives.Location = new System.Drawing.Point(12, 331);
+            this.checkBoxSupprimerAlternatives.Name = "checkBoxSupprimerAlternatives";
+            this.checkBoxSupprimerAlternatives.Size = new System.Drawing.Size(391, 17);
+            this.checkBoxSupprimerAlternatives.TabIndex = 15;
+            this.checkBoxSupprimerAlternatives.Text = "Quand je choisit une alternative pour un film, supprimer les autres alternatives " +
+    "";
+            this.checkBoxSupprimerAlternatives.UseVisualStyleBackColor = true;
+            this.checkBoxSupprimerAlternatives.CheckedChanged += new System.EventHandler(this.onClickSupprimerAutresAlternatives);
+            // 
             // checkBoxRelanceRecherche
             // 
             this.checkBoxRelanceRecherche.AutoSize = true;
@@ -196,7 +208,7 @@
             this.checkBoxRelanceRecherche.TabIndex = 0;
             this.checkBoxRelanceRecherche.Text = "Au démarrage, relancer une recherche pour tous les films sans information";
             this.checkBoxRelanceRecherche.UseVisualStyleBackColor = true;
-            this.checkBoxRelanceRecherche.Click += new System.EventHandler(this.onClickRechercheDemarrage);
+            this.checkBoxRelanceRecherche.CheckStateChanged += new System.EventHandler(this.onClickRechercheDemarrage);
             // 
             // checkBoxMenageFin
             // 
@@ -209,63 +221,42 @@
             this.checkBoxMenageFin.UseVisualStyleBackColor = true;
             this.checkBoxMenageFin.CheckedChanged += new System.EventHandler(this.onClickMenageFin);
             // 
-            // buttonOK
-            // 
-            this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(13, 317);
-            this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(75, 23);
-            this.buttonOK.TabIndex = 10;
-            this.buttonOK.Text = "Ok";
-            this.buttonOK.UseVisualStyleBackColor = true;
-            // 
-            // buttonAnnuler
-            // 
-            this.buttonAnnuler.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAnnuler.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonAnnuler.Location = new System.Drawing.Point(647, 317);
-            this.buttonAnnuler.Name = "buttonAnnuler";
-            this.buttonAnnuler.Size = new System.Drawing.Size(75, 23);
-            this.buttonAnnuler.TabIndex = 12;
-            this.buttonAnnuler.Text = "Annuler";
-            this.buttonAnnuler.UseVisualStyleBackColor = true;
-            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 287);
+            this.label1.Location = new System.Drawing.Point(12, 354);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(145, 13);
             this.label1.TabIndex = 13;
             this.label1.Text = "Retailler les grandes affiches:";
             // 
-            // comboBox1
+            // comboBoxRetailleImages
             // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.comboBoxRetailleImages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.comboBoxRetailleImages.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxRetailleImages.FormattingEnabled = true;
+            this.comboBoxRetailleImages.Items.AddRange(new object[] {
             "Ne pas retailler",
             "Petit: 100 pixels de large",
             "Moyen: 200 pixels de large",
             "Grand: 300 pixels de large"});
-            this.comboBox1.Location = new System.Drawing.Point(165, 287);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(556, 21);
-            this.comboBox1.TabIndex = 14;
+            this.comboBoxRetailleImages.Location = new System.Drawing.Point(166, 354);
+            this.comboBoxRetailleImages.Name = "comboBoxRetailleImages";
+            this.comboBoxRetailleImages.Size = new System.Drawing.Size(556, 21);
+            this.comboBoxRetailleImages.TabIndex = 14;
+            this.comboBoxRetailleImages.SelectedIndexChanged += new System.EventHandler(this.comboBoxRetailleImagesSelectedIndexChanged);
             // 
             // ConfigurationDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 348);
-            this.Controls.Add(this.comboBox1);
+            this.ClientSize = new System.Drawing.Size(734, 387);
+            this.Controls.Add(this.checkBoxSupprimerAlternatives);
+            this.Controls.Add(this.comboBoxRetailleImages);
             this.Controls.Add(this.label1);
             this.Controls.Add(groupBox1);
-            this.Controls.Add(this.buttonAnnuler);
-            this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.checkBoxMenageFin);
             this.Controls.Add(this.checkBoxRelanceRecherche);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -275,7 +266,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Configuration";
-            this.Load += new System.EventHandler(this.ConfigurationDlg_Load);
+            this.Load += new System.EventHandler(this.onFormLoad);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -287,8 +278,6 @@
 
         private System.Windows.Forms.CheckBox checkBoxRelanceRecherche;
         private System.Windows.Forms.CheckBox checkBoxMenageFin;
-        private System.Windows.Forms.Button buttonOK;
-        private System.Windows.Forms.Button buttonAnnuler;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.Button buttonPrev;
@@ -299,6 +288,7 @@
         private System.Windows.Forms.RadioButton radioButtonPremierSite;
         private System.Windows.Forms.RadioButton radioButtonTousLesSites;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxRetailleImages;
+        private System.Windows.Forms.CheckBox checkBoxSupprimerAlternatives;
     }
 }

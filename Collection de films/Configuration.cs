@@ -9,16 +9,53 @@ namespace Collection_de_films
 {
     class Configuration
     {
-        public const string CONFIGURATION_VUE = "Vue";
+        private const string CONFIGURATION_VUE = "Vue";
         public const string CONF_PARAM_DETAILS = "details";
         public const string CONF_PARAM_LARGEICON = "largeicon";
 
-        public const string CONFIGURATION_ARRET_RECHERCHE_PREMIER = "Arreter recherche au premier";
-        public const string CONFIGURATION_RELANCE_RECHERCHE = "Relancer recherche auto";
-        public const string CONFIGURATION_MENAGE_FIN = "Faire le menage a la fin";
-        public const string CONFIGURATION_IMAGES_LARGEUR_MAX = "Largeur max images";
+        private const string CONFIGURATION_ARRET_RECHERCHE_PREMIER = "Arreter recherche au premier";
+        private const string CONFIGURATION_RELANCE_RECHERCHE = "Relancer recherche auto";
+        private const string CONFIGURATION_MENAGE_FIN = "Faire le menage a la fin";
+        private const string CONFIGURATION_IMAGES_LARGEUR_MAX = "Largeur max images";
+        private const string CONFIGURATION_SUPPRIMER_AUTRES_ALTERNATIVES = "Supprimer autres alternatives";
 
         static private Configuration _instance = new Configuration();
+
+        public string vue
+        {
+            get { return getStringValue(CONFIGURATION_VUE, "details"); }
+            set { setValue(CONFIGURATION_VUE, value); }
+        }
+
+        static public bool arretRecherchePremier
+        {
+            get { return _instance.getBoolValue(CONFIGURATION_ARRET_RECHERCHE_PREMIER, true); }
+            set { _instance.setValue(CONFIGURATION_ARRET_RECHERCHE_PREMIER, value); }
+        }
+
+        static public bool relancerRechercheAuto
+        {
+            get { return _instance.getBoolValue(CONFIGURATION_RELANCE_RECHERCHE, true); }
+            set { _instance.setValue(CONFIGURATION_RELANCE_RECHERCHE, value); }
+        }
+        static public bool menageALaFin
+        {
+            get { return _instance.getBoolValue(CONFIGURATION_MENAGE_FIN, false); }
+            set { _instance.setValue(CONFIGURATION_MENAGE_FIN, value); }
+        }
+
+        static public bool supprimerAutresAlternatives
+        {
+            get { return _instance.getBoolValue(CONFIGURATION_SUPPRIMER_AUTRES_ALTERNATIVES, false); }
+            set { _instance.setValue(CONFIGURATION_SUPPRIMER_AUTRES_ALTERNATIVES, value); }
+        }
+
+        static public int largeurMaxImages
+        {
+            get { return _instance.getIntValue(CONFIGURATION_IMAGES_LARGEUR_MAX, 0); }
+            set { _instance.setValue(CONFIGURATION_IMAGES_LARGEUR_MAX, value); }
+        }
+
         private Configuration()
         {
 
@@ -120,7 +157,9 @@ namespace Collection_de_films
         {
             try
             {
-                return int.Parse(getStringValue(key, defaut.ToString()));
+                int result = defaut;
+                int.TryParse(getStringValue(key, defaut.ToString()), out result);
+                return result;
             }
             catch (Exception)
             {

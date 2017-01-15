@@ -111,7 +111,7 @@ namespace Collection_de_films.Internet
                     wresp.Close();
             }
 
-            return bmp;
+            //return bmp;
         }
     }
 }

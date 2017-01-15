@@ -156,27 +156,10 @@
   <metadata name="vueToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="détailToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EwAACxMBAJqcGAAAAplJREFUeF7tmM2rTVEYxvc9PkJCSjk563PvQ45IzkTIpUwQyVgZ+pqQAZN7k/IR
-        8QcYKcnIhDtBPpIy4V+QGeUjxtxzPO867933dlrJZK10z/urt93ez6r32Wuv9e61ViEIgiAIgiAIgiAI
-        giAIwj/R6XQWe2OOVsaca1u7G4/GBsoIYIxZVRr7DtGvQ+u7kOpOaBuzsVT2IbQ3acO89tpOIOWCQeYM
-        4MvfRPLZl6/DHCG92+0uKpX+GG+TKsz5YC4HXtm3MRP4ErdJd85tiemJ43kwlwOMgEcRA310zAXSMUXW
-        4r43rKcMeLoXzOUAw20vkk7PNeCM/Uovzk2ozeW5etJQ+rO1dgOnzgN6fH+YCsp+gokpKnos1ZStsvLK
-        70oZKL47Oms6yzmlIOSk1Wqtdi23Gdel/GhkaNAvD3P/NxUhp/RPb+1x1gLNZnOZM+YUiuGllAEfk17r
-        nZw2D1j+nq4r8Gz0UJC2cZMxmHsWaZMqek7rg5w7PejxVxETtBC6GvR1vh3TE8dUMJcDp+zLiAHqgCuk
-        z/sOwBrgZMTANNYCW7kJTYGnkTapogdPBzh3Fhp4wRsocr+CAaV/VNodYy1ARRCF8cRMsUoVVARpMcRp
-        8xK2xUptwnUJPxKEUQGboMPYAb5HDfiG3+ITWhGyVBNOhYzZkzLoOM57v5JT5sFpt48qL1fgmfiutW5y
-        k6LU9tqQnixQjL/EdqPJQM8/jhnBr+gi6dQRuM96IIIReT+Yy8FfjsRukT7vj8QwAq5HDPQr5Q6RToei
-        3tgPsTapAqPvbDCXg6qqVgyPAhi4A6k+FscoWI868ID2DSkDy/IXPPUag8yZGC/GF9IODKuwM9gdbufH
-        giAIgiAIgiAIgiAIgiD8zxTFH8Mw+yHPV1MNAAAAAElFTkSuQmCC
-</value>
-  </data>
   <metadata name="filtreToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="filtreToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAD8AAABRCAYAAABloX71AAAABGdBTUEAALGPC/xhBQAAABl0RVh0U29m
@@ -258,7 +241,7 @@
     <value>194, 17</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>148</value>
+    <value>49</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

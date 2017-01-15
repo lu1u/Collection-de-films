@@ -19,13 +19,19 @@ namespace Collection_de_films.Fenetres
             InitializeComponent();
         }
 
-        private void ConfigurationDlg_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Chargement du formulaire
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void onFormLoad(object sender, EventArgs e)
         {
-            Configuration conf = Configuration.getInstance();
-            checkBoxRelanceRecherche.Checked = conf.getBoolValue(Configuration.CONFIGURATION_RELANCE_RECHERCHE, false);
-            checkBoxMenageFin.Checked = conf.getBoolValue(Configuration.CONFIGURATION_MENAGE_FIN);
+            // Checkboxes: relancer automatiquement les recherche au demarrage
+            checkBoxRelanceRecherche.Checked = Configuration.relancerRechercheAuto;
+            checkBoxMenageFin.Checked = Configuration.menageALaFin;
 
-            if (conf.getBoolValue(Configuration.CONFIGURATION_ARRET_RECHERCHE_PREMIER))
+            // Radio button: recherche les infos sur tous les sites ou s'arreter dès qu'on trouve
+            if (Configuration.arretRecherchePremier)
             {
                 radioButtonPremierSite.Checked = true;
                 radioButtonTousLesSites.Checked = false;
@@ -36,9 +42,30 @@ namespace Collection_de_films.Fenetres
                 radioButtonTousLesSites.Checked = true;
             }
 
+            // Liste des configurations de recherche
             remplitListeRecherches();
+
+            // Retailler les images trop grandes
+            int tailleImage = Configuration.largeurMaxImages ;
+            int indiceSelection;
+            switch( tailleImage)
+            {
+                case 0:  indiceSelection = 0; break;
+                case 100: indiceSelection = 1; break;
+                case 200: indiceSelection = 2; break;
+                case 300: indiceSelection = 3; break;
+                default:
+                    indiceSelection = 0;
+                    break;
+            }
+
+            comboBoxRetailleImages.SelectedIndex = indiceSelection;        
+            checkBoxSupprimerAlternatives.Checked = Configuration.supprimerAutresAlternatives ;
         }
 
+        /// <summary>
+        /// Remplissage de la liste des recherche sur Internet
+        /// </summary>
         private void remplitListeRecherches()
         {
             listViewRecherches.BeginUpdate();
@@ -53,6 +80,11 @@ namespace Collection_de_films.Fenetres
             listViewRecherches.EndUpdate();
         }
 
+        /// <summary>
+        /// Ajouter un site de recherche internet
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonAddClick(object sender, EventArgs e)
         {
             EditeRechercheInternet dlg = new EditeRechercheInternet();
@@ -68,6 +100,11 @@ namespace Collection_de_films.Fenetres
             }
         }
 
+        /// <summary>
+        /// Modifier un site de recherche
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonEditClick(object sender, EventArgs e)
         {
             if (listViewRecherches.SelectedIndices.Count == 0)
@@ -91,6 +128,11 @@ namespace Collection_de_films.Fenetres
             }
         }
 
+        /// <summary>
+        /// Remonter la recherche dans la liste
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void onClickButtonPrev(object sender, EventArgs e)
         {
             if (listViewRecherches.SelectedIndices.Count == 0)
@@ -141,26 +183,53 @@ namespace Collection_de_films.Fenetres
 
         private void onClickTousLesSites(object sender, EventArgs e)
         {
-            Configuration.getInstance().setValue(Configuration.CONFIGURATION_ARRET_RECHERCHE_PREMIER, false);
+            Configuration.arretRecherchePremier = false ;
             radioButtonPremierSite.Checked = false;
             radioButtonTousLesSites.Checked = true;
         }
 
         private void onClickPremierSite(object sender, EventArgs e)
         {
-            Configuration.getInstance().setValue(Configuration.CONFIGURATION_ARRET_RECHERCHE_PREMIER, true);
+            Configuration.arretRecherchePremier = true;
             radioButtonPremierSite.Checked = true;
             radioButtonTousLesSites.Checked = false;
         }
 
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxRetailleImagesSelectedIndexChanged(object sender, EventArgs e)
+        {
+            int taille;
+            switch( comboBoxRetailleImages.SelectedIndex)
+            {
+                case 0: taille = 0; break;
+                case 1: taille = 100; break;
+                case 2: taille = 200;break;
+
+                case 3: taille = 300; break;
+                default: taille = 0; break;
+            }
+            Configuration.largeurMaxImages = taille ;
+        }
+
+        private void onClickSupprimerAutresAlternatives(object sender, EventArgs e)
+        {
+            Configuration.supprimerAutresAlternatives = checkBoxSupprimerAlternatives.Checked ;
+        }
+
         private void onClickRechercheDemarrage(object sender, EventArgs e)
         {
-            Configuration.getInstance().setValue(Configuration.CONFIGURATION_RELANCE_RECHERCHE, checkBoxRelanceRecherche.Checked);
+            Configuration.relancerRechercheAuto = checkBoxRelanceRecherche.Checked;
         }
 
         private void onClickMenageFin(object sender, EventArgs e)
         {
-            Configuration.getInstance().setValue(Configuration.CONFIGURATION_MENAGE_FIN, checkBoxMenageFin.Checked);
+            Configuration.menageALaFin = checkBoxMenageFin.Checked ;
         }
+
     }
 }

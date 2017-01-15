@@ -91,11 +91,11 @@ namespace Collection_de_films.Fenetres
             return clean;
         }
 
-        private void button3_Click(object sender, EventArgs ev)
+        private void buttonRechercheInternetClick(object sender, EventArgs ev)
         {
             try
             {
-                Process.Start(url(textBoxTitre.Text));
+                Process.Start(urlRecherche(textBoxTitre.Text));
             }
             catch (Exception e)
             {
@@ -105,7 +105,7 @@ namespace Collection_de_films.Fenetres
         }
 
 
-        private static string url(string u)
+        public static string urlRecherche(string u)
         {
             return @"https://www.google.com/search?q=" + "film+" + u.Replace(" ", "+").Replace("/", "").Replace("&", "+").Replace("++","+") ;
 
