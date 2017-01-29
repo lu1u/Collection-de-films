@@ -17,21 +17,25 @@ namespace Collection_de_films.Films
         public string _resume = "";
         public string _dateSortie = "";
         public int _imageId = -1;
-
-        private Image _affiche;
+        private Image _affiche = null;
 
         public Image affiche
         {
             get
             {
-                if (_affiche == null)
-                    _affiche = BaseDonnees.getInstance().getImage(_imageId);
+                if (_affiche == null && _imageId!=-1)
+                    _affiche = BaseFilms.instance.getImage(_imageId);
                 return _affiche;
             }
 
             set
             {
                 _affiche = value;
+                if (_imageId != -1)
+                    BaseFilms.instance.supprimeImage(_imageId);
+
+                if( _affiche != null)
+                    _imageId = BaseFilms.instance.ajouteImage(_affiche);
             }
         }
 
@@ -43,31 +47,31 @@ namespace Collection_de_films.Films
 
         public InfosFilm(SqlDataReader reader)
         {
-            _realisateur = reader.GetString(reader.GetOrdinal(BaseDonnees.ALTERNATIVES_REALISATEUR));
-            _acteurs = reader.GetString(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_ACTEURS)));
-            _genres = reader.GetString(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_GENRES)));
-            _nationalite = reader.GetString(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_NATIONALITE)));
-            _resume = reader.GetString(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_RESUME)));
-            _dateSortie = reader.GetString(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_DATESORTIE)));
-            _imageId = reader.GetInt32(reader.GetOrdinal((BaseDonnees.ALTERNATIVES_AFFICHE)));
+            _realisateur = reader.GetString(reader.GetOrdinal(BaseFilms.ALTERNATIVES_REALISATEUR));
+            _acteurs = reader.GetString(reader.GetOrdinal((BaseFilms.ALTERNATIVES_ACTEURS)));
+            _genres = reader.GetString(reader.GetOrdinal((BaseFilms.ALTERNATIVES_GENRES)));
+            _nationalite = reader.GetString(reader.GetOrdinal((BaseFilms.ALTERNATIVES_NATIONALITE)));
+            _resume = reader.GetString(reader.GetOrdinal((BaseFilms.ALTERNATIVES_RESUME)));
+            _dateSortie = reader.GetString(reader.GetOrdinal((BaseFilms.ALTERNATIVES_DATESORTIE)));
+            _imageId = reader.GetInt32(reader.GetOrdinal((BaseFilms.ALTERNATIVES_AFFICHE)));
         }
 
+        /// <summary>
+        /// Retourne true si l'info est vide (aucune info presente)
+        /// </summary>
+        /// <returns></returns>
         public bool estVide()
         {
-            if (_realisateur == null || _realisateur.Length > 0)
-                return false;
-
-            if (_acteurs == null || _acteurs.Length > 0)
-                return false;
-            if (_genres == null || _genres.Length > 0)
-                return false;
-            if (_nationalite == null || _nationalite.Length > 0)
-                return false;
-            if (_resume == null || _resume.Length > 0)
-                return false;
-            if (_dateSortie == null || _dateSortie.Length > 0)
+            if (_realisateur?.Length > 0) return false;
+            if (_acteurs?.Length > 0) return false;
+            if (_genres?.Length > 0) return false;
+            if (_nationalite?.Length > 0) return false;
+            if (_resume?.Length > 0) return false;
+            if (_dateSortie?.Length > 0)
                 return false;
             if (_affiche != null)
+                return false;
+            if (_imageId != -1)
                 return false;
             return true;
         }
@@ -81,16 +85,24 @@ namespace Collection_de_films.Films
         {
             ListViewItem item = new ListViewItem(_realisateur);
             item.Text = _realisateur;
+            item.SubItems.Add(_resume);
             item.SubItems.Add(_genres);
             item.SubItems.Add(_acteurs);
             item.SubItems.Add(_dateSortie);
-            item.SubItems.Add(_resume);
-
+            
             Image img = affiche;
             if (img != null)
             {
-                int indiceImage = listView.SmallImageList.Images.Add(img, Color.Transparent);
-                item.ImageIndex = indiceImage;
+                try
+                {
+                    int indiceImage = listView.SmallImageList.Images.Add(img, Color.Transparent);
+                    item.ImageIndex = indiceImage;
+                }
+                catch (Exception e)
+                {
+
+                    MainForm.WriteExceptionToConsole(e);
+                }
             }
 
             item.Tag = this;

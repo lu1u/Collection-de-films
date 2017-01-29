@@ -29,8 +29,8 @@ namespace Collection_de_films.Fenetres
             textBoxNationalite.Text = film.Nationalite;
             textBoxActeurs.Text = film.Acteurs;
             textBoxResume.Text = film.Resume;
-
-            Image image = film.getImage();
+            textBoxEtiquettes.Text = film._etiquettes;
+            Image image = film.getAffiche();
             if (image != null)
                 pictureBoxAffiche.Image = image;
         }
@@ -134,7 +134,7 @@ namespace Collection_de_films.Fenetres
             if (afficheChangee)
                 film.affiche = pictureBoxAffiche.Image;
 
-            BaseDonnees.getInstance().update(film);
+            BaseFilms.instance.update(film);
             MainForm.update(film);
 
             DialogResult = DialogResult.OK;

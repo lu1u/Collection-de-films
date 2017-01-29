@@ -70,7 +70,7 @@ namespace Collection_de_films.Fenetres
         {
             listViewRecherches.BeginUpdate();
             listViewRecherches.Items.Clear();
-            List<RechercheInternet> recherches = BaseDonnees.getInstance().getListeRechercheInternet();
+            List<RechercheInternet> recherches = BaseConfiguration.instance.getListeRechercheInternet();
             foreach (RechercheInternet r in recherches)
             {
                 ListViewItem item = new ListViewItem(r.nom);
@@ -94,7 +94,7 @@ namespace Collection_de_films.Fenetres
                 if (r != null)
                 {
                     r.rang = listViewRecherches.Items.Count;
-                    BaseDonnees.getInstance().addRechercheInternet(r);
+                    BaseConfiguration.instance.addRechercheInternet(r);
                     remplitListeRecherches();
                 }
             }
@@ -114,7 +114,7 @@ namespace Collection_de_films.Fenetres
                 return;
 
             EditeRechercheInternet dlg = new EditeRechercheInternet();
-            dlg.rechercheInternet = BaseDonnees.getInstance().getRechercheInternet(nom);
+            dlg.rechercheInternet = BaseConfiguration.instance.getRechercheInternet(nom);
 
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
@@ -122,7 +122,7 @@ namespace Collection_de_films.Fenetres
                 if (r != null)
                 {
                     r.rang = listViewRecherches.Items.Count;
-                    BaseDonnees.getInstance().updateRechercheInternet(r);
+                    BaseConfiguration.instance.updateRechercheInternet(r);
                     remplitListeRecherches();
                 }
             }
@@ -141,14 +141,14 @@ namespace Collection_de_films.Fenetres
             int selected = listViewRecherches.SelectedIndices[0];
             if (selected > 0)
             {
-                List<RechercheInternet> liste = BaseDonnees.getInstance().getListeRechercheInternet();
+                List<RechercheInternet> liste = BaseConfiguration.instance.getListeRechercheInternet();
                 RechercheInternet r = liste[selected];
                 liste.RemoveAt(selected);
                 liste.Insert(selected - 1, r);
                 for (int i = 0; i <= selected; i++)
                 {
                     liste[i].rang = i;
-                    BaseDonnees.getInstance().updateRechercheInternet(liste[i]);
+                    BaseConfiguration.instance.updateRechercheInternet(liste[i]);
                 }
                 remplitListeRecherches();
 
@@ -165,14 +165,14 @@ namespace Collection_de_films.Fenetres
             int selected = listViewRecherches.SelectedIndices[0];
             if (selected < listViewRecherches.Items.Count - 1)
             {
-                List<RechercheInternet> liste = BaseDonnees.getInstance().getListeRechercheInternet();
+                List<RechercheInternet> liste = BaseConfiguration.instance.getListeRechercheInternet();
                 RechercheInternet r = liste[selected];
                 liste.RemoveAt(selected);
                 liste.Insert(selected + 1, r);
                 for (int i = 0; i <= selected + 1; i++)
                 {
                     liste[i].rang = i;
-                    BaseDonnees.getInstance().updateRechercheInternet(liste[i]);
+                    BaseConfiguration.instance.updateRechercheInternet(liste[i]);
                 }
                 remplitListeRecherches();
 

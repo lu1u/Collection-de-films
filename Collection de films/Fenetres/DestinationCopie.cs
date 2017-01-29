@@ -55,7 +55,7 @@ namespace Collection_de_films.Fenetres
             {
                 labelTitre.Text = film.Titre;
                 labelChemin.Text = film.Chemin;
-                Image img = film.getImage();
+                Image img = film.getAffiche();
                 if (img != null)
                     pictureBoxAffiche.Image = img;
 
@@ -70,7 +70,7 @@ namespace Collection_de_films.Fenetres
             listViewDevices.Items.Clear();
             // List des devices
             _devices = checkBoxAmovibles.Checked ? DriveInfo.GetDrives().Where(d => (d.DriveType == DriveType.Removable) && (d.IsReady))
-                : DriveInfo.GetDrives().Where(d => /*(d.DriveType == DriveType.Removable) && */ (d.IsReady));
+                : DriveInfo.GetDrives().Where(d => (d.IsReady));
             foreach (DriveInfo drive in _devices)
             {
                 ListViewItem item = new ListViewItem(drive.VolumeLabel);
@@ -85,7 +85,7 @@ namespace Collection_de_films.Fenetres
             }
         }
 
-        private string textTaille(long availableFreeSpace)
+        public static string textTaille(long availableFreeSpace)
         {
             if (availableFreeSpace >= (1024L * 1024L * 1024L * 1024L))
                 return string.Format("{0:0.0} To", (double)availableFreeSpace / (1024L * 1024L * 1024L * 1024L));
@@ -99,7 +99,7 @@ namespace Collection_de_films.Fenetres
             return availableFreeSpace + " octets";
         }
 
-        private static Icon GetFileIcon(string name)
+        public static Icon GetFileIcon(string name)
         {
             IntPtr hImgSmall;    //the handle to the system image list
             SHFILEINFO shinfo = new SHFILEINFO();

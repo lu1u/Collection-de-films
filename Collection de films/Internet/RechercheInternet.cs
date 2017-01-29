@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using HtmlAgilityPack;
 using System.Web;
+using System.Threading.Tasks;
 
 namespace Collection_de_films.Internet
 {
@@ -43,20 +44,20 @@ namespace Collection_de_films.Internet
 
         public RechercheInternet(SqlDataReader reader)
         {
-            int i = reader.GetOrdinal(BaseDonnees.RECHERCHE_NOM);
+            int i = reader.GetOrdinal(BaseConfiguration.RECHERCHE_NOM);
             
-            nom = reader.GetString(reader.GetOrdinal(BaseDonnees.RECHERCHE_NOM));
-            rang = reader.GetInt32(reader.GetOrdinal(BaseDonnees.RECHERCHE_RANG));
-            formatUrlRecherche = reader.GetString(reader.GetOrdinal(BaseDonnees.RECHERCHE_URL_RECHERCHE));
-            xpathRecherche = reader.GetString(reader.GetOrdinal(BaseDonnees.RECHERCHE_XPATH_RECHERCHE));
-            formatUrlFilm = reader.GetString(reader.GetOrdinal(BaseDonnees.RECHERCHE_URL_FILM));
-            xpathRealisateur = reader.GetString(reader.GetOrdinal(BaseDonnees.RECHERCHE_XPATH_REALISATEUR));
-            xpathActeurs = reader.GetString(reader.GetOrdinal(BaseDonnees.RECHERCHE_XPATH_ACTEURS));
-            xpathGenres = reader.GetString(reader.GetOrdinal(BaseDonnees.RECHERCHE_XPATH_GENRES));
-            xpathNationalite = reader.GetString(reader.GetOrdinal(BaseDonnees.RECHERCHE_XPATH_NATIONALITE));
-            xpathResume = reader.GetString(reader.GetOrdinal(BaseDonnees.RECHERCHE_XPATH_RESUME));
-            xpathDateSortie = reader.GetString(reader.GetOrdinal(BaseDonnees.RECHERCHE_XPATH_DATESORTIE));
-            xpathAffiche = reader.GetString(reader.GetOrdinal(BaseDonnees.RECHERCHE_XPATH_AFFICHE));
+            nom = reader.GetString(reader.GetOrdinal(BaseConfiguration.RECHERCHE_NOM));
+            rang = reader.GetInt32(reader.GetOrdinal(BaseConfiguration.RECHERCHE_RANG));
+            formatUrlRecherche = reader.GetString(reader.GetOrdinal(BaseConfiguration.RECHERCHE_URL_RECHERCHE));
+            xpathRecherche = reader.GetString(reader.GetOrdinal(BaseConfiguration.RECHERCHE_XPATH_RECHERCHE));
+            formatUrlFilm = reader.GetString(reader.GetOrdinal(BaseConfiguration.RECHERCHE_URL_FILM));
+            xpathRealisateur = reader.GetString(reader.GetOrdinal(BaseConfiguration.RECHERCHE_XPATH_REALISATEUR));
+            xpathActeurs = reader.GetString(reader.GetOrdinal(BaseConfiguration.RECHERCHE_XPATH_ACTEURS));
+            xpathGenres = reader.GetString(reader.GetOrdinal(BaseConfiguration.RECHERCHE_XPATH_GENRES));
+            xpathNationalite = reader.GetString(reader.GetOrdinal(BaseConfiguration.RECHERCHE_XPATH_NATIONALITE));
+            xpathResume = reader.GetString(reader.GetOrdinal(BaseConfiguration.RECHERCHE_XPATH_RESUME));
+            xpathDateSortie = reader.GetString(reader.GetOrdinal(BaseConfiguration.RECHERCHE_XPATH_DATESORTIE));
+            xpathAffiche = reader.GetString(reader.GetOrdinal(BaseConfiguration.RECHERCHE_XPATH_AFFICHE));
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace Collection_de_films.Internet
         /// </summary>
         /// <param name="film"></param>
         /// <returns></returns>
-        internal bool rechercheInternet(Film film)
+        internal async Task<List<InfosFilm>> rechercheInternet(Film film)
         {
             try
             {
@@ -73,23 +74,23 @@ namespace Collection_de_films.Internet
                 List<string> pagesFilms = extract(url, xpathRecherche);
                 if (pagesFilms==null)
                 {
-                    return false;
+                    return null;
                 }
 
                 List<InfosFilm> infos = new List<InfosFilm>();
                 foreach(string page in pagesFilms)
                 {
-                    InfosFilm info = chargePage(string.Format(formatUrlFilm, page));
+                    InfosFilm info = await chargePage(string.Format(formatUrlFilm, page));
                     if (!(info == null || info.estVide()))
                         infos.Add(info);
                 }
 
-                return film.setInfos(infos);
+                return infos ;
             }
             catch (Exception e)
             {
                 MainForm.WriteExceptionToConsole(e);
-                return false;
+                return null;
             }
         }
 
@@ -99,7 +100,7 @@ namespace Collection_de_films.Internet
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
-        private InfosFilm chargePage(string requete)
+        private async Task<InfosFilm> chargePage(string requete)
         {
             MainForm.WriteMessageToConsole("Requete " + requete);
             HtmlDocument doc = Internet.getInstance().loadPage(requete);
@@ -110,14 +111,14 @@ namespace Collection_de_films.Internet
             }
 
             InfosFilm info = new InfosFilm();
-            info._acteurs = cumuleExtract(doc, xpathActeurs);
-            info._genres = cumuleExtract(doc, xpathGenres);
-            info._nationalite = cumuleExtract(doc, xpathNationalite);
-            info._realisateur = cumuleExtract(doc, xpathRealisateur);
-            info._resume = cumuleExtract(doc, xpathResume);
-            string imglink = cumuleExtract(doc, xpathAffiche);
+            info._realisateur = cumuleExtract(doc, xpathRealisateur); MainForm.WriteMessageToConsole("Acteurs: " + info._realisateur);
+            info._acteurs = cumuleExtract(doc, xpathActeurs); MainForm.WriteMessageToConsole("Acteurs: " + info._acteurs);
+            info._genres = cumuleExtract(doc, xpathGenres); MainForm.WriteMessageToConsole("Genres: " + info._genres);
+            info._nationalite = cumuleExtract(doc, xpathNationalite); MainForm.WriteMessageToConsole("Nationalite: " + info._nationalite);
+            info._resume = cumuleExtract(doc, xpathResume); MainForm.WriteMessageToConsole("Résumé: " + info._resume);
+            string imglink = cumuleExtract(doc, xpathAffiche); MainForm.WriteMessageToConsole("Affiche: " + imglink);
             if (imglink != null)
-                info.affiche = Internet.loadImage(imglink, Configuration.largeurMaxImages);
+                info.affiche = await Internet.loadImage(imglink, Configuration.largeurMaxImages);
 
             return info;
         }
@@ -140,7 +141,7 @@ namespace Collection_de_films.Internet
                 default:
                     string result = elements[0];
                     for (int i = 1; i < elements.Count; i++)
-                        result += ", " + elements[i];
+                        result += BaseFilms.SEPARATEUR_LISTES + elements[i];
 
                     return result;
             }

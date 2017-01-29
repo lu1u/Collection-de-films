@@ -139,6 +139,16 @@
             label9.TabIndex = 41;
             label9.Text = "Résumé:";
             // 
+            // buttonOuvreFichier
+            // 
+            buttonOuvreFichier.Location = new System.Drawing.Point(3, 32);
+            buttonOuvreFichier.Name = "buttonOuvreFichier";
+            buttonOuvreFichier.Size = new System.Drawing.Size(197, 23);
+            buttonOuvreFichier.TabIndex = 20;
+            buttonOuvreFichier.Text = "Charger fichier...";
+            buttonOuvreFichier.UseVisualStyleBackColor = true;
+            buttonOuvreFichier.Click += new System.EventHandler(this.onClickChargerFichier);
+            // 
             // labelChemin
             // 
             this.labelChemin.AutoSize = true;
@@ -265,16 +275,6 @@
             this.buttonColler.UseVisualStyleBackColor = true;
             this.buttonColler.Click += new System.EventHandler(this.buttonColler_Click);
             // 
-            // buttonOuvreFichier
-            // 
-            buttonOuvreFichier.Location = new System.Drawing.Point(3, 32);
-            buttonOuvreFichier.Name = "buttonOuvreFichier";
-            buttonOuvreFichier.Size = new System.Drawing.Size(197, 23);
-            buttonOuvreFichier.TabIndex = 20;
-            buttonOuvreFichier.Text = "Charger fichier...";
-            buttonOuvreFichier.UseVisualStyleBackColor = true;
-            buttonOuvreFichier.Click += new System.EventHandler(this.onClickChargerFichier);
-            // 
             // buttonRechercheInternet
             // 
             this.flowLayoutPanel2.SetFlowBreak(this.buttonRechercheInternet, true);
@@ -284,6 +284,7 @@
             this.buttonRechercheInternet.TabIndex = 21;
             this.buttonRechercheInternet.Text = "Recherche Internet...";
             this.buttonRechercheInternet.UseVisualStyleBackColor = true;
+            this.buttonRechercheInternet.Click += new System.EventHandler(this.buttonRechercheInternetClick);
             // 
             // buttonOK
             // 

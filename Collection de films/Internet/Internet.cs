@@ -77,7 +77,7 @@ namespace Collection_de_films.Internet
         /// <param name="url"></param>
         /// <param name="largeurMax">largeur finale de l'image si elle est trop grande (ou 0 pour ne jamais retailler)</param>
         /// <returns></returns>
-        public static Image loadImage(string url, int largeurMax)
+        async public static Task<Image> loadImage(string url, int largeurMax)
         {
             if (url == null || url.Length == 0)
                 return null;

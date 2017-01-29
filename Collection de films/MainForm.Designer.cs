@@ -18,6 +18,9 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
+            _brosseOmbre.Dispose();
+            _formatDetails.Dispose();
+            _formatLargeIcones.Dispose();
         }
 
         #region Code généré par le Concepteur Windows Form
@@ -39,24 +42,52 @@
             System.Windows.Forms.ColumnHeader columnHeader10;
             System.Windows.Forms.ColumnHeader columnHeader9;
             System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+            System.Windows.Forms.ColumnHeader columnHeaderREsume;
+            System.Windows.Forms.ColumnHeader columnHeaderGenres;
+            System.Windows.Forms.ColumnHeader columnHeaderDateSortie;
+            System.Windows.Forms.ColumnHeader columnHeaderEtiquettes;
+            System.Windows.Forms.ColumnHeader columnHeaderVu;
+            System.Windows.Forms.ColumnHeader columnHeaderAVoir;
             System.Windows.Forms.MenuStrip menuStrip1;
+            System.Windows.Forms.ToolStripMenuItem logoToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem collectionsToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem ajouterToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem ajouterDesFichiersToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem ajouterUnRépertoireToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem10;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem16;
             System.Windows.Forms.ToolStripMenuItem vueToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem filtreToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem effacerToolStripMenuItem1;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+            System.Windows.Forms.ToolStripMenuItem filmTousToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem aVoirToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem vusToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem pasEncoreVusToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem filmAvecInformationsManquantesToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem filmsAvecAlternativesToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem filmsAvecAlternativesAucuneChoisieToolStripMenuItem;
+            System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.ajouterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ajouterDesFichiersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ajouterUnRépertoireToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.détailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBoxFiltre = new System.Windows.Forms.ToolStripTextBox();
             this.effacerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.filmTousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filmAvecInformationsManquantesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filmsAvecAlternativesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filmsAvecAlternativesAucuneChoisieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem18 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripStatusLabelFichiersACopier = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelNbFilmsBD = new System.Windows.Forms.ToolStripStatusLabel();
@@ -67,15 +98,11 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.listViewFilms = new System.Windows.Forms.ListView();
-            this.columnHeaderREsume = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderGenres = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderDateSortie = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderEtiquettes = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageListLarge = new System.Windows.Forms.ImageList(this.components);
             this.imageListSmall = new System.Windows.Forms.ImageList(this.components);
-            this.labelChemin = new System.Windows.Forms.Label();
+            this.linkLabelChemin = new System.Windows.Forms.LinkLabel();
+            this.linkLabelTitre = new System.Windows.Forms.LinkLabel();
             this.labelEtat = new System.Windows.Forms.Label();
-            this.labelTitre = new System.Windows.Forms.Label();
             this.tabControlAlternatives = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.flowLayoutPanelInfosFilm = new System.Windows.Forms.FlowLayoutPanel();
@@ -83,19 +110,19 @@
             this.textBoxTitrePasTrouve = new System.Windows.Forms.TextBox();
             this.buttonRelancerPasTrouve = new System.Windows.Forms.Button();
             this.pictureBoxAffiche = new System.Windows.Forms.PictureBox();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanelInfos = new System.Windows.Forms.FlowLayoutPanel();
             this.labelKeyRealisateur = new System.Windows.Forms.Label();
-            this.labelRealisateur = new System.Windows.Forms.Label();
+            this.linkLabelRealisateur = new System.Windows.Forms.LinkLabel();
             this.labelKeyActeurs = new System.Windows.Forms.Label();
             this.linkLabelActeurs = new System.Windows.Forms.LinkLabel();
             this.labelKeyGenres = new System.Windows.Forms.Label();
-            this.labelGenres = new System.Windows.Forms.Label();
+            this.linkLabelGenres = new System.Windows.Forms.LinkLabel();
             this.labelKeyDateSortie = new System.Windows.Forms.Label();
             this.labelDateSortie = new System.Windows.Forms.Label();
             this.labelKeyNationalite = new System.Windows.Forms.Label();
             this.labelNationalite = new System.Windows.Forms.Label();
             this.labelKeyEtiquettes = new System.Windows.Forms.Label();
-            this.labelEtiquettes = new System.Windows.Forms.Label();
+            this.linkLabelEtiquettes = new System.Windows.Forms.LinkLabel();
             this.labelResume = new System.Windows.Forms.Label();
             this.tabpageAlternatives = new System.Windows.Forms.TabPage();
             this.label7 = new System.Windows.Forms.Label();
@@ -103,16 +130,26 @@
             this.imageListAlternatives = new System.Windows.Forms.ImageList(this.components);
             this.consoleRichTextBox = new System.Windows.Forms.RichTextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.bgWorkerChargePages = new System.ComponentModel.BackgroundWorker();
-            this.contextMenuStripFilm = new System.Windows.Forms.ContextMenuStrip(this.components);
+            //this.bgWorkerChargePages = new System.ComponentModel.BackgroundWorker();
+            this.contextMenuFilm = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.lireLeFilmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.marquerCommeVuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.marquerCommeAVoirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.afficherDansLExplorateurWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.editerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supprimerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.rechargerLesInformationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lireLeFilmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.afficherDansLExplorateurWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rechargerLesInformationsDepuisLeSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allocinefrToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copierSurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.usbToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerChangeFiltre = new System.Windows.Forms.Timer(this.components);
             this.bgWorkerCopie = new System.ComponentModel.BackgroundWorker();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             label8 = new System.Windows.Forms.Label();
             columnHeaderTitre = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             columnHeaderREalisateur = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -123,9 +160,39 @@
             columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            columnHeaderREsume = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            columnHeaderGenres = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            columnHeaderDateSortie = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            columnHeaderEtiquettes = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            columnHeaderVu = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            columnHeaderAVoir = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             menuStrip1 = new System.Windows.Forms.MenuStrip();
+            logoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            collectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ajouterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ajouterDesFichiersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ajouterUnRépertoireToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem10 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem16 = new System.Windows.Forms.ToolStripMenuItem();
             vueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             filtreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            effacerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            filmTousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            aVoirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            vusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            pasEncoreVusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            filmAvecInformationsManquantesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            filmsAvecAlternativesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            filmsAvecAlternativesAucuneChoisieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -141,9 +208,9 @@
             this.flowLayoutPanelInfosFilm.SuspendLayout();
             this.flowLayoutPanelPasTrouve.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAffiche)).BeginInit();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanelInfos.SuspendLayout();
             this.tabpageAlternatives.SuspendLayout();
-            this.contextMenuStripFilm.SuspendLayout();
+            this.contextMenuFilm.SuspendLayout();
             this.SuspendLayout();
             // 
             // label8
@@ -199,56 +266,221 @@
             toolStripStatusLabel1.Size = new System.Drawing.Size(89, 17);
             toolStripStatusLabel1.Text = "Copie en cours:";
             // 
+            // columnHeaderREsume
+            // 
+            columnHeaderREsume.Text = "Résumé";
+            columnHeaderREsume.Width = 500;
+            // 
+            // columnHeaderGenres
+            // 
+            columnHeaderGenres.Text = "Genres";
+            // 
+            // columnHeaderDateSortie
+            // 
+            columnHeaderDateSortie.Text = "Date de sortie";
+            // 
+            // columnHeaderEtiquettes
+            // 
+            columnHeaderEtiquettes.Text = "Etiquettes";
+            // 
+            // columnHeaderVu
+            // 
+            columnHeaderVu.Text = "Vu";
+            columnHeaderVu.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // columnHeaderAVoir
+            // 
+            columnHeaderAVoir.Text = "A voir";
+            columnHeaderAVoir.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // menuStrip1
             // 
+            menuStrip1.AutoSize = false;
             menuStrip1.BackColor = System.Drawing.Color.DarkRed;
             menuStrip1.BackgroundImage = global::Collection_de_films.Properties.Resources.fondtoolbar;
-            menuStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             menuStrip1.ImageScalingSize = new System.Drawing.Size(48, 48);
             menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ajouterToolStripMenuItem,
+            logoToolStripMenuItem,
+            collectionsToolStripMenuItem,
+            ajouterToolStripMenuItem,
+            toolStripMenuItem3,
             vueToolStripMenuItem,
             this.toolStripMenuItem1,
             filtreToolStripMenuItem,
             this.toolStripTextBoxFiltre,
             this.effacerToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.configurationToolStripMenuItem});
+            effacerToolStripMenuItem1,
+            this.toolStripMenuItem18,
+            toolStripMenuItem2,
+            configurationToolStripMenuItem});
             menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             menuStrip1.Location = new System.Drawing.Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new System.Windows.Forms.Padding(4);
             menuStrip1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             menuStrip1.ShowItemToolTips = true;
-            menuStrip1.Size = new System.Drawing.Size(1288, 60);
+            menuStrip1.Size = new System.Drawing.Size(1288, 72);
             menuStrip1.TabIndex = 0;
+            // 
+            // logoToolStripMenuItem
+            // 
+            logoToolStripMenuItem.Image = global::Collection_de_films.Properties.Resources.logo;
+            logoToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            logoToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            logoToolStripMenuItem.Name = "logoToolStripMenuItem";
+            logoToolStripMenuItem.Size = new System.Drawing.Size(177, 64);
+            logoToolStripMenuItem.Click += new System.EventHandler(this.onMenuLogo);
+            // 
+            // collectionsToolStripMenuItem
+            // 
+            collectionsToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            collectionsToolStripMenuItem.Image = global::Collection_de_films.Properties.Resources.collections;
+            collectionsToolStripMenuItem.Name = "collectionsToolStripMenuItem";
+            collectionsToolStripMenuItem.Size = new System.Drawing.Size(126, 64);
+            collectionsToolStripMenuItem.Text = "Collections";
+            collectionsToolStripMenuItem.Click += new System.EventHandler(this.onMenuCollections);
             // 
             // ajouterToolStripMenuItem
             // 
-            this.ajouterToolStripMenuItem.AutoSize = false;
-            this.ajouterToolStripMenuItem.AutoToolTip = true;
-            this.ajouterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ajouterDesFichiersToolStripMenuItem,
-            this.ajouterUnRépertoireToolStripMenuItem});
-            this.ajouterToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.ajouterToolStripMenuItem.Image = global::Collection_de_films.Properties.Resources.ajouter;
-            this.ajouterToolStripMenuItem.Name = "ajouterToolStripMenuItem";
-            this.ajouterToolStripMenuItem.Size = new System.Drawing.Size(106, 52);
-            this.ajouterToolStripMenuItem.Text = "Ajouter";
-            this.ajouterToolStripMenuItem.ToolTipText = "Ajouter un fichier ou un répertoire";
+            ajouterToolStripMenuItem.AutoSize = false;
+            ajouterToolStripMenuItem.AutoToolTip = true;
+            ajouterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            ajouterDesFichiersToolStripMenuItem,
+            ajouterUnRépertoireToolStripMenuItem});
+            ajouterToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            ajouterToolStripMenuItem.Image = global::Collection_de_films.Properties.Resources.ajouter;
+            ajouterToolStripMenuItem.Name = "ajouterToolStripMenuItem";
+            ajouterToolStripMenuItem.Size = new System.Drawing.Size(106, 52);
+            ajouterToolStripMenuItem.Text = "Ajouter";
+            ajouterToolStripMenuItem.ToolTipText = "Ajouter un fichier ou un répertoire";
             // 
             // ajouterDesFichiersToolStripMenuItem
             // 
-            this.ajouterDesFichiersToolStripMenuItem.Name = "ajouterDesFichiersToolStripMenuItem";
-            this.ajouterDesFichiersToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.ajouterDesFichiersToolStripMenuItem.Text = "Ajouter des fichiers";
+            ajouterDesFichiersToolStripMenuItem.Name = "ajouterDesFichiersToolStripMenuItem";
+            ajouterDesFichiersToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            ajouterDesFichiersToolStripMenuItem.Text = "Ajouter des fichiers";
+            ajouterDesFichiersToolStripMenuItem.Click += new System.EventHandler(this.onMenuAjouteFichiers);
             // 
             // ajouterUnRépertoireToolStripMenuItem
             // 
-            this.ajouterUnRépertoireToolStripMenuItem.Name = "ajouterUnRépertoireToolStripMenuItem";
-            this.ajouterUnRépertoireToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.ajouterUnRépertoireToolStripMenuItem.Text = "Ajouter un répertoire";
-            this.ajouterUnRépertoireToolStripMenuItem.Click += new System.EventHandler(this.onClickMenuAjouterRepertoire);
+            ajouterUnRépertoireToolStripMenuItem.Name = "ajouterUnRépertoireToolStripMenuItem";
+            ajouterUnRépertoireToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            ajouterUnRépertoireToolStripMenuItem.Text = "Ajouter un répertoire";
+            ajouterUnRépertoireToolStripMenuItem.Click += new System.EventHandler(this.onMenuAjouterRepertoire);
+            // 
+            // toolStripMenuItem3
+            // 
+            toolStripMenuItem3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            toolStripMenuItem5,
+            toolStripMenuItem6,
+            toolStripMenuItem7,
+            toolStripMenuItem8,
+            this.toolStripSeparator4,
+            toolStripMenuItem9,
+            toolStripMenuItem10,
+            this.toolStripSeparator5,
+            toolStripMenuItem11,
+            this.toolStripMenuItem12,
+            this.toolStripSeparator6,
+            toolStripMenuItem16});
+            toolStripMenuItem3.ForeColor = System.Drawing.Color.White;
+            toolStripMenuItem3.Image = global::Collection_de_films.Properties.Resources.menu_film;
+            toolStripMenuItem3.Name = "toolStripMenuItem3";
+            toolStripMenuItem3.Size = new System.Drawing.Size(90, 64);
+            toolStripMenuItem3.Text = "Film";
+            // 
+            // toolStripMenuItem5
+            // 
+            toolStripMenuItem5.Name = "toolStripMenuItem5";
+            toolStripMenuItem5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
+            toolStripMenuItem5.Size = new System.Drawing.Size(348, 22);
+            toolStripMenuItem5.Text = "Lire le film";
+            toolStripMenuItem5.Click += new System.EventHandler(this.onMenuLireLeFilm);
+            // 
+            // toolStripMenuItem6
+            // 
+            toolStripMenuItem6.Name = "toolStripMenuItem6";
+            toolStripMenuItem6.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.V)));
+            toolStripMenuItem6.Size = new System.Drawing.Size(348, 22);
+            toolStripMenuItem6.Text = "Marquer comme vu";
+            toolStripMenuItem6.Click += new System.EventHandler(this.onMenuMarquerVu);
+            // 
+            // toolStripMenuItem7
+            // 
+            toolStripMenuItem7.Name = "toolStripMenuItem7";
+            toolStripMenuItem7.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
+            toolStripMenuItem7.Size = new System.Drawing.Size(348, 22);
+            toolStripMenuItem7.Text = "Marquer comme A voir";
+            toolStripMenuItem7.Click += new System.EventHandler(this.onMenuMarquerAVoir);
+            // 
+            // toolStripMenuItem8
+            // 
+            toolStripMenuItem8.Name = "toolStripMenuItem8";
+            toolStripMenuItem8.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.X)));
+            toolStripMenuItem8.Size = new System.Drawing.Size(348, 22);
+            toolStripMenuItem8.Text = "Afficher dans l\'Explorateur Windows";
+            toolStripMenuItem8.Click += new System.EventHandler(this.onMenuAfficherDansRepertoire);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(345, 6);
+            // 
+            // toolStripMenuItem9
+            // 
+            toolStripMenuItem9.Name = "toolStripMenuItem9";
+            toolStripMenuItem9.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
+            toolStripMenuItem9.Size = new System.Drawing.Size(348, 22);
+            toolStripMenuItem9.Text = "Editer";
+            // 
+            // toolStripMenuItem10
+            // 
+            toolStripMenuItem10.Name = "toolStripMenuItem10";
+            toolStripMenuItem10.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Delete)));
+            toolStripMenuItem10.Size = new System.Drawing.Size(348, 22);
+            toolStripMenuItem10.Text = "Supprimer de la base";
+            toolStripMenuItem10.Click += new System.EventHandler(this.onMenuSupprimerFilm);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(345, 6);
+            // 
+            // toolStripMenuItem11
+            // 
+            toolStripMenuItem11.Name = "toolStripMenuItem11";
+            toolStripMenuItem11.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
+            toolStripMenuItem11.Size = new System.Drawing.Size(348, 22);
+            toolStripMenuItem11.Text = "Recharger les informations";
+            toolStripMenuItem11.Click += new System.EventHandler(this.onMenuRechargerInfos);
+            // 
+            // toolStripMenuItem12
+            // 
+            this.toolStripMenuItem12.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem13});
+            this.toolStripMenuItem12.Name = "toolStripMenuItem12";
+            this.toolStripMenuItem12.Size = new System.Drawing.Size(348, 22);
+            this.toolStripMenuItem12.Text = "Recharger les informations depuis le site";
+            this.toolStripMenuItem12.DropDownOpening += new System.EventHandler(this.onDropDownRechargerDepuis);
+            // 
+            // toolStripMenuItem13
+            // 
+            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
+            this.toolStripMenuItem13.Size = new System.Drawing.Size(128, 22);
+            this.toolStripMenuItem13.Text = "Allocine.fr";
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(345, 6);
+            // 
+            // toolStripMenuItem16
+            // 
+            toolStripMenuItem16.Name = "toolStripMenuItem16";
+            toolStripMenuItem16.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
+            toolStripMenuItem16.Size = new System.Drawing.Size(348, 22);
+            toolStripMenuItem16.Text = "Copier sur une clef USB ou support amovible";
+            toolStripMenuItem16.Click += new System.EventHandler(this.onMenuCopierSurClefUSB);
             // 
             // vueToolStripMenuItem
             // 
@@ -258,7 +490,7 @@
             vueToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             vueToolStripMenuItem.Image = global::Collection_de_films.Properties.Resources.vues;
             vueToolStripMenuItem.Name = "vueToolStripMenuItem";
-            vueToolStripMenuItem.Size = new System.Drawing.Size(87, 52);
+            vueToolStripMenuItem.Size = new System.Drawing.Size(87, 64);
             vueToolStripMenuItem.Text = "Vue";
             // 
             // détailToolStripMenuItem
@@ -280,14 +512,14 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(40, 52);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(40, 64);
             this.toolStripMenuItem1.Text = "       ";
             // 
             // filtreToolStripMenuItem
             // 
             filtreToolStripMenuItem.AutoSize = false;
             filtreToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            filtreToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("filtreToolStripMenuItem.Image")));
+            filtreToolStripMenuItem.Image = global::Collection_de_films.Properties.Resources.recherche1;
             filtreToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             filtreToolStripMenuItem.Name = "filtreToolStripMenuItem";
             filtreToolStripMenuItem.Padding = new System.Windows.Forms.Padding(0, 0, 4, 0);
@@ -299,6 +531,7 @@
             this.toolStripTextBoxFiltre.AutoSize = false;
             this.toolStripTextBoxFiltre.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.toolStripTextBoxFiltre.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.toolStripTextBoxFiltre.Margin = new System.Windows.Forms.Padding(1, 0, -20, 0);
             this.toolStripTextBoxFiltre.Name = "toolStripTextBoxFiltre";
             this.toolStripTextBoxFiltre.Padding = new System.Windows.Forms.Padding(8);
             this.toolStripTextBoxFiltre.Size = new System.Drawing.Size(200, 52);
@@ -313,67 +546,118 @@
             this.effacerToolStripMenuItem.Margin = new System.Windows.Forms.Padding(-10, 0, 10, 0);
             this.effacerToolStripMenuItem.Name = "effacerToolStripMenuItem";
             this.effacerToolStripMenuItem.Padding = new System.Windows.Forms.Padding(0);
-            this.effacerToolStripMenuItem.Size = new System.Drawing.Size(4, 52);
+            this.effacerToolStripMenuItem.Size = new System.Drawing.Size(4, 64);
             this.effacerToolStripMenuItem.Text = "effacer";
             this.effacerToolStripMenuItem.ToolTipText = "Effacer la requête";
             this.effacerToolStripMenuItem.Click += new System.EventHandler(this.onCliqueEffaceRequete);
             // 
+            // effacerToolStripMenuItem1
+            // 
+            effacerToolStripMenuItem1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            effacerToolStripMenuItem1.Image = global::Collection_de_films.Properties.Resources.effacer;
+            effacerToolStripMenuItem1.Name = "effacerToolStripMenuItem1";
+            effacerToolStripMenuItem1.Padding = new System.Windows.Forms.Padding(0);
+            effacerToolStripMenuItem1.Size = new System.Drawing.Size(52, 64);
+            effacerToolStripMenuItem1.ToolTipText = "Effacer le filtre";
+            effacerToolStripMenuItem1.Click += new System.EventHandler(this.onCliqueEffaceRequete);
+            // 
+            // toolStripMenuItem18
+            // 
+            this.toolStripMenuItem18.Name = "toolStripMenuItem18";
+            this.toolStripMenuItem18.Size = new System.Drawing.Size(40, 64);
+            this.toolStripMenuItem18.Text = "       ";
+            // 
             // toolStripMenuItem2
             // 
-            this.toolStripMenuItem2.AutoSize = false;
-            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.filmTousToolStripMenuItem,
-            this.filmAvecInformationsManquantesToolStripMenuItem,
-            this.filmsAvecAlternativesToolStripMenuItem,
-            this.filmsAvecAlternativesAucuneChoisieToolStripMenuItem});
-            this.toolStripMenuItem2.ForeColor = System.Drawing.Color.White;
-            this.toolStripMenuItem2.Image = global::Collection_de_films.Properties.Resources.selection;
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(115, 52);
-            this.toolStripMenuItem2.Text = "Sélection";
+            toolStripMenuItem2.AutoSize = false;
+            toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            filmTousToolStripMenuItem,
+            aVoirToolStripMenuItem,
+            vusToolStripMenuItem,
+            pasEncoreVusToolStripMenuItem,
+            this.toolStripSeparator7,
+            filmAvecInformationsManquantesToolStripMenuItem,
+            filmsAvecAlternativesToolStripMenuItem,
+            filmsAvecAlternativesAucuneChoisieToolStripMenuItem});
+            toolStripMenuItem2.ForeColor = System.Drawing.Color.White;
+            toolStripMenuItem2.Image = global::Collection_de_films.Properties.Resources.selection;
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.Size = new System.Drawing.Size(94, 52);
+            toolStripMenuItem2.Text = "Sélection";
             // 
             // filmTousToolStripMenuItem
             // 
-            this.filmTousToolStripMenuItem.Checked = true;
-            this.filmTousToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.filmTousToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.filmTousToolStripMenuItem.Name = "filmTousToolStripMenuItem";
-            this.filmTousToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.filmTousToolStripMenuItem.Text = "Tous";
-            this.filmTousToolStripMenuItem.Click += new System.EventHandler(this.filmsTousToolStripMenuItem_Click);
+            filmTousToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            filmTousToolStripMenuItem.Name = "filmTousToolStripMenuItem";
+            filmTousToolStripMenuItem.ShowShortcutKeys = false;
+            filmTousToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            filmTousToolStripMenuItem.Text = "Tous";
+            filmTousToolStripMenuItem.Click += new System.EventHandler(this.onMenuFiltreTous);
+            // 
+            // aVoirToolStripMenuItem
+            // 
+            aVoirToolStripMenuItem.Name = "aVoirToolStripMenuItem";
+            aVoirToolStripMenuItem.ShowShortcutKeys = false;
+            aVoirToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            aVoirToolStripMenuItem.Text = "A voir";
+            aVoirToolStripMenuItem.Click += new System.EventHandler(this.onMenuFiltreAVoir);
+            // 
+            // vusToolStripMenuItem
+            // 
+            vusToolStripMenuItem.Name = "vusToolStripMenuItem";
+            vusToolStripMenuItem.ShowShortcutKeys = false;
+            vusToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            vusToolStripMenuItem.Text = "Vus";
+            vusToolStripMenuItem.Click += new System.EventHandler(this.onMenuFiltreVus);
+            // 
+            // pasEncoreVusToolStripMenuItem
+            // 
+            pasEncoreVusToolStripMenuItem.Name = "pasEncoreVusToolStripMenuItem";
+            pasEncoreVusToolStripMenuItem.ShowShortcutKeys = false;
+            pasEncoreVusToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            pasEncoreVusToolStripMenuItem.Text = "Pas encore vus";
+            pasEncoreVusToolStripMenuItem.Click += new System.EventHandler(this.onMenuFiltreNonVus);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(267, 6);
             // 
             // filmAvecInformationsManquantesToolStripMenuItem
             // 
-            this.filmAvecInformationsManquantesToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.filmAvecInformationsManquantesToolStripMenuItem.Name = "filmAvecInformationsManquantesToolStripMenuItem";
-            this.filmAvecInformationsManquantesToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.filmAvecInformationsManquantesToolStripMenuItem.Text = "Films non trouvés";
-            this.filmAvecInformationsManquantesToolStripMenuItem.Click += new System.EventHandler(this.filmAvecInformationsManquantesToolStripMenuItem_Click);
+            filmAvecInformationsManquantesToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            filmAvecInformationsManquantesToolStripMenuItem.Name = "filmAvecInformationsManquantesToolStripMenuItem";
+            filmAvecInformationsManquantesToolStripMenuItem.ShowShortcutKeys = false;
+            filmAvecInformationsManquantesToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            filmAvecInformationsManquantesToolStripMenuItem.Text = "Films non trouvés";
+            filmAvecInformationsManquantesToolStripMenuItem.Click += new System.EventHandler(this.filmAvecInformationsManquantesToolStripMenuItem_Click);
             // 
             // filmsAvecAlternativesToolStripMenuItem
             // 
-            this.filmsAvecAlternativesToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.filmsAvecAlternativesToolStripMenuItem.Name = "filmsAvecAlternativesToolStripMenuItem";
-            this.filmsAvecAlternativesToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.filmsAvecAlternativesToolStripMenuItem.Text = "Films avec alternatives";
-            this.filmsAvecAlternativesToolStripMenuItem.Click += new System.EventHandler(this.filmsAvecAlternativesToolStripMenuItem_Click);
+            filmsAvecAlternativesToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            filmsAvecAlternativesToolStripMenuItem.Name = "filmsAvecAlternativesToolStripMenuItem";
+            filmsAvecAlternativesToolStripMenuItem.ShowShortcutKeys = false;
+            filmsAvecAlternativesToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            filmsAvecAlternativesToolStripMenuItem.Text = "Films avec alternatives";
+            filmsAvecAlternativesToolStripMenuItem.Click += new System.EventHandler(this.onMenuFiltreAlternatives);
             // 
             // filmsAvecAlternativesAucuneChoisieToolStripMenuItem
             // 
-            this.filmsAvecAlternativesAucuneChoisieToolStripMenuItem.Name = "filmsAvecAlternativesAucuneChoisieToolStripMenuItem";
-            this.filmsAvecAlternativesAucuneChoisieToolStripMenuItem.Size = new System.Drawing.Size(277, 22);
-            this.filmsAvecAlternativesAucuneChoisieToolStripMenuItem.Text = "Films avec alternatives, aucune choisie";
-            this.filmsAvecAlternativesAucuneChoisieToolStripMenuItem.Click += new System.EventHandler(this.filmsAvecAlternativesAucuneChoisieToolStripMenuItem_Click);
+            filmsAvecAlternativesAucuneChoisieToolStripMenuItem.Name = "filmsAvecAlternativesAucuneChoisieToolStripMenuItem";
+            filmsAvecAlternativesAucuneChoisieToolStripMenuItem.ShowShortcutKeys = false;
+            filmsAvecAlternativesAucuneChoisieToolStripMenuItem.Size = new System.Drawing.Size(270, 22);
+            filmsAvecAlternativesAucuneChoisieToolStripMenuItem.Text = "Films avec alternatives, aucune choisie";
+            filmsAvecAlternativesAucuneChoisieToolStripMenuItem.Click += new System.EventHandler(this.onMenuFiltreAvecAlternativeNonChoisie);
             // 
             // configurationToolStripMenuItem
             // 
-            this.configurationToolStripMenuItem.AutoSize = false;
-            this.configurationToolStripMenuItem.ForeColor = System.Drawing.Color.White;
-            this.configurationToolStripMenuItem.Image = global::Collection_de_films.Properties.Resources.configuration;
-            this.configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
-            this.configurationToolStripMenuItem.Size = new System.Drawing.Size(141, 52);
-            this.configurationToolStripMenuItem.Text = "Configuration";
-            this.configurationToolStripMenuItem.Click += new System.EventHandler(this.onClickConfiguration);
+            configurationToolStripMenuItem.AutoSize = false;
+            configurationToolStripMenuItem.ForeColor = System.Drawing.Color.White;
+            configurationToolStripMenuItem.Image = global::Collection_de_films.Properties.Resources.configuration;
+            configurationToolStripMenuItem.Name = "configurationToolStripMenuItem";
+            configurationToolStripMenuItem.Size = new System.Drawing.Size(141, 52);
+            configurationToolStripMenuItem.Text = "Configuration";
+            configurationToolStripMenuItem.Click += new System.EventHandler(this.onClickConfiguration);
             // 
             // toolStripStatusLabelFichiersACopier
             // 
@@ -439,27 +723,30 @@
             // 
             // splitContainer1
             // 
-            this.splitContainer1.BackColor = System.Drawing.Color.DimGray;
+            this.splitContainer1.BackColor = System.Drawing.Color.Maroon;
+            this.splitContainer1.BackgroundImage = global::Collection_de_films.Properties.Resources.fondtoolbar;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 60);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 72);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Panel1MinSize = 100;
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.consoleRichTextBox);
-            this.splitContainer1.Size = new System.Drawing.Size(1288, 659);
-            this.splitContainer1.SplitterDistance = 551;
-            this.splitContainer1.SplitterWidth = 8;
+            this.splitContainer1.Panel2MinSize = 0;
+            this.splitContainer1.Size = new System.Drawing.Size(1288, 647);
+            this.splitContainer1.SplitterDistance = 540;
+            this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 2;
             // 
             // splitContainer2
             // 
-            this.splitContainer2.BackColor = System.Drawing.Color.DimGray;
+            this.splitContainer2.BackColor = System.Drawing.Color.DarkRed;
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
@@ -470,13 +757,14 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.White;
-            this.splitContainer2.Panel2.Controls.Add(this.labelChemin);
+            this.splitContainer2.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(10)))), ((int)(((byte)(10)))));
+            this.splitContainer2.Panel2.Controls.Add(this.linkLabelChemin);
+            this.splitContainer2.Panel2.Controls.Add(this.linkLabelTitre);
             this.splitContainer2.Panel2.Controls.Add(this.labelEtat);
-            this.splitContainer2.Panel2.Controls.Add(this.labelTitre);
             this.splitContainer2.Panel2.Controls.Add(this.tabControlAlternatives);
-            this.splitContainer2.Size = new System.Drawing.Size(1288, 551);
+            this.splitContainer2.Size = new System.Drawing.Size(1288, 540);
             this.splitContainer2.SplitterDistance = 862;
+            this.splitContainer2.SplitterWidth = 6;
             this.splitContainer2.TabIndex = 0;
             // 
             // listViewFilms
@@ -487,12 +775,14 @@
             this.listViewFilms.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listViewFilms.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             columnHeaderTitre,
-            this.columnHeaderREsume,
-            this.columnHeaderGenres,
+            columnHeaderREsume,
+            columnHeaderVu,
+            columnHeaderAVoir,
+            columnHeaderGenres,
             columnHeaderREalisateur,
             columnHeaderActeurs,
-            this.columnHeaderDateSortie,
-            this.columnHeaderEtiquettes});
+            columnHeaderDateSortie,
+            columnHeaderEtiquettes});
             this.listViewFilms.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewFilms.FullRowSelect = true;
             this.listViewFilms.LargeImageList = this.imageListLarge;
@@ -502,7 +792,7 @@
             this.listViewFilms.OwnerDraw = true;
             this.listViewFilms.ShowGroups = false;
             this.listViewFilms.ShowItemToolTips = true;
-            this.listViewFilms.Size = new System.Drawing.Size(862, 551);
+            this.listViewFilms.Size = new System.Drawing.Size(862, 540);
             this.listViewFilms.SmallImageList = this.imageListSmall;
             this.listViewFilms.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewFilms.TabIndex = 0;
@@ -515,23 +805,6 @@
             this.listViewFilms.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.onListFilmsSelectionChanged);
             this.listViewFilms.MouseClick += new System.Windows.Forms.MouseEventHandler(this.onListviewFilmsMouseClick);
             // 
-            // columnHeaderREsume
-            // 
-            this.columnHeaderREsume.Text = "Résumé";
-            this.columnHeaderREsume.Width = 500;
-            // 
-            // columnHeaderGenres
-            // 
-            this.columnHeaderGenres.Text = "Genres";
-            // 
-            // columnHeaderDateSortie
-            // 
-            this.columnHeaderDateSortie.Text = "Date de sortie";
-            // 
-            // columnHeaderEtiquettes
-            // 
-            this.columnHeaderEtiquettes.Text = "Etiquettes";
-            // 
             // imageListLarge
             // 
             this.imageListLarge.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
@@ -541,38 +814,46 @@
             // imageListSmall
             // 
             this.imageListSmall.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.imageListSmall.ImageSize = new System.Drawing.Size(40, 40);
+            this.imageListSmall.ImageSize = new System.Drawing.Size(64, 64);
             this.imageListSmall.TransparentColor = System.Drawing.Color.Transparent;
             // 
-            // labelChemin
+            // linkLabelChemin
             // 
-            this.labelChemin.AutoSize = true;
-            this.labelChemin.Location = new System.Drawing.Point(13, 48);
-            this.labelChemin.Name = "labelChemin";
-            this.labelChemin.Size = new System.Drawing.Size(27, 13);
-            this.labelChemin.TabIndex = 20;
-            this.labelChemin.Text = "xxxx";
+            this.linkLabelChemin.AutoSize = true;
+            this.linkLabelChemin.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.linkLabelChemin.LinkColor = System.Drawing.Color.Black;
+            this.linkLabelChemin.Location = new System.Drawing.Point(11, 32);
+            this.linkLabelChemin.Name = "linkLabelChemin";
+            this.linkLabelChemin.Size = new System.Drawing.Size(55, 13);
+            this.linkLabelChemin.TabIndex = 22;
+            this.linkLabelChemin.TabStop = true;
+            this.linkLabelChemin.Text = "linkLabel1";
+            this.linkLabelChemin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onLinkClicked);
+            // 
+            // linkLabelTitre
+            // 
+            this.linkLabelTitre.AutoSize = true;
+            this.linkLabelTitre.BackColor = System.Drawing.Color.Transparent;
+            this.linkLabelTitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabelTitre.ForeColor = System.Drawing.Color.White;
+            this.linkLabelTitre.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.linkLabelTitre.LinkColor = System.Drawing.Color.White;
+            this.linkLabelTitre.Location = new System.Drawing.Point(11, 4);
+            this.linkLabelTitre.Name = "linkLabelTitre";
+            this.linkLabelTitre.Size = new System.Drawing.Size(59, 26);
+            this.linkLabelTitre.TabIndex = 21;
+            this.linkLabelTitre.TabStop = true;
+            this.linkLabelTitre.Text = "Titre";
+            this.linkLabelTitre.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onLinkClicked);
             // 
             // labelEtat
             // 
             this.labelEtat.AutoSize = true;
-            this.labelEtat.Location = new System.Drawing.Point(13, 35);
+            this.labelEtat.Location = new System.Drawing.Point(11, 47);
             this.labelEtat.Name = "labelEtat";
             this.labelEtat.Size = new System.Drawing.Size(35, 13);
             this.labelEtat.TabIndex = 19;
             this.labelEtat.Text = "label9";
-            // 
-            // labelTitre
-            // 
-            this.labelTitre.AutoSize = true;
-            this.labelTitre.BackColor = System.Drawing.Color.Transparent;
-            this.labelTitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitre.ForeColor = System.Drawing.Color.DarkRed;
-            this.labelTitre.Location = new System.Drawing.Point(13, 9);
-            this.labelTitre.Name = "labelTitre";
-            this.labelTitre.Size = new System.Drawing.Size(59, 26);
-            this.labelTitre.TabIndex = 1;
-            this.labelTitre.Text = "Titre";
             // 
             // tabControlAlternatives
             // 
@@ -585,7 +866,7 @@
             this.tabControlAlternatives.Location = new System.Drawing.Point(0, 64);
             this.tabControlAlternatives.Name = "tabControlAlternatives";
             this.tabControlAlternatives.SelectedIndex = 0;
-            this.tabControlAlternatives.Size = new System.Drawing.Size(419, 484);
+            this.tabControlAlternatives.Size = new System.Drawing.Size(414, 479);
             this.tabControlAlternatives.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControlAlternatives.TabIndex = 0;
             // 
@@ -595,23 +876,24 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(411, 458);
+            this.tabPage1.Size = new System.Drawing.Size(406, 453);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Film";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanelInfosFilm
             // 
+            this.flowLayoutPanelInfosFilm.AutoSize = true;
             this.flowLayoutPanelInfosFilm.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanelInfosFilm.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.flowLayoutPanelInfosFilm.Controls.Add(this.flowLayoutPanelPasTrouve);
             this.flowLayoutPanelInfosFilm.Controls.Add(this.pictureBoxAffiche);
-            this.flowLayoutPanelInfosFilm.Controls.Add(this.flowLayoutPanel1);
+            this.flowLayoutPanelInfosFilm.Controls.Add(this.flowLayoutPanelInfos);
             this.flowLayoutPanelInfosFilm.Controls.Add(this.labelResume);
             this.flowLayoutPanelInfosFilm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelInfosFilm.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanelInfosFilm.Name = "flowLayoutPanelInfosFilm";
-            this.flowLayoutPanelInfosFilm.Size = new System.Drawing.Size(405, 452);
+            this.flowLayoutPanelInfosFilm.Size = new System.Drawing.Size(400, 447);
             this.flowLayoutPanelInfosFilm.TabIndex = 7;
             // 
             // flowLayoutPanelPasTrouve
@@ -656,26 +938,26 @@
             this.pictureBoxAffiche.TabIndex = 17;
             this.pictureBoxAffiche.TabStop = false;
             // 
-            // flowLayoutPanel1
+            // flowLayoutPanelInfos
             // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Controls.Add(this.labelKeyRealisateur);
-            this.flowLayoutPanel1.Controls.Add(this.labelRealisateur);
-            this.flowLayoutPanel1.Controls.Add(this.labelKeyActeurs);
-            this.flowLayoutPanel1.Controls.Add(this.linkLabelActeurs);
-            this.flowLayoutPanel1.Controls.Add(this.labelKeyGenres);
-            this.flowLayoutPanel1.Controls.Add(this.labelGenres);
-            this.flowLayoutPanel1.Controls.Add(this.labelKeyDateSortie);
-            this.flowLayoutPanel1.Controls.Add(this.labelDateSortie);
-            this.flowLayoutPanel1.Controls.Add(this.labelKeyNationalite);
-            this.flowLayoutPanel1.Controls.Add(this.labelNationalite);
-            this.flowLayoutPanel1.Controls.Add(this.labelKeyEtiquettes);
-            this.flowLayoutPanel1.Controls.Add(this.labelEtiquettes);
-            this.flowLayoutPanelInfosFilm.SetFlowBreak(this.flowLayoutPanel1, true);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(109, 100);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(119, 78);
-            this.flowLayoutPanel1.TabIndex = 19;
+            this.flowLayoutPanelInfos.AutoSize = true;
+            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyRealisateur);
+            this.flowLayoutPanelInfos.Controls.Add(this.linkLabelRealisateur);
+            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyActeurs);
+            this.flowLayoutPanelInfos.Controls.Add(this.linkLabelActeurs);
+            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyGenres);
+            this.flowLayoutPanelInfos.Controls.Add(this.linkLabelGenres);
+            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyDateSortie);
+            this.flowLayoutPanelInfos.Controls.Add(this.labelDateSortie);
+            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyNationalite);
+            this.flowLayoutPanelInfos.Controls.Add(this.labelNationalite);
+            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyEtiquettes);
+            this.flowLayoutPanelInfos.Controls.Add(this.linkLabelEtiquettes);
+            this.flowLayoutPanelInfosFilm.SetFlowBreak(this.flowLayoutPanelInfos, true);
+            this.flowLayoutPanelInfos.Location = new System.Drawing.Point(109, 100);
+            this.flowLayoutPanelInfos.Name = "flowLayoutPanelInfos";
+            this.flowLayoutPanelInfos.Size = new System.Drawing.Size(124, 82);
+            this.flowLayoutPanelInfos.TabIndex = 19;
             // 
             // labelKeyRealisateur
             // 
@@ -687,16 +969,17 @@
             this.labelKeyRealisateur.TabIndex = 19;
             this.labelKeyRealisateur.Text = "De:";
             // 
-            // labelRealisateur
+            // linkLabelRealisateur
             // 
-            this.labelRealisateur.AutoSize = true;
-            this.labelRealisateur.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanel1.SetFlowBreak(this.labelRealisateur, true);
-            this.labelRealisateur.Location = new System.Drawing.Point(33, 0);
-            this.labelRealisateur.Name = "labelRealisateur";
-            this.labelRealisateur.Size = new System.Drawing.Size(47, 13);
-            this.labelRealisateur.TabIndex = 20;
-            this.labelRealisateur.Text = "xxxxxxxx";
+            this.linkLabelRealisateur.AutoSize = true;
+            this.flowLayoutPanelInfos.SetFlowBreak(this.linkLabelRealisateur, true);
+            this.linkLabelRealisateur.Location = new System.Drawing.Point(33, 0);
+            this.linkLabelRealisateur.Name = "linkLabelRealisateur";
+            this.linkLabelRealisateur.Size = new System.Drawing.Size(55, 13);
+            this.linkLabelRealisateur.TabIndex = 32;
+            this.linkLabelRealisateur.TabStop = true;
+            this.linkLabelRealisateur.Text = "linkLabel1";
+            this.linkLabelRealisateur.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onLinkClicked);
             // 
             // labelKeyActeurs
             // 
@@ -711,43 +994,47 @@
             // linkLabelActeurs
             // 
             this.linkLabelActeurs.AutoSize = true;
-            this.flowLayoutPanel1.SetFlowBreak(this.linkLabelActeurs, true);
+            this.flowLayoutPanelInfos.SetFlowBreak(this.linkLabelActeurs, true);
+            this.linkLabelActeurs.LinkArea = new System.Windows.Forms.LinkArea(5, 10);
+            this.linkLabelActeurs.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.linkLabelActeurs.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.linkLabelActeurs.Location = new System.Drawing.Point(41, 13);
             this.linkLabelActeurs.Name = "linkLabelActeurs";
-            this.linkLabelActeurs.Size = new System.Drawing.Size(55, 13);
+            this.linkLabelActeurs.Size = new System.Drawing.Size(55, 17);
             this.linkLabelActeurs.TabIndex = 31;
             this.linkLabelActeurs.TabStop = true;
             this.linkLabelActeurs.Text = "linkLabel1";
+            this.linkLabelActeurs.UseCompatibleTextRendering = true;
             this.linkLabelActeurs.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.linkLabelActeurs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onActeurLinkClicked);
+            this.linkLabelActeurs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onLinkClicked);
             // 
             // labelKeyGenres
             // 
             this.labelKeyGenres.AutoSize = true;
             this.labelKeyGenres.BackColor = System.Drawing.Color.Transparent;
-            this.labelKeyGenres.Location = new System.Drawing.Point(3, 26);
+            this.labelKeyGenres.Location = new System.Drawing.Point(3, 30);
             this.labelKeyGenres.Name = "labelKeyGenres";
             this.labelKeyGenres.Size = new System.Drawing.Size(39, 13);
             this.labelKeyGenres.TabIndex = 23;
             this.labelKeyGenres.Text = "Genre:";
             // 
-            // labelGenres
+            // linkLabelGenres
             // 
-            this.labelGenres.AutoSize = true;
-            this.labelGenres.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanel1.SetFlowBreak(this.labelGenres, true);
-            this.labelGenres.Location = new System.Drawing.Point(48, 26);
-            this.labelGenres.Name = "labelGenres";
-            this.labelGenres.Size = new System.Drawing.Size(47, 13);
-            this.labelGenres.TabIndex = 24;
-            this.labelGenres.Text = "xxxxxxxx";
+            this.linkLabelGenres.AutoSize = true;
+            this.flowLayoutPanelInfos.SetFlowBreak(this.linkLabelGenres, true);
+            this.linkLabelGenres.Location = new System.Drawing.Point(48, 30);
+            this.linkLabelGenres.Name = "linkLabelGenres";
+            this.linkLabelGenres.Size = new System.Drawing.Size(55, 13);
+            this.linkLabelGenres.TabIndex = 33;
+            this.linkLabelGenres.TabStop = true;
+            this.linkLabelGenres.Text = "linkLabel1";
+            this.linkLabelGenres.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onLinkClicked);
             // 
             // labelKeyDateSortie
             // 
             this.labelKeyDateSortie.AutoSize = true;
             this.labelKeyDateSortie.BackColor = System.Drawing.Color.Transparent;
-            this.labelKeyDateSortie.Location = new System.Drawing.Point(3, 39);
+            this.labelKeyDateSortie.Location = new System.Drawing.Point(3, 43);
             this.labelKeyDateSortie.Name = "labelKeyDateSortie";
             this.labelKeyDateSortie.Size = new System.Drawing.Size(37, 13);
             this.labelKeyDateSortie.TabIndex = 25;
@@ -757,8 +1044,8 @@
             // 
             this.labelDateSortie.AutoSize = true;
             this.labelDateSortie.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanel1.SetFlowBreak(this.labelDateSortie, true);
-            this.labelDateSortie.Location = new System.Drawing.Point(46, 39);
+            this.flowLayoutPanelInfos.SetFlowBreak(this.labelDateSortie, true);
+            this.labelDateSortie.Location = new System.Drawing.Point(46, 43);
             this.labelDateSortie.Name = "labelDateSortie";
             this.labelDateSortie.Size = new System.Drawing.Size(47, 13);
             this.labelDateSortie.TabIndex = 26;
@@ -768,7 +1055,7 @@
             // 
             this.labelKeyNationalite.AutoSize = true;
             this.labelKeyNationalite.BackColor = System.Drawing.Color.Transparent;
-            this.labelKeyNationalite.Location = new System.Drawing.Point(3, 52);
+            this.labelKeyNationalite.Location = new System.Drawing.Point(3, 56);
             this.labelKeyNationalite.Name = "labelKeyNationalite";
             this.labelKeyNationalite.Size = new System.Drawing.Size(60, 13);
             this.labelKeyNationalite.TabIndex = 27;
@@ -778,8 +1065,8 @@
             // 
             this.labelNationalite.AutoSize = true;
             this.labelNationalite.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanel1.SetFlowBreak(this.labelNationalite, true);
-            this.labelNationalite.Location = new System.Drawing.Point(69, 52);
+            this.flowLayoutPanelInfos.SetFlowBreak(this.labelNationalite, true);
+            this.labelNationalite.Location = new System.Drawing.Point(69, 56);
             this.labelNationalite.Name = "labelNationalite";
             this.labelNationalite.Size = new System.Drawing.Size(47, 13);
             this.labelNationalite.TabIndex = 28;
@@ -789,29 +1076,30 @@
             // 
             this.labelKeyEtiquettes.AutoSize = true;
             this.labelKeyEtiquettes.BackColor = System.Drawing.Color.Transparent;
-            this.labelKeyEtiquettes.Location = new System.Drawing.Point(3, 65);
+            this.labelKeyEtiquettes.Location = new System.Drawing.Point(3, 69);
             this.labelKeyEtiquettes.Name = "labelKeyEtiquettes";
             this.labelKeyEtiquettes.Size = new System.Drawing.Size(57, 13);
             this.labelKeyEtiquettes.TabIndex = 29;
             this.labelKeyEtiquettes.Text = "Etiquettes:";
             // 
-            // labelEtiquettes
+            // linkLabelEtiquettes
             // 
-            this.labelEtiquettes.AutoSize = true;
-            this.labelEtiquettes.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanel1.SetFlowBreak(this.labelEtiquettes, true);
-            this.labelEtiquettes.Location = new System.Drawing.Point(66, 65);
-            this.labelEtiquettes.Name = "labelEtiquettes";
-            this.labelEtiquettes.Size = new System.Drawing.Size(47, 13);
-            this.labelEtiquettes.TabIndex = 30;
-            this.labelEtiquettes.Text = "xxxxxxxx";
+            this.linkLabelEtiquettes.AutoSize = true;
+            this.flowLayoutPanelInfos.SetFlowBreak(this.linkLabelEtiquettes, true);
+            this.linkLabelEtiquettes.Location = new System.Drawing.Point(66, 69);
+            this.linkLabelEtiquettes.Name = "linkLabelEtiquettes";
+            this.linkLabelEtiquettes.Size = new System.Drawing.Size(55, 13);
+            this.linkLabelEtiquettes.TabIndex = 34;
+            this.linkLabelEtiquettes.TabStop = true;
+            this.linkLabelEtiquettes.Text = "linkLabel1";
+            this.linkLabelEtiquettes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onLinkClicked);
             // 
             // labelResume
             // 
             this.labelResume.AutoSize = true;
             this.flowLayoutPanelInfosFilm.SetFlowBreak(this.labelResume, true);
             this.labelResume.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelResume.Location = new System.Drawing.Point(3, 181);
+            this.labelResume.Location = new System.Drawing.Point(3, 185);
             this.labelResume.Name = "labelResume";
             this.labelResume.Size = new System.Drawing.Size(46, 17);
             this.labelResume.TabIndex = 32;
@@ -825,7 +1113,7 @@
             this.tabpageAlternatives.Location = new System.Drawing.Point(4, 22);
             this.tabpageAlternatives.Name = "tabpageAlternatives";
             this.tabpageAlternatives.Padding = new System.Windows.Forms.Padding(3);
-            this.tabpageAlternatives.Size = new System.Drawing.Size(411, 458);
+            this.tabpageAlternatives.Size = new System.Drawing.Size(406, 453);
             this.tabpageAlternatives.TabIndex = 1;
             this.tabpageAlternatives.Text = "Alternatives";
             this.tabpageAlternatives.UseVisualStyleBackColor = true;
@@ -836,7 +1124,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.Location = new System.Drawing.Point(0, 3);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(411, 26);
+            this.label7.Size = new System.Drawing.Size(406, 26);
             this.label7.TabIndex = 2;
             this.label7.Text = "Plusieurs alternatives ont été trouvées pour ce film, veuillez choisir celle qui " +
     "correspond le mieux en double-cliquant sur la ligne";
@@ -861,7 +1149,7 @@
             this.listViewAlternatives.Name = "listViewAlternatives";
             this.listViewAlternatives.ShowGroups = false;
             this.listViewAlternatives.ShowItemToolTips = true;
-            this.listViewAlternatives.Size = new System.Drawing.Size(402, 433);
+            this.listViewAlternatives.Size = new System.Drawing.Size(397, 428);
             this.listViewAlternatives.SmallImageList = this.imageListAlternatives;
             this.listViewAlternatives.TabIndex = 7;
             this.listViewAlternatives.UseCompatibleStateImageBehavior = false;
@@ -872,7 +1160,7 @@
             // 
             this.imageListAlternatives.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
             this.imageListAlternatives.ImageSize = new System.Drawing.Size(64, 64);
-            this.imageListAlternatives.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListAlternatives.TransparentColor = System.Drawing.Color.Fuchsia;
             // 
             // consoleRichTextBox
             // 
@@ -882,7 +1170,7 @@
             this.consoleRichTextBox.ForeColor = System.Drawing.Color.Lime;
             this.consoleRichTextBox.Location = new System.Drawing.Point(0, 0);
             this.consoleRichTextBox.Name = "consoleRichTextBox";
-            this.consoleRichTextBox.Size = new System.Drawing.Size(1288, 100);
+            this.consoleRichTextBox.Size = new System.Drawing.Size(1288, 101);
             this.consoleRichTextBox.TabIndex = 0;
             this.consoleRichTextBox.Text = "=======================================\nCollection de fichier 0.1\n(c) Lucien Pill" +
     "oni 2016\n=======================================\n";
@@ -895,74 +1183,161 @@
             // 
             // bgWorkerChargePages
             // 
-            this.bgWorkerChargePages.WorkerReportsProgress = true;
+            /*this.bgWorkerChargePages.WorkerReportsProgress = true;
             this.bgWorkerChargePages.WorkerSupportsCancellation = true;
             this.bgWorkerChargePages.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerChargePagesDoWork);
             this.bgWorkerChargePages.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
+            */
+
             // 
-            // contextMenuStripFilm
+            // contextMenuFilm
             // 
-            this.contextMenuStripFilm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuFilm.BackColor = System.Drawing.SystemColors.Menu;
+            this.contextMenuFilm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lireLeFilmToolStripMenuItem,
+            this.marquerCommeVuToolStripMenuItem,
+            this.marquerCommeAVoirToolStripMenuItem,
+            this.afficherDansLExplorateurWindowsToolStripMenuItem,
+            this.toolStripSeparator1,
             this.editerToolStripMenuItem,
             this.supprimerToolStripMenuItem,
+            this.toolStripSeparator2,
             this.rechargerLesInformationsToolStripMenuItem,
-            this.lireLeFilmToolStripMenuItem,
-            this.afficherDansLExplorateurWindowsToolStripMenuItem,
-            this.copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem});
-            this.contextMenuStripFilm.Name = "contextMenuStripFilm";
-            this.contextMenuStripFilm.Size = new System.Drawing.Size(311, 136);
-            // 
-            // editerToolStripMenuItem
-            // 
-            this.editerToolStripMenuItem.Name = "editerToolStripMenuItem";
-            this.editerToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.editerToolStripMenuItem.Text = "Editer";
-            this.editerToolStripMenuItem.Click += new System.EventHandler(this.editerToolStripMenuItem_Click);
-            // 
-            // supprimerToolStripMenuItem
-            // 
-            this.supprimerToolStripMenuItem.Name = "supprimerToolStripMenuItem";
-            this.supprimerToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.supprimerToolStripMenuItem.Text = "Supprimer de la base";
-            this.supprimerToolStripMenuItem.Click += new System.EventHandler(this.onMenuSupprimerFilm);
-            // 
-            // rechargerLesInformationsToolStripMenuItem
-            // 
-            this.rechargerLesInformationsToolStripMenuItem.Name = "rechargerLesInformationsToolStripMenuItem";
-            this.rechargerLesInformationsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.rechargerLesInformationsToolStripMenuItem.Text = "Recharger les informations";
-            this.rechargerLesInformationsToolStripMenuItem.Click += new System.EventHandler(this.onMenuRechargerInfos);
+            this.rechargerLesInformationsDepuisLeSiteToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem,
+            this.copierSurToolStripMenuItem});
+            this.contextMenuFilm.Name = "contextMenuStripFilm";
+            this.contextMenuFilm.ShowImageMargin = false;
+            this.contextMenuFilm.Size = new System.Drawing.Size(324, 264);
             // 
             // lireLeFilmToolStripMenuItem
             // 
             this.lireLeFilmToolStripMenuItem.Name = "lireLeFilmToolStripMenuItem";
-            this.lireLeFilmToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
+            this.lireLeFilmToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
+            this.lireLeFilmToolStripMenuItem.Size = new System.Drawing.Size(323, 22);
             this.lireLeFilmToolStripMenuItem.Text = "Lire le film";
-            this.lireLeFilmToolStripMenuItem.Click += new System.EventHandler(this.lireLeFilmToolStripMenuItem_Click);
+            this.lireLeFilmToolStripMenuItem.Click += new System.EventHandler(this.onMenuLireLeFilm);
+            // 
+            // marquerCommeVuToolStripMenuItem
+            // 
+            this.marquerCommeVuToolStripMenuItem.Name = "marquerCommeVuToolStripMenuItem";
+            this.marquerCommeVuToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.V)));
+            this.marquerCommeVuToolStripMenuItem.Size = new System.Drawing.Size(323, 22);
+            this.marquerCommeVuToolStripMenuItem.Text = "Marquer comme vu";
+            this.marquerCommeVuToolStripMenuItem.Click += new System.EventHandler(this.onMenuMarquerVu);
+            // 
+            // marquerCommeAVoirToolStripMenuItem
+            // 
+            this.marquerCommeAVoirToolStripMenuItem.Name = "marquerCommeAVoirToolStripMenuItem";
+            this.marquerCommeAVoirToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
+            this.marquerCommeAVoirToolStripMenuItem.Size = new System.Drawing.Size(323, 22);
+            this.marquerCommeAVoirToolStripMenuItem.Text = "Marquer comme A voir";
+            this.marquerCommeAVoirToolStripMenuItem.Click += new System.EventHandler(this.onMenuMarquerAVoir);
             // 
             // afficherDansLExplorateurWindowsToolStripMenuItem
             // 
             this.afficherDansLExplorateurWindowsToolStripMenuItem.Name = "afficherDansLExplorateurWindowsToolStripMenuItem";
-            this.afficherDansLExplorateurWindowsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
+            this.afficherDansLExplorateurWindowsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.X)));
+            this.afficherDansLExplorateurWindowsToolStripMenuItem.Size = new System.Drawing.Size(323, 22);
             this.afficherDansLExplorateurWindowsToolStripMenuItem.Text = "Afficher dans l\'Explorateur Windows";
-            this.afficherDansLExplorateurWindowsToolStripMenuItem.Click += new System.EventHandler(this.afficherDansLExplorateurWindowsToolStripMenuItem_Click);
+            this.afficherDansLExplorateurWindowsToolStripMenuItem.Click += new System.EventHandler(this.onMenuAfficherDansRepertoire);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(320, 6);
+            // 
+            // editerToolStripMenuItem
+            // 
+            this.editerToolStripMenuItem.Name = "editerToolStripMenuItem";
+            this.editerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
+            this.editerToolStripMenuItem.Size = new System.Drawing.Size(323, 22);
+            this.editerToolStripMenuItem.Text = "Editer";
+            this.editerToolStripMenuItem.Click += new System.EventHandler(this.onMenuEditerFilm);
+            // 
+            // supprimerToolStripMenuItem
+            // 
+            this.supprimerToolStripMenuItem.Name = "supprimerToolStripMenuItem";
+            this.supprimerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Delete)));
+            this.supprimerToolStripMenuItem.Size = new System.Drawing.Size(323, 22);
+            this.supprimerToolStripMenuItem.Text = "Supprimer de la base";
+            this.supprimerToolStripMenuItem.Click += new System.EventHandler(this.onMenuSupprimerFilm);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(320, 6);
+            // 
+            // rechargerLesInformationsToolStripMenuItem
+            // 
+            this.rechargerLesInformationsToolStripMenuItem.Name = "rechargerLesInformationsToolStripMenuItem";
+            this.rechargerLesInformationsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
+            this.rechargerLesInformationsToolStripMenuItem.Size = new System.Drawing.Size(323, 22);
+            this.rechargerLesInformationsToolStripMenuItem.Text = "Recharger les informations";
+            this.rechargerLesInformationsToolStripMenuItem.Click += new System.EventHandler(this.onMenuRechargerInfos);
+            // 
+            // rechargerLesInformationsDepuisLeSiteToolStripMenuItem
+            // 
+            this.rechargerLesInformationsDepuisLeSiteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.allocinefrToolStripMenuItem});
+            this.rechargerLesInformationsDepuisLeSiteToolStripMenuItem.Name = "rechargerLesInformationsDepuisLeSiteToolStripMenuItem";
+            this.rechargerLesInformationsDepuisLeSiteToolStripMenuItem.Size = new System.Drawing.Size(323, 22);
+            this.rechargerLesInformationsDepuisLeSiteToolStripMenuItem.Text = "Recharger les informations depuis le site";
+            this.rechargerLesInformationsDepuisLeSiteToolStripMenuItem.DropDownOpening += new System.EventHandler(this.onDropDownRechargerDepuis);
+            // 
+            // allocinefrToolStripMenuItem
+            // 
+            this.allocinefrToolStripMenuItem.Name = "allocinefrToolStripMenuItem";
+            this.allocinefrToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.allocinefrToolStripMenuItem.Text = "Allocine.fr";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(320, 6);
             // 
             // copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem
             // 
             this.copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem.Name = "copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem";
-            this.copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
+            this.copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
+            this.copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem.Size = new System.Drawing.Size(323, 22);
             this.copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem.Text = "Copier sur une clef USB ou support amovible";
-            this.copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem.Click += new System.EventHandler(this.onClickCopierSurClefUSB);
+            this.copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem.Click += new System.EventHandler(this.onMenuCopierSurClefUSB);
+            // 
+            // copierSurToolStripMenuItem
+            // 
+            this.copierSurToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.usbToolStripMenuItem});
+            this.copierSurToolStripMenuItem.Name = "copierSurToolStripMenuItem";
+            this.copierSurToolStripMenuItem.Size = new System.Drawing.Size(323, 22);
+            this.copierSurToolStripMenuItem.Text = "Copier sur";
+            this.copierSurToolStripMenuItem.DropDownOpening += new System.EventHandler(this.onDropdownCopierSur);
+            // 
+            // usbToolStripMenuItem
+            // 
+            this.usbToolStripMenuItem.Name = "usbToolStripMenuItem";
+            this.usbToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.usbToolStripMenuItem.Text = "usbusbusbusbusbusbusbusbusbusbusbusb";
             // 
             // timerChangeFiltre
             // 
-            this.timerChangeFiltre.Interval = 500;
+            this.timerChangeFiltre.Interval = 700;
             this.timerChangeFiltre.Tick += new System.EventHandler(this.onTimerChangeFiltre);
             // 
             // bgWorkerCopie
             // 
             this.bgWorkerCopie.WorkerSupportsCancellation = true;
             this.bgWorkerCopie.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerCopieDoWork);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
+            this.openFileDialog.Filter = "Fichiers films|*.avi;*.mkv;*.mp4|Tous les fichiers|*.*";
+            this.openFileDialog.Multiselect = true;
+            this.openFileDialog.RestoreDirectory = true;
+            this.openFileDialog.SupportMultiDottedExtensions = true;
+            this.openFileDialog.Title = "Choisissez des films à ajouter à la collection";
             // 
             // MainForm
             // 
@@ -994,15 +1369,16 @@
             this.splitContainer2.ResumeLayout(false);
             this.tabControlAlternatives.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.flowLayoutPanelInfosFilm.ResumeLayout(false);
             this.flowLayoutPanelInfosFilm.PerformLayout();
             this.flowLayoutPanelPasTrouve.ResumeLayout(false);
             this.flowLayoutPanelPasTrouve.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAffiche)).EndInit();
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
+            this.flowLayoutPanelInfos.ResumeLayout(false);
+            this.flowLayoutPanelInfos.PerformLayout();
             this.tabpageAlternatives.ResumeLayout(false);
-            this.contextMenuStripFilm.ResumeLayout(false);
+            this.contextMenuFilm.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1015,27 +1391,20 @@
         private System.Windows.Forms.ListView listViewFilms;
         private System.Windows.Forms.RichTextBox consoleRichTextBox;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.ColumnHeader columnHeaderREsume;
-        private System.Windows.Forms.ColumnHeader columnHeaderGenres;
         private System.Windows.Forms.ImageList imageListLarge;
-        private System.ComponentModel.BackgroundWorker bgWorkerChargePages;
+        //private System.ComponentModel.BackgroundWorker bgWorkerChargePages;
         private System.Windows.Forms.ImageList imageListSmall;
         private System.Windows.Forms.ToolStripMenuItem détailToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem imagesToolStripMenuItem;
         private System.Windows.Forms.ImageList imageListAlternatives;
-        private System.Windows.Forms.ColumnHeader columnHeaderDateSortie;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripFilm;
+        private System.Windows.Forms.ContextMenuStrip contextMenuFilm;
         private System.Windows.Forms.ToolStripMenuItem editerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem supprimerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rechargerLesInformationsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lireLeFilmToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem afficherDansLExplorateurWindowsToolStripMenuItem;
-        private System.Windows.Forms.ColumnHeader columnHeaderEtiquettes;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBoxFiltre;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
-        private System.Windows.Forms.ToolStripMenuItem ajouterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ajouterDesFichiersToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ajouterUnRépertoireToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.TabControl tabControlAlternatives;
         private System.Windows.Forms.TabPage tabPage1;
@@ -1049,36 +1418,47 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelNbFilmsBD;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelNbAffiches;
         private System.Windows.Forms.Timer timerChangeFiltre;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem filmAvecInformationsManquantesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem filmsAvecAlternativesToolStripMenuItem;
-        private System.Windows.Forms.Label labelChemin;
         private System.Windows.Forms.Label labelEtat;
-        private System.Windows.Forms.Label labelTitre;
-        private System.Windows.Forms.ToolStripMenuItem filmTousToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem;
         private System.Windows.Forms.ToolStripProgressBar tsProgressbarCopieEnCours;
         private System.ComponentModel.BackgroundWorker bgWorkerCopie;
         private System.Windows.Forms.ToolStripProgressBar tsProgressbarTotalCopie;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelFichiersACopier;
         private System.Windows.Forms.ToolStripMenuItem effacerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBoxAffiche;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelInfos;
         private System.Windows.Forms.Label labelKeyRealisateur;
-        private System.Windows.Forms.Label labelRealisateur;
         private System.Windows.Forms.Label labelKeyActeurs;
         private System.Windows.Forms.Label labelKeyGenres;
-        private System.Windows.Forms.Label labelGenres;
         private System.Windows.Forms.Label labelKeyDateSortie;
         private System.Windows.Forms.Label labelDateSortie;
         private System.Windows.Forms.Label labelKeyNationalite;
         private System.Windows.Forms.Label labelNationalite;
         private System.Windows.Forms.Label labelKeyEtiquettes;
-        private System.Windows.Forms.Label labelEtiquettes;
         private System.Windows.Forms.Label labelResume;
-        private System.Windows.Forms.ToolStripMenuItem filmsAvecAlternativesAucuneChoisieToolStripMenuItem;
         private System.Windows.Forms.LinkLabel linkLabelActeurs;
+        private System.Windows.Forms.LinkLabel linkLabelRealisateur;
+        private System.Windows.Forms.LinkLabel linkLabelGenres;
+        private System.Windows.Forms.LinkLabel linkLabelChemin;
+        private System.Windows.Forms.LinkLabel linkLabelTitre;
+        private System.Windows.Forms.LinkLabel linkLabelEtiquettes;
+        private System.Windows.Forms.ToolStripMenuItem marquerCommeVuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem marquerCommeAVoirToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem rechargerLesInformationsDepuisLeSiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem allocinefrToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem12;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem18;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem copierSurToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem usbToolStripMenuItem;
     }
 }
 

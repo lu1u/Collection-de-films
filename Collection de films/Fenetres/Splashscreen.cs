@@ -44,7 +44,7 @@ namespace Collection_de_films.Fenetres
 
 
             SizeF tailleTexte = e.Graphics.MeasureString(_message, SystemFonts.DefaultFont, rect.Width);
-            Rectangle rTexte = new Rectangle(0, 0, (int) tailleTexte.Width, (int)tailleTexte.Height);
+            Rectangle rTexte = new Rectangle(0, 0, (int) tailleTexte.Width+10, (int)tailleTexte.Height);
             rTexte.Offset(rect.Left, rect.Top - rTexte.Height);
             e.Graphics.DrawString(_message, SystemFonts.DefaultFont, Brushes.White, rTexte);
         }
