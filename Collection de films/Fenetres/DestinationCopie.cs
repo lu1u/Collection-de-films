@@ -60,7 +60,7 @@ namespace Collection_de_films.Fenetres
                     pictureBoxAffiche.Image = img;
 
                 tailleFichier = new FileInfo(film.Chemin).Length;
-                labelTaille.Text = textTaille(tailleFichier);
+                labelTaille.Text = formateTailleFichier(tailleFichier);
             }
             updateListe();
         }
@@ -77,7 +77,7 @@ namespace Collection_de_films.Fenetres
                 listViewDevices.SmallImageList.Images.Add(drive.Name, GetFileIcon(drive.Name));
                 item.ImageKey = drive.Name;
                 item.SubItems.Add(drive.RootDirectory + "");
-                item.SubItems.Add(textTaille(drive.AvailableFreeSpace));
+                item.SubItems.Add(formateTailleFichier(drive.AvailableFreeSpace));
 
                 if (tailleFichier >= drive.AvailableFreeSpace)
                     item.BackColor = Color.LightCoral;
@@ -85,7 +85,7 @@ namespace Collection_de_films.Fenetres
             }
         }
 
-        public static string textTaille(long availableFreeSpace)
+        public static string formateTailleFichier(long availableFreeSpace)
         {
             if (availableFreeSpace >= (1024L * 1024L * 1024L * 1024L))
                 return string.Format("{0:0.0} To", (double)availableFreeSpace / (1024L * 1024L * 1024L * 1024L));

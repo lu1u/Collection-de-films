@@ -14,6 +14,16 @@ namespace Collection_de_films.Fenetres
     public partial class CopieEnCours : Form
     {
         private static CopieEnCours _instance = new CopieEnCours();
+        private bool _annule = false ;
+
+        public bool Annule
+        {
+            get
+            {
+                return _annule;
+            }
+        }
+
         public static CopieEnCours getInstance()
         {
             if (_instance == null || _instance.IsDisposed)
@@ -38,7 +48,7 @@ namespace Collection_de_films.Fenetres
             else
             {
                 progressBarTotal.Maximum = (int)(totalACopier / MEGA_OCTETS);
-                progressBarTotal.Value = (int)(totalCopié / MEGA_OCTETS);
+                progressBarTotal.Value = (int)(Math.Min(totalACopier,totalCopié) / MEGA_OCTETS);
                 progressBarFichierEnCours.Maximum = (int)(encoursACopier / MEGA_OCTETS);
                 progressBarFichierEnCours.Value = (int)(encoursCopié / MEGA_OCTETS);
             }
@@ -76,6 +86,25 @@ namespace Collection_de_films.Fenetres
                     listBoxFichiersACopier.Items.Add(s);
                 listBoxFichiersACopier.EndUpdate();
             }
+        }
+
+        delegate void ClearAndHideDelegate();
+        internal void ClearAndHide()
+        {
+            if ( InvokeRequired )
+                Invoke( new ClearAndHideDelegate( ClearAndHide ), new object[] { } );
+            else
+            {
+                fichiers.Clear();
+                updateListe();
+            }
+        }
+
+        private void buttonCancel_Click( object sender, EventArgs e )
+        {
+            _annule = true;
+            buttonCancel.Text = "Annulation en cours...";
+            buttonCancel.Enabled = false;
         }
     }
 }

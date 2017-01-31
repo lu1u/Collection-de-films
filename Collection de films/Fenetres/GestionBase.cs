@@ -38,7 +38,7 @@ namespace Collection_de_films.Fenetres
                 bool Active = nomCollection.Equals(Path.GetFileNameWithoutExtension( BaseFilms.instance.name ));
 
                 lv.SubItems.Add( Active ? "Oui" : "Non" );
-                lv.SubItems.Add( DestinationCopie.textTaille( fi.Length ) );
+                lv.SubItems.Add( DestinationCopie.formateTailleFichier( fi.Length ) );
                 lv.SubItems.Add( fi.CreationTime.ToShortDateString() );
                 if ( Active )
                     lv.BackColor = Color.LightGray ;

@@ -22,22 +22,20 @@ namespace Collection_de_films.Actions
 
         public void ajoute( ActionDifferee action )
         {
+            action.dansLaQueue();
+            lock ( _actions )
+                _actions.Add( action );
+
+            SetStatusFilmATraiter( $"{_actions.Count} actions à traiter" );
+            if ( _bgw == null )
             {
-                action.dansLaQueue();
-                lock ( _actions )
-                    _actions.Add( action );
+                _bgw = new BackgroundWorker();
+                _bgw.WorkerSupportsCancellation = true;
+                _bgw.ProgressChanged += progressChanged;
+                _bgw.WorkerReportsProgress = true;
+                _bgw.DoWork += doWork;
 
-                SetStatusFilmATraiter( $"{_actions.Count} actions à traiter" );
-                if ( _bgw == null)
-                {
-                    _bgw = new BackgroundWorker();
-                    _bgw.WorkerSupportsCancellation = true;
-                    _bgw.ProgressChanged += progressChanged;
-                    _bgw.WorkerReportsProgress = true;
-                    _bgw.DoWork += doWork;
-
-                    _bgw.RunWorkerAsync();
-                }
+                _bgw.RunWorkerAsync();
             }
         }
 
@@ -50,7 +48,7 @@ namespace Collection_de_films.Actions
                 action = Pop();
                 if ( action == null )
                 {
-                    continuer = false;                   
+                    continuer = false;
                 }
                 else
                     try
@@ -68,7 +66,7 @@ namespace Collection_de_films.Actions
                 System.Threading.Thread.Sleep( 100 );
             }
 
-            MainForm.WriteMessageToConsole( "Toutes les actions différées ont été traitées");
+            MainForm.WriteMessageToConsole( "Toutes les actions différées ont été traitées" );
             _bgw = null;
         }
 
@@ -81,7 +79,7 @@ namespace Collection_de_films.Actions
         {
             lock ( _actions )
             {
-                _actions.Remove( action );                
+                _actions.Remove( action );
             }
         }
 
@@ -133,7 +131,7 @@ namespace Collection_de_films.Actions
 
         internal void Stop()
         {
-            if ( _bgw!= null && _bgw.IsBusy )
+            if ( _bgw != null && _bgw.IsBusy )
                 _bgw.CancelAsync();
         }
     }

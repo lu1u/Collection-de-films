@@ -34,6 +34,7 @@
             this.listBoxFichiersACopier = new System.Windows.Forms.ListBox();
             this.progressBarFichierEnCours = new System.Windows.Forms.ProgressBar();
             this.progressBarTotal = new System.Windows.Forms.ProgressBar();
+            this.buttonCancel = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -48,6 +49,28 @@
             label1.TabIndex = 0;
             label1.Text = "Films à copier:";
             // 
+            // label3
+            // 
+            label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(16, 194);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(72, 13);
+            label3.TabIndex = 8;
+            label3.Text = "Film en cours:";
+            // 
+            // label2
+            // 
+            label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(16, 148);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(66, 13);
+            label2.TabIndex = 6;
+            label2.Text = "Copie totale:";
+            // 
             // listBoxFichiersACopier
             // 
             this.listBoxFichiersACopier.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -55,57 +78,49 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listBoxFichiersACopier.FormattingEnabled = true;
             this.listBoxFichiersACopier.IntegralHeight = false;
-            this.listBoxFichiersACopier.Location = new System.Drawing.Point(16, 30);
+            this.listBoxFichiersACopier.Location = new System.Drawing.Point(16, 31);
             this.listBoxFichiersACopier.Name = "listBoxFichiersACopier";
-            this.listBoxFichiersACopier.Size = new System.Drawing.Size(527, 92);
+            this.listBoxFichiersACopier.Size = new System.Drawing.Size(527, 112);
             this.listBoxFichiersACopier.TabIndex = 1;
             // 
             // progressBarFichierEnCours
             // 
             this.progressBarFichierEnCours.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBarFichierEnCours.Location = new System.Drawing.Point(16, 197);
+            this.progressBarFichierEnCours.Location = new System.Drawing.Point(16, 212);
             this.progressBarFichierEnCours.Name = "progressBarFichierEnCours";
             this.progressBarFichierEnCours.Size = new System.Drawing.Size(527, 23);
             this.progressBarFichierEnCours.TabIndex = 9;
-            // 
-            // label3
-            // 
-            label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(16, 180);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(72, 13);
-            label3.TabIndex = 8;
-            label3.Text = "Film en cours:";
             // 
             // progressBarTotal
             // 
             this.progressBarTotal.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBarTotal.Location = new System.Drawing.Point(16, 150);
+            this.progressBarTotal.Location = new System.Drawing.Point(16, 166);
             this.progressBarTotal.Name = "progressBarTotal";
             this.progressBarTotal.Size = new System.Drawing.Size(527, 23);
             this.progressBarTotal.TabIndex = 7;
             // 
-            // label2
+            // buttonCancel
             // 
-            label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(16, 133);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(66, 13);
-            label2.TabIndex = 6;
-            label2.Text = "Copie totale:";
+            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonCancel.AutoSize = true;
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.buttonCancel.Location = new System.Drawing.Point(16, 240);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(53, 23);
+            this.buttonCancel.TabIndex = 10;
+            this.buttonCancel.Text = "Annuler";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // CopieEnCours
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Info;
-            this.ClientSize = new System.Drawing.Size(555, 229);
+            this.ClientSize = new System.Drawing.Size(555, 277);
+            this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.progressBarFichierEnCours);
             this.Controls.Add(label3);
             this.Controls.Add(this.progressBarTotal);
@@ -127,5 +142,6 @@
         private System.Windows.Forms.ListBox listBoxFichiersACopier;
         private System.Windows.Forms.ProgressBar progressBarFichierEnCours;
         private System.Windows.Forms.ProgressBar progressBarTotal;
+        private System.Windows.Forms.Button buttonCancel;
     }
 }

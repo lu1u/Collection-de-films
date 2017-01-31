@@ -108,6 +108,7 @@
     <Compile Include="Actions\ActionDifferee.cs" />
     <Compile Include="Actions\ActionNouveauFilm.cs" />
     <Compile Include="Actions\ActionsDifferees.cs" />
+    <Compile Include="CopieFichiers.cs" />
     <Compile Include="CursorChanger.cs" />
     <Compile Include="Database\BaseDonnees.cs" />
     <Compile Include="Database\BaseFilms.Alternatives.cs" />
@@ -197,9 +198,6 @@
     <Compile Include="Filtre.cs" />
     <Compile Include="Internet\Internet.cs" />
     <Compile Include="MainForm.Console.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Copie.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.cs">

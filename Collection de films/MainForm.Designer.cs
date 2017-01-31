@@ -41,7 +41,6 @@
             System.Windows.Forms.ColumnHeader columnHeader8;
             System.Windows.Forms.ColumnHeader columnHeader10;
             System.Windows.Forms.ColumnHeader columnHeader9;
-            System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
             System.Windows.Forms.ColumnHeader columnHeaderREsume;
             System.Windows.Forms.ColumnHeader columnHeaderGenres;
             System.Windows.Forms.ColumnHeader columnHeaderDateSortie;
@@ -75,6 +74,7 @@
             System.Windows.Forms.ToolStripMenuItem filmsAvecAlternativesToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem filmsAvecAlternativesAucuneChoisieToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
+            System.Windows.Forms.StatusStrip statusStrip1;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -89,11 +89,9 @@
             this.toolStripMenuItem18 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripStatusLabelFichiersACopier = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelNbFilmsBD = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelNbAffiches = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsProgressbarTotalCopie = new System.Windows.Forms.ToolStripProgressBar();
             this.tsProgressbarCopieEnCours = new System.Windows.Forms.ToolStripProgressBar();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -130,7 +128,6 @@
             this.imageListAlternatives = new System.Windows.Forms.ImageList(this.components);
             this.consoleRichTextBox = new System.Windows.Forms.RichTextBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            //this.bgWorkerChargePages = new System.ComponentModel.BackgroundWorker();
             this.contextMenuFilm = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.lireLeFilmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.marquerCommeVuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -148,7 +145,6 @@
             this.copierSurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usbToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.timerChangeFiltre = new System.Windows.Forms.Timer(this.components);
-            this.bgWorkerCopie = new System.ComponentModel.BackgroundWorker();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             label8 = new System.Windows.Forms.Label();
             columnHeaderTitre = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -159,7 +155,6 @@
             columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             columnHeaderREsume = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             columnHeaderGenres = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             columnHeaderDateSortie = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -193,8 +188,9 @@
             filmsAvecAlternativesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             filmsAvecAlternativesAucuneChoisieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             configurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            statusStrip1 = new System.Windows.Forms.StatusStrip();
             menuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -259,12 +255,6 @@
             // 
             columnHeader9.Text = "Résumé";
             columnHeader9.Width = 100;
-            // 
-            // toolStripStatusLabel1
-            // 
-            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new System.Drawing.Size(89, 17);
-            toolStripStatusLabel1.Text = "Copie en cours:";
             // 
             // columnHeaderREsume
             // 
@@ -664,23 +654,22 @@
             this.toolStripStatusLabelFichiersACopier.Name = "toolStripStatusLabelFichiersACopier";
             this.toolStripStatusLabelFichiersACopier.Size = new System.Drawing.Size(95, 17);
             this.toolStripStatusLabelFichiersACopier.Text = "Fichiers a copier:";
+            this.toolStripStatusLabelFichiersACopier.Visible = false;
             // 
             // statusStrip1
             // 
-            this.statusStrip1.BackColor = System.Drawing.SystemColors.Control;
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            statusStrip1.BackColor = System.Drawing.SystemColors.Control;
+            statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelNbFilmsBD,
             this.toolStripStatusLabelNbAffiches,
             this.toolStripStatusLabel,
             this.toolStripStatusLabelFichiersACopier,
-            this.tsProgressbarTotalCopie,
-            toolStripStatusLabel1,
             this.tsProgressbarCopieEnCours});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 719);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1288, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
+            statusStrip1.Location = new System.Drawing.Point(0, 719);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new System.Drawing.Size(1288, 22);
+            statusStrip1.TabIndex = 1;
+            statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabelNbFilmsBD
             // 
@@ -706,19 +695,15 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(90, 17);
             this.toolStripStatusLabel.Text = "Films à traiter: 0";
             // 
-            // tsProgressbarTotalCopie
-            // 
-            this.tsProgressbarTotalCopie.Name = "tsProgressbarTotalCopie";
-            this.tsProgressbarTotalCopie.Size = new System.Drawing.Size(100, 16);
-            this.tsProgressbarTotalCopie.ToolTipText = "Cliquez pour ouvrir la fenêtre de copie";
-            this.tsProgressbarTotalCopie.Click += new System.EventHandler(this.onClicProgressCopie);
-            // 
             // tsProgressbarCopieEnCours
             // 
+            this.tsProgressbarCopieEnCours.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.tsProgressbarCopieEnCours.Name = "tsProgressbarCopieEnCours";
             this.tsProgressbarCopieEnCours.Size = new System.Drawing.Size(100, 16);
             this.tsProgressbarCopieEnCours.Step = 1;
+            this.tsProgressbarCopieEnCours.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.tsProgressbarCopieEnCours.ToolTipText = "Cliquez pour ouvrir la fenêtre de copie";
+            this.tsProgressbarCopieEnCours.Visible = false;
             this.tsProgressbarCopieEnCours.Click += new System.EventHandler(this.onClicProgressCopie);
             // 
             // splitContainer1
@@ -866,7 +851,7 @@
             this.tabControlAlternatives.Location = new System.Drawing.Point(0, 64);
             this.tabControlAlternatives.Name = "tabControlAlternatives";
             this.tabControlAlternatives.SelectedIndex = 0;
-            this.tabControlAlternatives.Size = new System.Drawing.Size(414, 479);
+            this.tabControlAlternatives.Size = new System.Drawing.Size(410, 479);
             this.tabControlAlternatives.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControlAlternatives.TabIndex = 0;
             // 
@@ -876,7 +861,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(406, 453);
+            this.tabPage1.Size = new System.Drawing.Size(402, 453);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Film";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -893,7 +878,7 @@
             this.flowLayoutPanelInfosFilm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelInfosFilm.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanelInfosFilm.Name = "flowLayoutPanelInfosFilm";
-            this.flowLayoutPanelInfosFilm.Size = new System.Drawing.Size(400, 447);
+            this.flowLayoutPanelInfosFilm.Size = new System.Drawing.Size(396, 447);
             this.flowLayoutPanelInfosFilm.TabIndex = 7;
             // 
             // flowLayoutPanelPasTrouve
@@ -1113,7 +1098,7 @@
             this.tabpageAlternatives.Location = new System.Drawing.Point(4, 22);
             this.tabpageAlternatives.Name = "tabpageAlternatives";
             this.tabpageAlternatives.Padding = new System.Windows.Forms.Padding(3);
-            this.tabpageAlternatives.Size = new System.Drawing.Size(406, 453);
+            this.tabpageAlternatives.Size = new System.Drawing.Size(402, 453);
             this.tabpageAlternatives.TabIndex = 1;
             this.tabpageAlternatives.Text = "Alternatives";
             this.tabpageAlternatives.UseVisualStyleBackColor = true;
@@ -1124,7 +1109,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.Location = new System.Drawing.Point(0, 3);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(406, 26);
+            this.label7.Size = new System.Drawing.Size(402, 26);
             this.label7.TabIndex = 2;
             this.label7.Text = "Plusieurs alternatives ont été trouvées pour ce film, veuillez choisir celle qui " +
     "correspond le mieux en double-cliquant sur la ligne";
@@ -1149,7 +1134,7 @@
             this.listViewAlternatives.Name = "listViewAlternatives";
             this.listViewAlternatives.ShowGroups = false;
             this.listViewAlternatives.ShowItemToolTips = true;
-            this.listViewAlternatives.Size = new System.Drawing.Size(397, 428);
+            this.listViewAlternatives.Size = new System.Drawing.Size(393, 428);
             this.listViewAlternatives.SmallImageList = this.imageListAlternatives;
             this.listViewAlternatives.TabIndex = 7;
             this.listViewAlternatives.UseCompatibleStateImageBehavior = false;
@@ -1181,15 +1166,6 @@
             this.folderBrowserDialog1.SelectedPath = "E:\\Films\\Aventure";
             this.folderBrowserDialog1.ShowNewFolderButton = false;
             // 
-            // bgWorkerChargePages
-            // 
-            /*this.bgWorkerChargePages.WorkerReportsProgress = true;
-            this.bgWorkerChargePages.WorkerSupportsCancellation = true;
-            this.bgWorkerChargePages.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerChargePagesDoWork);
-            this.bgWorkerChargePages.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
-            */
-
-            // 
             // contextMenuFilm
             // 
             this.contextMenuFilm.BackColor = System.Drawing.SystemColors.Menu;
@@ -1209,7 +1185,7 @@
             this.copierSurToolStripMenuItem});
             this.contextMenuFilm.Name = "contextMenuStripFilm";
             this.contextMenuFilm.ShowImageMargin = false;
-            this.contextMenuFilm.Size = new System.Drawing.Size(324, 264);
+            this.contextMenuFilm.Size = new System.Drawing.Size(324, 242);
             // 
             // lireLeFilmToolStripMenuItem
             // 
@@ -1325,11 +1301,6 @@
             this.timerChangeFiltre.Interval = 700;
             this.timerChangeFiltre.Tick += new System.EventHandler(this.onTimerChangeFiltre);
             // 
-            // bgWorkerCopie
-            // 
-            this.bgWorkerCopie.WorkerSupportsCancellation = true;
-            this.bgWorkerCopie.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgWorkerCopieDoWork);
-            // 
             // openFileDialog
             // 
             this.openFileDialog.FileName = "openFileDialog1";
@@ -1345,7 +1316,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1288, 741);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(statusStrip1);
             this.Controls.Add(menuStrip1);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1356,8 +1327,8 @@
             this.Load += new System.EventHandler(this.onLoad);
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -1385,7 +1356,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.ListView listViewFilms;
@@ -1421,8 +1391,6 @@
         private System.Windows.Forms.Label labelEtat;
         private System.Windows.Forms.ToolStripMenuItem copierSurUneClefUSBOuSupportAmovibleToolStripMenuItem;
         private System.Windows.Forms.ToolStripProgressBar tsProgressbarCopieEnCours;
-        private System.ComponentModel.BackgroundWorker bgWorkerCopie;
-        private System.Windows.Forms.ToolStripProgressBar tsProgressbarTotalCopie;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelFichiersACopier;
         private System.Windows.Forms.ToolStripMenuItem effacerToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBoxAffiche;

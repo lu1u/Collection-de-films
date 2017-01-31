@@ -31,11 +31,12 @@ namespace Collection_de_films
         private Filtre _filtre = new Filtre();
         private ListViewColumnSorter listViewColonneSorter;
         ActionsDifferees _actionsDifferees;
+        CopieFichiers _copieFichiers;
         private Film _selected;
         private bool _filtreChange = false;
         private StringFormat _formatLargeIcones = new StringFormat();
         private StringFormat _formatDetails = new StringFormat();
-        private static MainForm _instance;
+        public static MainForm _instance;
 
         private Brush _brosseOmbre = new SolidBrush(Color.FromArgb(64, 0, 0, 0));
 
@@ -57,6 +58,7 @@ namespace Collection_de_films
             listViewColonneSorter = new ListViewColumnSorter();
             listViewFilms.ListViewItemSorter = listViewColonneSorter;
             _actionsDifferees = new ActionsDifferees( toolStripStatusLabel );
+            _copieFichiers = new CopieFichiers( toolStripStatusLabelFichiersACopier, tsProgressbarCopieEnCours );
         }
 
         /// <summary>
@@ -1014,7 +1016,7 @@ namespace Collection_de_films
                 string source = _selected.Chemin;
                 string destination = Path.Combine(dlg.destinationDevice.RootDirectory.FullName, Path.GetFileName(source));
                 // Lancer la copie
-                AjouteCopieFichier( source, destination );
+                _copieFichiers.ajoute( source, destination );
             }
         }
 
@@ -1022,8 +1024,9 @@ namespace Collection_de_films
         {
             _actionsDifferees.Stop();
 
-            if ( bgWorkerCopie.IsBusy )
-                bgWorkerCopie.CancelAsync();
+            /*if ( bgWorkerCopie.IsBusy )
+                bgWorkerCopie.CancelAsync();*/
+            _copieFichiers.Stop();
 
             if ( Configuration.menageALaFin )
             {
@@ -1161,12 +1164,13 @@ namespace Collection_de_films
                 {
                     ToolStripLabel item = new ToolStripLabel(drive.VolumeLabel + " [" + drive.RootDirectory + "]");
                     item.Tag = drive;
+                    item.Enabled = true;
                     item.Image = DestinationCopie.GetFileIcon( drive.Name ).ToBitmap();
                     item.AutoSize = false;
                     item.Alignment = ToolStripItemAlignment.Left;
                     item.DisplayStyle = ToolStripItemDisplayStyle.ImageAndText;
                     item.ImageAlign = ContentAlignment.MiddleLeft;
-                    item.Size = new Size( item.Image.Width * 2 + 100, item.Image.Height * 3 / 2 );
+                    item.Size = new Size( item.Image.Width * 2 + 100, item.Image.Height  );
                     item.Click += onClickItemCopierSur;
                     dropDown.DropDownItems.Add( item );
                 }
@@ -1207,12 +1211,17 @@ namespace Collection_de_films
                         string source = _selected.Chemin;
                         string destination = Path.Combine(drive.RootDirectory.FullName, Path.GetFileName(source));
                         // Lancer la copie
-                        AjouteCopieFichier( source, destination );
+                        _copieFichiers.ajoute( source, destination );
                     }
                 }
             }
         }
 
+
+        private void onClicProgressCopie( object sender, EventArgs e )
+        {
+            _copieFichiers.onClickStatus();
+        }
         private void onMenuAjouteFichiers( object sender, EventArgs e )
         {
             if ( openFileDialog.ShowDialog() == DialogResult.OK )
