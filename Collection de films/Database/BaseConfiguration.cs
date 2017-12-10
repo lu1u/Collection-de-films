@@ -58,7 +58,7 @@ namespace Collection_de_films.Database
             }
         }
 
-        internal void setValeurConfiguration( string nom, string valeur )
+        internal async void setValeurConfiguration( string nom, string valeur )
         {
             using ( SQLiteCommand cmd = new SQLiteCommand( "INSERT OR REPLACE INTO "
                                                         + TABLE_CONFIGURATION
@@ -67,7 +67,7 @@ namespace Collection_de_films.Database
             {
                 cmd.Parameters.AddWithValue( "@nom", nom );
                 cmd.Parameters.AddWithValue( "@valeur", valeur );
-                executeNonQuery( cmd );
+                await executeNonQueryAsync( cmd );
             }
         }
 

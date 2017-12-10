@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Collection_de_films.Actions
 {
-    class ActionsDifferees
+    class ActionsDifferees: IDisposable
     {
         private List<ActionDifferee> _actions = new List<ActionDifferee>();
         ToolStripStatusLabel _statusLabel;
@@ -47,10 +47,8 @@ namespace Collection_de_films.Actions
                 ActionDifferee action;
                 action = Pop();
                 if ( action == null )
-                {
                     continuer = false;
-                }
-                else
+               else
                     try
                     {
                         _bgw.ReportProgress( 0 );
@@ -133,6 +131,11 @@ namespace Collection_de_films.Actions
         {
             if ( _bgw != null && _bgw.IsBusy )
                 _bgw.CancelAsync();
+        }
+
+        public void Dispose()
+        {
+            _bgw?.Dispose();
         }
     }
 }

@@ -77,7 +77,7 @@ namespace Collection_de_films
             {
                 f.updateListviewItem( _instance.listViewFilms );
                 //_instance.listViewFilms.Invalidate();
-                if ( f == _instance._selected )
+                if ( f.Id == _instance._selectedId )
                     _instance.updatePanneauInfo( f );
             }
 

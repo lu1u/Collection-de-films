@@ -27,31 +27,6 @@ namespace Collection_de_films.Internet
 
         public HtmlDocument loadPage(string requete)
         {
-            /*HttpWebRequest request = (HttpWebRequest)WebRequest.Create(requete);
-            request.Method = "GET";
-            request.CookieContainer = _cookies;
-            request.Method = WebRequestMethods.Http.Get;
-            request.UserAgent = "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:19.0) Gecko/20100101 Firefox/19.0";
-            request.AllowWriteStreamBuffering = true;
-            request.ProtocolVersion = HttpVersion.Version11;
-            request.AllowAutoRedirect = true;
-            request.ContentLength = 0;
-            request.ContentType = "application/x-www-form-urlencoded";
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            // Add all the cookies
-            foreach (Cookie cookie in response.Cookies)
-                request.CookieContainer.Add(cookie);
-
-            var stream = response.GetResponseStream();
-
-            using (var reader = new StreamReader(stream))
-            {
-                string html = reader.ReadToEnd();
-                var doc = new HtmlDocument();
-                doc.LoadHtml(html);
-                return doc;
-            }*/
             HtmlWeb web = new HtmlWeb();
             web.UseCookies = true;
             web.UserAgent = "Mozilla/5.0 (Windows NT x.y; WOW64; rv:10.0) Gecko/20100101 Firefox/10.0";
@@ -59,15 +34,6 @@ namespace Collection_de_films.Internet
         }
 
 
-        static public bool OnPreRequest2(HttpWebRequest request)
-        {
-            request.CookieContainer = _cookies;
-            return true;
-        }
-        static protected void OnAfterResponse2(HttpWebRequest request, HttpWebResponse response)
-        {
-            //do nothing
-        }
 
 
 

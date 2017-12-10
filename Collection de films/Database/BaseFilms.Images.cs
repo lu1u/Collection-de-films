@@ -3,6 +3,7 @@ using System;
 using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Collection_de_films.Database
 {
@@ -32,12 +33,14 @@ namespace Collection_de_films.Database
             {
                 cmd.Parameters.AddWithValue("@id", imageId);
                 SQLiteDataReader reader = executeReader(cmd);
-                if (reader.HasRows)
+                if ( reader.HasRows )
                 {
                     // Read advances to the next row.
                     reader.Read();
-                    return Film.getImage(reader, reader.GetOrdinal(IMAGE_IMAGE));
+                    return Film.getImage( reader, reader.GetOrdinal( IMAGE_IMAGE ) );
                 }
+                else
+                    MainForm.WriteErrorToConsole( $"BaseFilms.Images: impossible de lire l'image, id={imageId}" );
             }
             return null;
         }
@@ -113,6 +116,17 @@ namespace Collection_de_films.Database
             {
                 command.Parameters.AddWithValue("@id", id);
                 executeNonQuery(command);
+            }
+        }
+
+        /// <summary>
+        /// Supprime toutes les images non referencees dans un film ou une alternative
+        /// </summary>
+        internal void supprimeImagesOrphelines()
+        {
+            using ( SQLiteCommand command = new SQLiteCommand($"delete from {TABLE_IMAGES} where ({TABLE_IMAGES}.{IMAGES_ID} not in (select {TABLE_FILMS}.{FILMS_ID} from {TABLE_FILMS})) AND({TABLE_IMAGES}.{IMAGES_ID} not in (select {TABLE_ALTERNATIVES}.{ALTERNATIVES_AFFICHE} from {TABLE_ALTERNATIVES}))") )
+            {
+                 executeNonQuery( command );
             }
         }
     }

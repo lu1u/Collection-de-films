@@ -39,9 +39,14 @@
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButtonIgnorerNouveau = new System.Windows.Forms.RadioButton();
+            this.radioButtonAjouter = new System.Windows.Forms.RadioButton();
+            this.radioButtonRemplace = new System.Windows.Forms.RadioButton();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -73,12 +78,13 @@
             this.flowLayoutPanel1.Controls.Add(this.checkBoxTagRepertoire);
             this.flowLayoutPanel1.Controls.Add(label2);
             this.flowLayoutPanel1.Controls.Add(this.textBoxEtiquettes);
-            this.flowLayoutPanel1.Controls.Add(this.buttonOK);
+            this.flowLayoutPanel1.Controls.Add(this.groupBox1);
             this.flowLayoutPanel1.Controls.Add(this.buttonCancel);
+            this.flowLayoutPanel1.Controls.Add(this.buttonOK);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 8);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(554, 143);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(554, 251);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // textBoxRepertoire
@@ -138,7 +144,7 @@
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(3, 117);
+            this.buttonOK.Location = new System.Drawing.Point(84, 223);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 7;
@@ -150,7 +156,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(84, 117);
+            this.buttonCancel.Location = new System.Drawing.Point(3, 223);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 8;
@@ -162,11 +168,57 @@
             this.folderBrowserDialog.Description = "Choisissez un répertoire";
             this.folderBrowserDialog.ShowNewFolderButton = false;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButtonRemplace);
+            this.groupBox1.Controls.Add(this.radioButtonAjouter);
+            this.groupBox1.Controls.Add(this.radioButtonIgnorerNouveau);
+            this.flowLayoutPanel1.SetFlowBreak(this.groupBox1, true);
+            this.groupBox1.Location = new System.Drawing.Point(3, 117);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(551, 100);
+            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Si le films existe déjà dans la base:";
+            // 
+            // radioButtonIgnorerNouveau
+            // 
+            this.radioButtonIgnorerNouveau.AutoSize = true;
+            this.radioButtonIgnorerNouveau.Location = new System.Drawing.Point(7, 20);
+            this.radioButtonIgnorerNouveau.Name = "radioButtonIgnorerNouveau";
+            this.radioButtonIgnorerNouveau.Size = new System.Drawing.Size(114, 17);
+            this.radioButtonIgnorerNouveau.TabIndex = 0;
+            this.radioButtonIgnorerNouveau.TabStop = true;
+            this.radioButtonIgnorerNouveau.Text = "Ignorer le nouveau";
+            this.radioButtonIgnorerNouveau.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonAjouter
+            // 
+            this.radioButtonAjouter.AutoSize = true;
+            this.radioButtonAjouter.Location = new System.Drawing.Point(7, 44);
+            this.radioButtonAjouter.Name = "radioButtonAjouter";
+            this.radioButtonAjouter.Size = new System.Drawing.Size(205, 17);
+            this.radioButtonAjouter.TabIndex = 1;
+            this.radioButtonAjouter.TabStop = true;
+            this.radioButtonAjouter.Text = "Ajouter le nouveau en plus de l\'ancien";
+            this.radioButtonAjouter.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonRemplace
+            // 
+            this.radioButtonRemplace.AutoSize = true;
+            this.radioButtonRemplace.Location = new System.Drawing.Point(7, 68);
+            this.radioButtonRemplace.Name = "radioButtonRemplace";
+            this.radioButtonRemplace.Size = new System.Drawing.Size(189, 17);
+            this.radioButtonRemplace.TabIndex = 2;
+            this.radioButtonRemplace.TabStop = true;
+            this.radioButtonRemplace.Text = "Remplacer l\'ancien par le nouveau";
+            this.radioButtonRemplace.UseVisualStyleBackColor = true;
+            // 
             // AjouteRepertoire
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(570, 159);
+            this.ClientSize = new System.Drawing.Size(570, 267);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "AjouteRepertoire";
             this.Padding = new System.Windows.Forms.Padding(8);
@@ -174,6 +226,8 @@
             this.Load += new System.EventHandler(this.onFormLoad);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -189,5 +243,9 @@
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton radioButtonRemplace;
+        private System.Windows.Forms.RadioButton radioButtonAjouter;
+        private System.Windows.Forms.RadioButton radioButtonIgnorerNouveau;
     }
 }

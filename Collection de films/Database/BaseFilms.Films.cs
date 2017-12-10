@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,6 +75,54 @@ namespace Collection_de_films.Database
             return false;
         }
 
+        /// <summary>
+        /// Retourne VRAI si le film existe deja dans la base (meme chemin)
+        /// </summary>
+        /// <param name="film"></param>
+        /// <returns></returns>
+        internal bool FilmExisteTitre(Film film)
+        {
+            using (SQLiteCommand cmd = new SQLiteCommand($"SELECT Count(*) FROM {TABLE_FILMS} WHERE {FILMS_TITRE} = @titre"))
+            {
+                cmd.Parameters.AddWithValue("@titre", film.Titre);
+                try
+                {
+                    object o = executeScalar(cmd);
+                    return (Convert.ToInt32(o) > 0);
+                }
+                catch (Exception e)
+                {
+                    MainForm.WriteExceptionToConsole(e);
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Retourne VRAI si le film existe deja dans la base (meme fichier)
+        /// </summary>
+        /// <param name="film"></param>
+        /// <returns></returns>
+        internal bool FilmExisteFichier(string chemin)
+        {
+            string nomFichier = Path.GetFileNameWithoutExtension(chemin);
+            using (SQLiteCommand cmd = new SQLiteCommand($@"SELECT Count(*) FROM {TABLE_FILMS} WHERE {FILMS_CHEMIN} LIKE '%\{nomFichier}.%'"))
+            {
+                //cmd.Parameters.AddWithValue("@chemin", Path.GetFileNameWithoutExtension(chemin));
+                try
+                {
+                    object o = executeScalar(cmd);
+                    return (Convert.ToInt32(o) > 0);
+                }
+                catch (Exception e)
+                {
+                    MainForm.WriteExceptionToConsole(e);
+                }
+            }
+
+            return false;
+        }
         async public void ajouteFilm( Film f )
         {
             using ( SQLiteCommand command = new SQLiteCommand( $"INSERT into {TABLE_FILMS} " +
@@ -125,14 +174,15 @@ namespace Collection_de_films.Database
             return nb;
         }
 
-        internal void supprimeFilm( Film film )
+        internal void supprimeFilm( int filmId )
         {
             using ( SQLiteCommand command = new SQLiteCommand( $"DELETE FROM {TABLE_FILMS} WHERE {FILMS_ID} = @id" ) )
             {
-                supprimeAlternatives( film );
-                supprimeImage( film.imageId );
-                command.Parameters.AddWithValue( "@id", film.Id );
+                supprimeAlternatives( filmId );
+                //supprimeImage( film.imageId );
+                command.Parameters.AddWithValue( "@id", filmId );
                 executeNonQuery( command );
+                supprimeImagesOrphelines();
             }
         }
 
@@ -145,9 +195,9 @@ namespace Collection_de_films.Database
                 + $" WHERE {FILMS_ID} = @id" ) )
             {
                 // Supprimer l'ancienne image du film
-                supprimeImage( film.imageId );
-                if ( film.getAffiche() != null )
-                    film.imageId = getImageId( film.imageId, film.getAffiche() );
+                //supprimeImage( film.imageId );
+                //if ( film.getAffiche() != null )
+                //    film.imageId = getImageId( film.imageId, film.getAffiche() );
 
                 command.Parameters.AddWithValue( "@id", film.Id );
                 command.Parameters.AddWithValue( "@chemin", film.Chemin );
@@ -161,7 +211,7 @@ namespace Collection_de_films.Database
                 command.Parameters.AddWithValue( "@tag", film._etiquettes );
                 command.Parameters.AddWithValue( "@affiche", film.imageId );
                 command.Parameters.AddWithValue( "@etat", film.EtatInt );
-                command.Parameters.AddWithValue( "@flags", film._flags);
+                command.Parameters.AddWithValue( "@flags", film._flags );
                 executeNonQuery( command );
 
                 sauveAlternatives( film.Id, await film.Alternatives() );
@@ -230,6 +280,52 @@ namespace Collection_de_films.Database
         {
             DeleteView( VUE_FILMS_FILTRES );
             CreateView( VUE_FILMS_FILTRES, filtre );
+        }
+
+
+        internal async Task<Film> getFilm( int id )
+        {
+            using ( SQLiteCommand cmd = new SQLiteCommand( $"SELECT * FROM {TABLE_FILMS} WHERE {FILMS_ID} = @id" ) )
+            {
+                cmd.Parameters.AddWithValue( "@id", id );
+                using ( SQLiteDataReader reader = executeReader( cmd ) )
+                {
+                    // Check is the reader has any rows at all before starting to read.
+                    if ( reader.HasRows )
+                    {
+                        // Read advances to the next row.
+                        if ( await reader.ReadAsync())
+                            return new Film( reader );
+                        else
+                            return null;
+                    }
+                    else
+                        return null;
+                }
+            }
+        }
+
+        internal async Task<Film> getFilmFichier(string chemin)
+        {
+            string nomFichier = Path.GetFileNameWithoutExtension(chemin);
+            using (SQLiteCommand cmd = new SQLiteCommand($@"SELECT * FROM {TABLE_FILMS} WHERE {FILMS_CHEMIN} LIKE '%\{nomFichier}.%'"))
+            {
+                //cmd.Parameters.AddWithValue("@titre", titre);
+                using (SQLiteDataReader reader = executeReader(cmd))
+                {
+                    // Check is the reader has any rows at all before starting to read.
+                    if (reader.HasRows)
+                    {
+                        // Read advances to the next row.
+                        if (await reader.ReadAsync())
+                            return new Film(reader);
+                        else
+                            return null;
+                    }
+                    else
+                        return null;
+                }
+            }
         }
     }
 }

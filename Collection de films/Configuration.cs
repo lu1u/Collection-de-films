@@ -19,6 +19,8 @@ namespace Collection_de_films
         private const string CONFIGURATION_IMAGES_LARGEUR_MAX = "Largeur max images";
         private const string CONFIGURATION_SUPPRIMER_AUTRES_ALTERNATIVES = "Supprimer autres alternatives";
         private const string CONFIGURATION_BASE_FILMS = "Base films";
+        private const string CONFIGURATION_DERNIER_REPERTOIRE_AJOUTE = "Dernier repertoire ajouté";
+        private const string CONFIGURATION_ACTION_SI_DUPPLIQUE = "Action si dupplique";
 
         static private Configuration _instance = new Configuration();
         private Configuration()
@@ -27,6 +29,7 @@ namespace Collection_de_films
         }
 
         private static object syncRoot = new object();
+        
         static public Configuration instance
         {
             get
@@ -80,12 +83,22 @@ namespace Collection_de_films
             set { _instance.setValue( CONFIGURATION_IMAGES_LARGEUR_MAX, value ); }
         }
 
-        
+        public string dernierRepertoireAjoute
+        {
+            get { return _instance.getStringValue(CONFIGURATION_DERNIER_REPERTOIRE_AJOUTE, ""); }
+            set { _instance.setValue(CONFIGURATION_DERNIER_REPERTOIRE_AJOUTE, value); }
+        }
+
+        public int actionSiDupplique
+        {
+            get { return _instance.getIntValue(CONFIGURATION_ACTION_SI_DUPPLIQUE, 0); }
+            set { _instance.setValue(CONFIGURATION_ACTION_SI_DUPPLIQUE, value); }
+        }
 
         public string getStringValue( string key, string defaut = "" )
         {
             string valeur = BaseConfiguration.instance.getValeurConfiguration(key);
-            if ( valeur == null )
+            if ( string.IsNullOrEmpty(valeur) )
                 valeur = defaut;
             return valeur;
         }

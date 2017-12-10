@@ -12,8 +12,7 @@ namespace Collection_de_films.Database
 
         private void CreateView( string viewName, Filtre filtre )
         {
-            string sql = "CREATE VIEW " + viewName
-                + " AS select * FROM " + filtre.table + " " + filtre.condition;
+            string sql = $"CREATE VIEW {viewName} AS select * FROM {filtre.table} {filtre.condition} {filtre.order}";
             MainForm.WriteMessageToConsole( "Création du filtre:" + sql );
             executeScalar( sql );
         }

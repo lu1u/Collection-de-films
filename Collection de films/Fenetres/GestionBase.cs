@@ -28,7 +28,7 @@ namespace Collection_de_films.Fenetres
         {
             listViewBases.Items.Clear();
             string searchPattern = $"*.{BaseFilms.EXTENSION}";
-            string[] fichiers = Directory.GetFiles(Directory.GetCurrentDirectory(), searchPattern);
+            string[] fichiers = Directory.GetFiles(BaseFilms.baseDefaultLocation(), searchPattern);
             foreach ( string fichier in fichiers )
             {
                 string nomCollection = Path.GetFileNameWithoutExtension(fichier);

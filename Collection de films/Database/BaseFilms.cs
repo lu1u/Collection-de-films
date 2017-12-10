@@ -45,7 +45,7 @@ namespace Collection_de_films.Database
 
         internal static bool Existe( string nom )
         {
-            string filePath = nom + '.' + EXTENSION;
+            string filePath = Path.Combine( baseDefaultLocation(), nom + '.' + EXTENSION);
             return File.Exists( filePath );
         }
 
@@ -53,7 +53,7 @@ namespace Collection_de_films.Database
         {
             lock ( syncRoot )
             {
-                string dbName = nom + "." + EXTENSION ;
+                string dbName = getNomBase(nom) ;
                 BaseFilms bf = new BaseFilms(dbName);
             }
         }
@@ -73,7 +73,7 @@ namespace Collection_de_films.Database
 
         internal static void supprimeCollection( string nom )
         {
-            File.Delete( getNomBase( nom ) );
+            File.Delete( Path.Combine( baseDefaultLocation(), getNomBase(nom) ));
         }
 
         public static string getNomBase( string nom )
@@ -122,7 +122,8 @@ namespace Collection_de_films.Database
         {
             dlg.pourcentage( 30 );
             // Purger les alternatives non associees a un film
-            executeScalar( "DELETE FROM " + TABLE_ALTERNATIVES + " WHERE " + ALTERNATIVES_FILMID + " NOT IN (SELECT " + FILMS_ID + " FROM " + TABLE_FILMS + ")" );
+            supprimeAlternativesOrphelines();
+            supprimeImagesOrphelines();
             dlg.pourcentage( 60 );
             // Compression de la base
             executeScalar( "VACUUM" );

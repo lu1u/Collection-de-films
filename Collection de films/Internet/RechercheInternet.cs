@@ -102,7 +102,7 @@ namespace Collection_de_films.Internet
         /// <returns></returns>
         private async Task<InfosFilm> chargePage(string requete)
         {
-            MainForm.WriteMessageToConsole("Requete " + requete);
+            MainForm.WriteMessageToConsole($"Requete {requete}");
             HtmlDocument doc = Internet.getInstance().loadPage(requete);
             if (doc == null)
             {
@@ -111,7 +111,7 @@ namespace Collection_de_films.Internet
             }
 
             InfosFilm info = new InfosFilm();
-            info._realisateur = cumuleExtract(doc, xpathRealisateur); MainForm.WriteMessageToConsole("Acteurs: " + info._realisateur);
+            info._realisateur = cumuleExtract(doc, xpathRealisateur); MainForm.WriteMessageToConsole($"Réalisateur: {info._realisateur}");
             info._acteurs = cumuleExtract(doc, xpathActeurs); MainForm.WriteMessageToConsole("Acteurs: " + info._acteurs);
             info._genres = cumuleExtract(doc, xpathGenres); MainForm.WriteMessageToConsole("Genres: " + info._genres);
             info._nationalite = cumuleExtract(doc, xpathNationalite); MainForm.WriteMessageToConsole("Nationalite: " + info._nationalite);

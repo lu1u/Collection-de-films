@@ -83,15 +83,17 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.détailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.consoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBoxFiltre = new System.Windows.Forms.ToolStripTextBox();
             this.effacerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem18 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripStatusLabelFichiersACopier = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelNbFilmsBD = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelNbAffiches = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabelFichiersACopier = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsProgressbarCopieEnCours = new System.Windows.Forms.ToolStripProgressBar();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -122,6 +124,7 @@
             this.labelKeyEtiquettes = new System.Windows.Forms.Label();
             this.linkLabelEtiquettes = new System.Windows.Forms.LinkLabel();
             this.labelResume = new System.Windows.Forms.Label();
+            this.buttonSupprimerAlternatives = new System.Windows.Forms.Button();
             this.tabpageAlternatives = new System.Windows.Forms.TabPage();
             this.label7 = new System.Windows.Forms.Label();
             this.listViewAlternatives = new System.Windows.Forms.ListView();
@@ -287,7 +290,6 @@
             // 
             menuStrip1.AutoSize = false;
             menuStrip1.BackColor = System.Drawing.Color.DarkRed;
-            menuStrip1.BackgroundImage = global::Collection_de_films.Properties.Resources.fondtoolbar;
             menuStrip1.ImageScalingSize = new System.Drawing.Size(48, 48);
             menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             logoToolStripMenuItem,
@@ -476,7 +478,9 @@
             // 
             vueToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.détailToolStripMenuItem,
-            this.imagesToolStripMenuItem});
+            this.imagesToolStripMenuItem,
+            this.toolStripSeparator8,
+            this.consoleToolStripMenuItem});
             vueToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             vueToolStripMenuItem.Image = global::Collection_de_films.Properties.Resources.vues;
             vueToolStripMenuItem.Name = "vueToolStripMenuItem";
@@ -487,7 +491,7 @@
             // 
             this.détailToolStripMenuItem.Image = global::Collection_de_films.Properties.Resources.vuedetails;
             this.détailToolStripMenuItem.Name = "détailToolStripMenuItem";
-            this.détailToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.détailToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.détailToolStripMenuItem.Text = "Détail";
             this.détailToolStripMenuItem.Click += new System.EventHandler(this.onClickMenuVueDetails);
             // 
@@ -495,9 +499,22 @@
             // 
             this.imagesToolStripMenuItem.Image = global::Collection_de_films.Properties.Resources.vuelarge;
             this.imagesToolStripMenuItem.Name = "imagesToolStripMenuItem";
-            this.imagesToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.imagesToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.imagesToolStripMenuItem.Text = "Images";
             this.imagesToolStripMenuItem.Click += new System.EventHandler(this.onclickMenuVueLarge);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(114, 6);
+            // 
+            // consoleToolStripMenuItem
+            // 
+            this.consoleToolStripMenuItem.Checked = true;
+            this.consoleToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.consoleToolStripMenuItem.Name = "consoleToolStripMenuItem";
+            this.consoleToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.consoleToolStripMenuItem.Text = "Console";
             // 
             // toolStripMenuItem1
             // 
@@ -649,13 +666,6 @@
             configurationToolStripMenuItem.Text = "Configuration";
             configurationToolStripMenuItem.Click += new System.EventHandler(this.onClickConfiguration);
             // 
-            // toolStripStatusLabelFichiersACopier
-            // 
-            this.toolStripStatusLabelFichiersACopier.Name = "toolStripStatusLabelFichiersACopier";
-            this.toolStripStatusLabelFichiersACopier.Size = new System.Drawing.Size(95, 17);
-            this.toolStripStatusLabelFichiersACopier.Text = "Fichiers a copier:";
-            this.toolStripStatusLabelFichiersACopier.Visible = false;
-            // 
             // statusStrip1
             // 
             statusStrip1.BackColor = System.Drawing.SystemColors.Control;
@@ -694,6 +704,13 @@
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
             this.toolStripStatusLabel.Size = new System.Drawing.Size(90, 17);
             this.toolStripStatusLabel.Text = "Films à traiter: 0";
+            // 
+            // toolStripStatusLabelFichiersACopier
+            // 
+            this.toolStripStatusLabelFichiersACopier.Name = "toolStripStatusLabelFichiersACopier";
+            this.toolStripStatusLabelFichiersACopier.Size = new System.Drawing.Size(95, 17);
+            this.toolStripStatusLabelFichiersACopier.Text = "Fichiers a copier:";
+            this.toolStripStatusLabelFichiersACopier.Visible = false;
             // 
             // tsProgressbarCopieEnCours
             // 
@@ -851,7 +868,7 @@
             this.tabControlAlternatives.Location = new System.Drawing.Point(0, 64);
             this.tabControlAlternatives.Name = "tabControlAlternatives";
             this.tabControlAlternatives.SelectedIndex = 0;
-            this.tabControlAlternatives.Size = new System.Drawing.Size(410, 479);
+            this.tabControlAlternatives.Size = new System.Drawing.Size(390, 479);
             this.tabControlAlternatives.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControlAlternatives.TabIndex = 0;
             // 
@@ -861,7 +878,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(402, 453);
+            this.tabPage1.Size = new System.Drawing.Size(382, 453);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Film";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -875,10 +892,11 @@
             this.flowLayoutPanelInfosFilm.Controls.Add(this.pictureBoxAffiche);
             this.flowLayoutPanelInfosFilm.Controls.Add(this.flowLayoutPanelInfos);
             this.flowLayoutPanelInfosFilm.Controls.Add(this.labelResume);
+            this.flowLayoutPanelInfosFilm.Controls.Add(this.buttonSupprimerAlternatives);
             this.flowLayoutPanelInfosFilm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelInfosFilm.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanelInfosFilm.Name = "flowLayoutPanelInfosFilm";
-            this.flowLayoutPanelInfosFilm.Size = new System.Drawing.Size(396, 447);
+            this.flowLayoutPanelInfosFilm.Size = new System.Drawing.Size(376, 447);
             this.flowLayoutPanelInfosFilm.TabIndex = 7;
             // 
             // flowLayoutPanelPasTrouve
@@ -1090,6 +1108,16 @@
             this.labelResume.TabIndex = 32;
             this.labelResume.Text = "label1";
             // 
+            // buttonSupprimerAlternatives
+            // 
+            this.buttonSupprimerAlternatives.Location = new System.Drawing.Point(3, 217);
+            this.buttonSupprimerAlternatives.Name = "buttonSupprimerAlternatives";
+            this.buttonSupprimerAlternatives.Size = new System.Drawing.Size(236, 23);
+            this.buttonSupprimerAlternatives.TabIndex = 8;
+            this.buttonSupprimerAlternatives.Text = "Supprimer les autres alternatives";
+            this.buttonSupprimerAlternatives.UseVisualStyleBackColor = true;
+            this.buttonSupprimerAlternatives.Click += new System.EventHandler(this.onClickSupprimerAlternatives);
+            // 
             // tabpageAlternatives
             // 
             this.tabpageAlternatives.AccessibleName = "tabAlternatives";
@@ -1098,7 +1126,7 @@
             this.tabpageAlternatives.Location = new System.Drawing.Point(4, 22);
             this.tabpageAlternatives.Name = "tabpageAlternatives";
             this.tabpageAlternatives.Padding = new System.Windows.Forms.Padding(3);
-            this.tabpageAlternatives.Size = new System.Drawing.Size(402, 453);
+            this.tabpageAlternatives.Size = new System.Drawing.Size(382, 453);
             this.tabpageAlternatives.TabIndex = 1;
             this.tabpageAlternatives.Text = "Alternatives";
             this.tabpageAlternatives.UseVisualStyleBackColor = true;
@@ -1109,7 +1137,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.Location = new System.Drawing.Point(0, 3);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(402, 26);
+            this.label7.Size = new System.Drawing.Size(382, 26);
             this.label7.TabIndex = 2;
             this.label7.Text = "Plusieurs alternatives ont été trouvées pour ce film, veuillez choisir celle qui " +
     "correspond le mieux en double-cliquant sur la ligne";
@@ -1134,7 +1162,7 @@
             this.listViewAlternatives.Name = "listViewAlternatives";
             this.listViewAlternatives.ShowGroups = false;
             this.listViewAlternatives.ShowItemToolTips = true;
-            this.listViewAlternatives.Size = new System.Drawing.Size(393, 428);
+            this.listViewAlternatives.Size = new System.Drawing.Size(373, 428);
             this.listViewAlternatives.SmallImageList = this.imageListAlternatives;
             this.listViewAlternatives.TabIndex = 7;
             this.listViewAlternatives.UseCompatibleStateImageBehavior = false;
@@ -1427,6 +1455,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem copierSurToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem usbToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripMenuItem consoleToolStripMenuItem;
+        private System.Windows.Forms.Button buttonSupprimerAlternatives;
     }
 }
 

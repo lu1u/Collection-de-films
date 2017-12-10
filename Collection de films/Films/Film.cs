@@ -14,23 +14,31 @@ namespace Collection_de_films.Films
 {
     public class Film
     {
+        #region Public Fields
+
         // Masque de bits
         public const int FLAG_A_VOIR = 1;
-
         public const int FLAG_VU = 2;
 
         public string _etiquettes = "";
         public int _flags;
         public string _titre = "";
+
+        #endregion Public Fields
+
+        #region Private Fields
+
         private List<InfosFilm> _alternatives;
         private string _chemin;
         private ETAT _etat;
         private int _id;
         private InfosFilm _infos = new InfosFilm();
 
-        private ListViewItem _lvItem;
+        //private ListViewItem _lvItem;
 
-        private int _nbAlternatives;
+        #endregion Private Fields
+
+        #region Public Constructors
 
         public Film( string fichier, string etiquettes = "" )
         {
@@ -59,11 +67,13 @@ namespace Collection_de_films.Films
             _etiquettes = reader.GetString( reader.GetOrdinal( BaseFilms.FILMS_TAG ) );
             _etat = intToEtat( reader.GetInt32( reader.GetOrdinal( BaseFilms.FILMS_ETAT ) ) );
 
-            _nbAlternatives = BaseFilms.instance.getNbAlternatives( _id );
-
             if ( _infos._imageId == -1 || _infos._resume == null || "".Equals( _infos._resume ) )
                 choisiMeilleureAlternative();
         }
+
+        #endregion Public Constructors
+
+        #region Public Enums
 
         public enum ETAT
         {
@@ -75,7 +85,11 @@ namespace Collection_de_films.Films
             DANS_LA_QUEUE // film mis dans la queue de traitement
         };
 
+        #endregion Public Enums
 
+
+
+        #region Public Methods
 
         /// <summary>
         /// Chargement des donnees du film depuis une page internet
@@ -91,7 +105,7 @@ namespace Collection_de_films.Films
                 Etat = ETAT.RECHERCHE;
                 bool arretPremier = Configuration.arretRecherchePremier;
                 _alternatives?.Clear();
-                BaseFilms.instance.supprimeAlternatives( this );
+                BaseFilms.instance.supprimeAlternatives( _id );
 
                 List<RechercheInternet> recherches = BaseConfiguration.instance.getListeRechercheInternet();
 
@@ -99,10 +113,10 @@ namespace Collection_de_films.Films
                 {
                     foreach ( RechercheInternet r in recherches )
                     {
-                        List<InfosFilm> i = await r.rechercheInternet( this );
-                        if ( i != null )
+                        List<InfosFilm> info = await r.rechercheInternet( this );
+                        if ( info != null )
                         {
-                            liste.AddRange( i );
+                            liste.AddRange( info );
                             if ( arretPremier )
                                 break;
                         }
@@ -115,6 +129,7 @@ namespace Collection_de_films.Films
             {
                 MainForm.WriteExceptionToConsole( e );
             }
+
 
             switch ( liste.Count )
             {
@@ -136,6 +151,12 @@ namespace Collection_de_films.Films
 
             BaseFilms.instance.update( this );
             updateListView();
+        }
+
+        internal static bool fichierSupporte(string fichier)
+        {
+            string ext = new FileInfo(fichier).Extension.ToLower();
+            return ".avi".Equals(ext) || ".mkv".Equals(ext) || ".mpg".Equals(ext) || ".mp4".Equals(ext);
         }
 
         /// <summary>
@@ -160,10 +181,9 @@ namespace Collection_de_films.Films
                 else
                 {
                     _alternatives?.Clear();
-                    BaseFilms.instance.supprimeAlternatives( this );
+                    BaseFilms.instance.supprimeAlternatives( _id );
                     liste = await recherche.rechercheInternet( this );
                 }
-
 
                 switch ( liste.Count )
                 {
@@ -182,36 +202,154 @@ namespace Collection_de_films.Films
                         choisiMeilleureAlternative();
                         break;
                 }
+                BaseFilms.instance.update( this );
             }
             catch ( Exception e )
             {
                 MainForm.WriteExceptionToConsole( e );
             }
-
-            BaseFilms.instance.update( this );
             updateListView();
         }
 
         public ListViewItem getListviewItem( ListView lv )
         {
-            if ( _lvItem == null )
+
+            ListViewItem lvItem = new ListViewItem();
+            lvItem.Text = Titre;
+            lvItem.SubItems.Add( Resume ).BackColor = Color.WhiteSmoke;
+            lvItem.SubItems.Add( toTexte( Vu ) ).BackColor = Color.White;
+            lvItem.SubItems.Add( toTexte( aVoir ) ).BackColor = Color.WhiteSmoke;
+            lvItem.SubItems.Add( separe( Genres ) ).BackColor = Color.White;
+            lvItem.SubItems.Add( separe( Realisateur ) ).BackColor = Color.WhiteSmoke;
+            lvItem.SubItems.Add( separe( Acteurs ) ).BackColor = Color.White;
+            lvItem.SubItems.Add( DateSortie ).BackColor = Color.WhiteSmoke;
+            lvItem.SubItems.Add( _etiquettes ).BackColor = Color.White;
+            lvItem.ToolTipText = Tooltip();
+            lvItem.Tag = _id;
+
+            return lvItem;
+        }
+
+        /// <summary>
+        /// Choisir une des alternative des informations du films
+        /// </summary>
+        /// <param name="indiceAlternative"></param>
+        public async void setAlternative( int indiceAlternative )
+        {
+            BaseFilms baseFilms = BaseFilms.instance;
+            List<InfosFilm> alternatives = await Alternatives();
+            if ( alternatives == null )
+                return;
+            if ( indiceAlternative < 0 || indiceAlternative >= alternatives.Count )
+                return;
+
+            _infos = alternatives[indiceAlternative];
+            MainForm.WriteMessageToConsole( "Choix d'une alternative pour " + _titre );
+
+            MainForm.WriteMessageToConsole( "Réalisateur " + Realisateur );
+            MainForm.WriteMessageToConsole( "Date sortie " + DateSortie );
+
+            _etat = ETAT.OK;
+            baseFilms.update( this );
+            if ( Configuration.supprimerAutresAlternatives )
             {
-                _lvItem = new ListViewItem();
-                _lvItem.Text = Titre;
-                _lvItem.SubItems.Add( Resume ).BackColor = Color.WhiteSmoke;
-                _lvItem.SubItems.Add( toTexte( Vu ) ).BackColor = Color.White;
-                _lvItem.SubItems.Add( toTexte( aVoir ) ).BackColor = Color.WhiteSmoke;
-                _lvItem.SubItems.Add( separe( Genres ) ).BackColor = Color.White;
-                _lvItem.SubItems.Add( separe( Realisateur ) ).BackColor = Color.WhiteSmoke;
-                _lvItem.SubItems.Add( separe( Acteurs ) ).BackColor = Color.White;
-                _lvItem.SubItems.Add( DateSortie ).BackColor = Color.WhiteSmoke;
-                _lvItem.SubItems.Add( _etiquettes ).BackColor = Color.White;
-                _lvItem.ToolTipText = Tooltip();
-                _lvItem.Tag = this;
+                MainForm.WriteMessageToConsole( "Suppression des autres alternatives" );
+                baseFilms.supprimeAlternatives( _id );
+            }
+            MainForm.update( this );
+        }
+
+        public bool setInfos( List<InfosFilm> infos )
+        {
+            if ( infos?.Count > 0 )
+            {
+                MainForm.WriteMessageToConsole( "Informations trouvées" );
+                if ( _alternatives == null )
+                    _alternatives = infos;
+                else
+                    _alternatives.AddRange( infos );
+                return true;
             }
 
-            return _lvItem;
+            MainForm.WriteMessageToConsole( "Pas d'information trouvée" );
+            return false;
         }
+
+        public void updateListviewItem( ListView lv )
+        {
+            ListViewItem lvItem = getListviewItem(lv);
+            int index = -1;
+            for ( int i = 0; i < lv.Items.Count; i++ )
+                if ( (int) lv.Items[i].Tag == (int) lvItem.Tag )
+                {
+                    index = i;
+                    break;
+                }
+
+            if ( index != -1 )
+            {
+                lv.Items[index] = lvItem;
+                lv.EnsureVisible( index );
+                lv.Invalidate( lv.GetItemRect( index ) );
+            }
+        }
+
+        #endregion Public Methods
+
+        #region Internal Methods
+
+        internal Image getAffiche()
+        {
+            return _infos.affiche;
+        }
+
+        internal byte[] getAfficheBytes()
+        {
+            Image image = getAffiche();
+            if ( image == null )
+                return null;
+            return Images.imageToByteArray( image );
+        }
+
+        internal string getTextEtat()
+        {
+            switch ( _etat )
+            {
+                case ETAT.NOUVEAU:
+                    return "Nouveau film, les informations n'ont pas encore été cherchées sur Internet";
+
+                case ETAT.OK:
+                    return "Les informations de ce film ont été correctement trouvées sur Internet";
+
+                case ETAT.PAS_TROUVE:
+                    return "Ce film n'a pas été trouvé sur Internet, essayez de modifier le film et de relancer la recherche";
+
+                case ETAT.RECHERCHE:
+                    return "Recherche en cours";
+
+                case ETAT.DANS_LA_QUEUE:
+                    return "Le film est en attente de traitement";
+
+                case ETAT.ALTERNATIVES:
+                    return "Plusieurs alternatives ont été trouvées pour ce film";
+
+                default:
+                    return "Etat inconnu";
+            }
+        }
+
+        internal void supprimeAlternatives()
+        {
+            BaseFilms baseFilms = BaseFilms.instance;
+            MainForm.WriteMessageToConsole( "Suppression des autres alternatives" );
+            baseFilms.supprimeAlternatives( _id );
+            _alternatives = null;
+            MainForm.update( this );
+        }
+
+        #endregion Internal Methods
+
+        #region Private Methods
 
         /// <summary>
         /// Separe des elements codes dans une meme chaine et retourne une forme plus lisible
@@ -236,106 +374,9 @@ namespace Collection_de_films.Films
             return ouiNon ? "Oui" : "Non";
         }
 
-        /// <summary>
-        /// Choisir une des alternative des informations du films
-        /// </summary>
-        /// <param name="indiceAlternative"></param>
-        public void setAlternative( int indiceAlternative )
-        {
-            BaseFilms baseFilms = BaseFilms.instance;
-            if ( _alternatives == null )
-                return;
-            Stopwatch sw = new Stopwatch();
-            TimeSpan ts;
-            if ( indiceAlternative < 0 || indiceAlternative >= _alternatives.Count )
-                return;
-
-            _infos = _alternatives[indiceAlternative];
-            MainForm.WriteMessageToConsole( "Choix d'une alternative pour " + _titre );
-            if ( Configuration.supprimerAutresAlternatives )
-            {
-                sw.Start();
-                MainForm.WriteMessageToConsole( "Suppression des autres alternatives" );
-                baseFilms.supprimeAlternatives( this );
-                sw.Stop();
-                ts = sw.Elapsed;
-                MainForm.WriteMessageToConsole( $"Supprimer alternatives: {ts.Seconds}:{ts.Milliseconds}" );
-            }
-
-
-            MainForm.WriteMessageToConsole( "Réalisateur " + Realisateur );
-            MainForm.WriteMessageToConsole( "Date sortie " + DateSortie );
-
-            _etat = ETAT.OK;
-            sw = new Stopwatch();
-            sw.Start();
-            baseFilms.update( this );
-            sw.Stop();
-            ts = sw.Elapsed;
-            MainForm.WriteMessageToConsole( $"Update base: {ts.Seconds}:{ts.Milliseconds}" );
-
-            sw = new Stopwatch();
-            sw.Start();
-            MainForm.update( this );
-            sw.Stop();
-            ts = sw.Elapsed;
-            MainForm.WriteMessageToConsole( $"Update liste: {ts.Seconds}:{ts.Milliseconds}" );
-        }
-
-        public bool setInfos( List<InfosFilm> infos )
-        {
-            if ( infos?.Count > 0 )
-            {
-                MainForm.WriteMessageToConsole( "Informations trouvées" );
-                if ( _alternatives == null )
-                    _alternatives = infos;
-                else
-                    _alternatives.AddRange( infos );
-                return true;
-            }
-
-            MainForm.WriteMessageToConsole( "Pas d'information trouvée" );
-            return false;
-        }
-
-        public void updateListviewItem( ListView lv )
-        {
-            if ( _lvItem == null )
-                _lvItem = new ListViewItem();
-            while ( _lvItem.SubItems.Count < 9 )
-                _lvItem.SubItems.Add( "" );
-
-            _lvItem.Text = _titre;
-            _lvItem.SubItems[1].Text = Resume;
-            _lvItem.SubItems[2].Text = toTexte( Vu );
-            _lvItem.SubItems[3].Text = toTexte( aVoir );
-            _lvItem.SubItems[4].Text = separe( Genres );
-            _lvItem.SubItems[5].Text = separe( Realisateur );
-            _lvItem.SubItems[6].Text = separe( Acteurs );
-            _lvItem.SubItems[7].Text = DateSortie;
-            _lvItem.SubItems[8].Text = _etiquettes;
-
-            _lvItem.ToolTipText = Tooltip();
-
-            int index = lv.Items.IndexOf(_lvItem);
-            if ( index != -1 )
-            {
-                lv.EnsureVisible( index );
-                lv.Invalidate( lv.GetItemRect( index ) );
-            }
-        }
+        #endregion Private Methods
 
         #region proprietes
-
-        async public Task<List<InfosFilm>> Alternatives()
-        {
-            if ( _alternatives == null )
-            {
-                _alternatives = BaseFilms.instance.getAlternatives( _id );
-            }
-
-            return _alternatives;
-        }
 
         public bool aVoir
         {
@@ -355,8 +396,7 @@ namespace Collection_de_films.Films
             set
             {
                 _etat = value;
-                if ( _lvItem != null )
-                    MainForm.update( this );
+                MainForm.update( this );
             }
         }
 
@@ -380,7 +420,7 @@ namespace Collection_de_films.Films
 
         public int NbAlternatives
         {
-            get { return _nbAlternatives; }
+            get { if ( _alternatives != null ) return _alternatives.Count; else return 0; }
         }
 
         public bool Vu
@@ -394,6 +434,7 @@ namespace Collection_de_films.Films
                     _flags &= ~FLAG_VU;
             }
         }
+
         internal string Acteurs
         {
             get { return _infos._acteurs; }
@@ -409,6 +450,7 @@ namespace Collection_de_films.Films
         internal string Chemin
         {
             get { return _chemin; }
+            set { _chemin = value; }
         }
 
         internal string DateSortie
@@ -473,12 +515,12 @@ namespace Collection_de_films.Films
             try
             {
                 Stream picData = reader.GetStream(afficheIndex);
-
-                if ( picData != null )
-                    return new Bitmap( picData );
+                return new Bitmap( picData );
             }
-            catch ( Exception )
+            catch ( Exception e )
             {
+                MainForm.WriteErrorToConsole( "Film.getImage: impossible de lire l'image" );
+                MainForm.WriteExceptionToConsole( e );
             }
 
             return null;
@@ -499,6 +541,15 @@ namespace Collection_de_films.Films
             }
         }
 
+        async public Task<List<InfosFilm>> Alternatives()
+        {
+            if ( _alternatives == null )
+            {
+                _alternatives = await BaseFilms.instance.getAlternatives( _id );
+            }
+
+            return _alternatives;
+        }
         /// <summary>
         /// Retourne une image pour representer le film dans la liste "Grande icones", son affiche si possible
         /// </summary>
@@ -668,18 +719,6 @@ namespace Collection_de_films.Films
 
             return Images.zoomImage( image, bounds );
         }
-        internal ListViewItem getLVItem()
-        {
-            if ( _lvItem == null )
-            {
-            }
-            return _lvItem;
-        }
-
-        internal void setLVItem( ListViewItem item )
-        {
-            _lvItem = item;
-        }
 
         /// <summary>
         /// Calcul le texte du tooltip
@@ -711,95 +750,6 @@ namespace Collection_de_films.Films
         }
 
         #endregion proprietes
-
-        internal Image getAffiche()
-        {
-            if ( _infos == null )
-                return null;
-
-            if ( _infos.affiche != null )
-                return _infos.affiche;
-
-            if ( _infos._imageId == -1 )
-                return null;
-
-            _infos.affiche = BaseFilms.instance.getImage( _infos._imageId );
-            return _infos.affiche;
-        }
-
-        internal byte[] getAfficheBytes()
-        {
-            if ( _etat != ETAT.OK )
-                return null;
-
-            Image image = getAffiche();
-            return Images.imageToByteArray( image );
-        }
-        internal string getTextEtat()
-        {
-            switch ( _etat )
-            {
-                case ETAT.NOUVEAU:
-                    return "Nouveau film, les informations n'ont pas encore été cherchées sur Internet";
-
-                case ETAT.OK:
-                    return "Les informations de ce film ont été correctement trouvées sur Internet";
-
-                case ETAT.PAS_TROUVE:
-                    return "Ce film n'a pas été trouvé sur Internet, essayez de modifier le film et de relancer la recherche";
-
-                case ETAT.RECHERCHE:
-                    return "Recherche en cours";
-
-                case ETAT.DANS_LA_QUEUE:
-                    return "Le film est en attente de traitement";
-
-                case ETAT.ALTERNATIVES:
-                    return "Plusieurs alternatives ont été trouvées pour ce film";
-
-                default:
-                    return "Etat inconnu";
-            }
-        }
-
-
-        private void updateListView()
-        {
-            MainForm.update( this );
-        }
-
-
-        /// <summary>
-        /// Choisi automatiquement la meilleure alternative pour un film:
-        /// - un point par information
-        /// - 5 points pour un resumé ou une affiche
-        /// </summary>
-        async private void choisiMeilleureAlternative()
-        {
-            List<InfosFilm> alternatives = await Alternatives();
-            int meilleurScore = -1;
-            InfosFilm meilleure = null;
-            foreach ( InfosFilm info in alternatives )
-            {
-                int score = calculScore(info);
-                if ( score > meilleurScore )
-                {
-                    meilleurScore = score;
-                    meilleure = info;
-                }
-            }
-
-            if ( meilleure != null )
-            {
-                int scoreActuel = calculScore(_infos);
-                if ( scoreActuel < meilleurScore )
-                {
-                    _infos = meilleure;
-                    _infos._imageId = meilleure._imageId;
-                }
-            }
-        }
-
         /// <summary>
         /// Calcule un score de qualite pour une InfoFilm
         /// </summary>
@@ -827,6 +777,39 @@ namespace Collection_de_films.Films
             if ( info._imageId != -1 )
                 score += 5;
             return score;
+        }
+
+        /// <summary>
+        /// Choisi automatiquement la meilleure alternative pour un film:
+        /// - un point par information
+        /// - 5 points pour un resumé ou une affiche
+        /// </summary>
+        async private void choisiMeilleureAlternative()
+        {
+            List<InfosFilm> alternatives = await Alternatives();
+            int meilleurScore = -1;
+            InfosFilm meilleure = null;
+            foreach ( InfosFilm info in alternatives )
+            {
+                int score = calculScore(info);
+                if ( score > meilleurScore )
+                {
+                    meilleurScore = score;
+                    meilleure = info;
+                }
+            }
+
+            if ( meilleure != null )
+            {
+                //int scoreActuel = calculScore(_infos);
+                //if ( scoreActuel < meilleurScore )
+                _infos.copie( meilleure );
+            }
+        }
+
+        private void updateListView()
+        {
+            MainForm.update( this );
         }
     }
 }

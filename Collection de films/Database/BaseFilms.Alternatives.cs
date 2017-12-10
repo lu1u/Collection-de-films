@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Threading.Tasks;
 
 namespace Collection_de_films.Database
 {
@@ -22,7 +23,7 @@ namespace Collection_de_films.Database
 
         private void creerTableAlternatives()
         {
-            executeNonQuery($"CREATE TABLE {TABLE_ALTERNATIVES} "
+            executeNonQuery( $"CREATE TABLE {TABLE_ALTERNATIVES} "
                 + $" ({ALTERNATIVES_FILMID} INTEGER REFERENCES {TABLE_FILMS}([{FILMS_ID}]),"
                 + $" {ALTERNATIVES_REALISATEUR} TEXT NOT NULL,"
                 + $" {ALTERNATIVES_ACTEURS} TEXT NOT NULL,"
@@ -31,63 +32,63 @@ namespace Collection_de_films.Database
                 + $" {ALTERNATIVES_RESUME} NOT NULL,"
                 + $" {ALTERNATIVES_DATESORTIE} TEXT NOT NULL,"
                 + $" {ALTERNATIVES_AFFICHE} INTEGER REFERENCES {TABLE_IMAGES}([{IMAGES_ID}]) "
-                + " );");
+                + " );" );
         }
 
-        private void sauveAlternatives(int id, List<InfosFilm> alternatives)
+        public void sauveAlternatives( int id, List<InfosFilm> alternatives )
         {
-            using (SQLiteCommand command = new SQLiteCommand($"DELETE FROM {TABLE_ALTERNATIVES} WHERE {ALTERNATIVES_FILMID} = @id"))
+            using ( SQLiteCommand command = new SQLiteCommand( $"DELETE FROM {TABLE_ALTERNATIVES} WHERE {ALTERNATIVES_FILMID} = @id" ) )
             {
-                command.Parameters.AddWithValue("@id", id);
-                executeNonQuery(command);
+                command.Parameters.AddWithValue( "@id", id );
+                executeNonQuery( command );
             }
 
             // Ajouter les nouvelles alternatives, associees au film dont on donne l'id
-            if (alternatives != null)
-                foreach (InfosFilm alternative in alternatives)
-                    using (SQLiteCommand command = new SQLiteCommand($"INSERT into {TABLE_ALTERNATIVES} " +
+            if ( alternatives != null )
+                foreach ( InfosFilm alternative in alternatives )
+                    using ( SQLiteCommand command = new SQLiteCommand( $"INSERT into {TABLE_ALTERNATIVES} " +
                                 $"({ALTERNATIVES_FILMID}, {ALTERNATIVES_REALISATEUR}, {ALTERNATIVES_ACTEURS}, {ALTERNATIVES_GENRES}, {ALTERNATIVES_NATIONALITE}, {ALTERNATIVES_RESUME}, {ALTERNATIVES_DATESORTIE}, {ALTERNATIVES_AFFICHE})"
-                            + " VALUES (@id, @realisateur, @acteurs, @genres, @nationalite, @resume, @datesortie, @affiche)"))
+                            + " VALUES (@id, @realisateur, @acteurs, @genres, @nationalite, @resume, @datesortie, @affiche)" ) )
                     {
-                        alternative._imageId = getImageId( alternative._imageId, alternative.affiche);
+                        alternative._imageId = getImageId( alternative._imageId, alternative.affiche );
 
-                        command.Parameters.AddWithValue("@id", id);
-                        command.Parameters.AddWithValue("@realisateur", alternative._realisateur);
-                        command.Parameters.AddWithValue("@acteurs", alternative._acteurs);
-                        command.Parameters.AddWithValue("@genres", alternative._genres);
-                        command.Parameters.AddWithValue("@nationalite", alternative._nationalite);
-                        command.Parameters.AddWithValue("@datesortie", alternative._dateSortie);
-                        command.Parameters.AddWithValue("@resume", alternative._resume);
-                        command.Parameters.AddWithValue("@affiche", alternative._imageId);           
-                        executeNonQuery(command);
+                        command.Parameters.AddWithValue( "@id", id );
+                        command.Parameters.AddWithValue( "@realisateur", alternative._realisateur );
+                        command.Parameters.AddWithValue( "@acteurs", alternative._acteurs );
+                        command.Parameters.AddWithValue( "@genres", alternative._genres );
+                        command.Parameters.AddWithValue( "@nationalite", alternative._nationalite );
+                        command.Parameters.AddWithValue( "@datesortie", alternative._dateSortie );
+                        command.Parameters.AddWithValue( "@resume", alternative._resume );
+                        command.Parameters.AddWithValue( "@affiche", alternative._imageId );
+                        executeNonQuery( command );
                     }
         }
 
 
-        internal int getNbAlternatives(int id)
+        internal int getNbAlternatives( int id )
         {
-            using (SQLiteCommand command = new SQLiteCommand("SELECT COUNT(*) FROM ALTERNATIVES WHERE FilmId = @id"))
+            using ( SQLiteCommand command = new SQLiteCommand( "SELECT COUNT(*) FROM ALTERNATIVES WHERE FilmId = @id" ) )
             {
 
-                command.Parameters.AddWithValue("@id", id);
-                return Convert.ToInt32(executeScalar(command));
+                command.Parameters.AddWithValue( "@id", id );
+                return Convert.ToInt32( executeScalar( command ) );
             }
         }
 
-        public List<InfosFilm> getAlternatives(int id)
+        public async Task<List<InfosFilm>> getAlternatives( int id )
         {
             List<InfosFilm> result = new List<InfosFilm>();
-            using (SQLiteCommand command = new SQLiteCommand("SELECT * FROM ALTERNATIVES WHERE FilmId = @id"))
+            using ( SQLiteCommand command = new SQLiteCommand( "SELECT * FROM ALTERNATIVES WHERE FilmId = @id" ) )
             {
-                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue( "@id", id );
 
-                using (SQLiteDataReader reader = executeReader(command))
-                    if (reader.HasRows)
+                using ( SQLiteDataReader reader = executeReader( command ) )
+                    if ( reader.HasRows )
                     {
                         // Read advances to the next row.
-                        while (reader.Read())
+                        while ( reader.Read() )
                         {
-                            result.Add(new InfosFilm(reader));
+                            result.Add( new InfosFilm( reader ) );
                         }
                     }
             }
@@ -95,22 +96,29 @@ namespace Collection_de_films.Database
         }
 
 
-        public void supprimeAlternatives(Film film)
+        /// <summary>
+        /// Supprime les alternatives d'un film
+        /// </summary>
+        /// <param name="film"></param>
+        public void supprimeAlternatives( int filmId )
         {
-            using (SQLiteCommand command = new SQLiteCommand("DELETE FROM " + TABLE_ALTERNATIVES + " WHERE " + ALTERNATIVES_FILMID + " = @id"))
+            // Supprimer les alternatives
+            using ( SQLiteCommand command = new SQLiteCommand( $"DELETE FROM {TABLE_ALTERNATIVES} WHERE {ALTERNATIVES_FILMID} = @id" ) )
             {
-                command.Parameters.AddWithValue("@id", film.Id);
-                executeNonQuery(command);
+                command.Parameters.AddWithValue( "@id", filmId );
+                executeNonQuery( command );
             }
+
+            supprimeImagesOrphelines();
         }
+
+
 
         public void supprimeAlternativesOrphelines()
         {
-            using (SQLiteCommand command = new SQLiteCommand("DELETE FROM " + TABLE_ALTERNATIVES
-                + " WHERE " + ALTERNATIVES_FILMID
-                + " not in ( SELECT " + FILMS_ID + " FROM " + TABLE_FILMS + ")"))
+            using ( SQLiteCommand command = new SQLiteCommand( $"DELETE FROM {TABLE_ALTERNATIVES} WHERE  {TABLE_ALTERNATIVES}.{ALTERNATIVES_FILMID} not in ( SELECT {TABLE_FILMS}.{FILMS_ID} FROM {TABLE_FILMS}" ) )
             {
-                executeNonQuery(command);
+                executeNonQuery( command );
             }
         }
     }

@@ -15,6 +15,7 @@ namespace Collection_de_films
         string _recherche = "";
         STYLE_RECHERCHE _style;
         string _condition = "";
+        internal string order => "order by titre COLLATE NOCASE ASC";
 
         public Filtre()
         {

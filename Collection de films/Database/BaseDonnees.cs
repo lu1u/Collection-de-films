@@ -16,10 +16,19 @@ namespace Collection_de_films.Database
         protected string _dbPath ;
         protected BaseDonnees(string dbPath)
         {
-            _dbPath = dbPath;
-            AssureBDExiste(dbPath);
+            _dbPath = Path.Combine(baseDefaultLocation(), dbPath);
+            AssureBDExiste(_dbPath);
             connexion.Open();
             SQLInitial();
+        }
+
+        public static string baseDefaultLocation()
+        {
+            string path = Path.Combine( Environment.GetFolderPath( Environment.SpecialFolder.MyDocuments), "Collection de films" );
+            if ( !Directory.Exists( path ) )
+                Directory.CreateDirectory( path );
+
+            return path;
         }
 
         public string name => Path.GetFileNameWithoutExtension( _dbPath );
@@ -54,7 +63,7 @@ namespace Collection_de_films.Database
         }
 
 
-        async internal void executeNonQueryAsync( SQLiteCommand command )
+        async internal Task executeNonQueryAsync( SQLiteCommand command )
         {
             try
             {
