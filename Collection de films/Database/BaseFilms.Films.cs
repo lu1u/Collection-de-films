@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,8 @@ namespace Collection_de_films.Database
         public const string FILMS_ETAT = "ETAT";
         public const string FILMS_FLAGS = "FLAGS";
         public const string FILMS_TAG = "TAG";
-        public const string FILMS_IMAGE_ID = "IMAGE_ID";
+        //public const string FILMS_IMAGE_ID = "IMAGE_ID";
+        public const string FILMS_IMAGE = "IMAGE";
 
         internal void creerTableFilms()
         {
@@ -46,7 +48,7 @@ namespace Collection_de_films.Database
                 + FILMS_ETAT + " INTEGER NOT NULL,"
                 + FILMS_FLAGS + " INTEGER NOT NULL,"
                 + FILMS_TAG + " TEXT NOT NULL,"
-                + FILMS_IMAGE_ID + " INTEGER REFERENCES " + TABLE_IMAGES + "(" + IMAGES_ID + ")"
+                + FILMS_IMAGE + " BLOB"
                 + " );" ) )
                 executeNonQuery( commande );
         }
@@ -106,10 +108,9 @@ namespace Collection_de_films.Database
         /// <returns></returns>
         internal bool FilmExisteFichier(string chemin)
         {
-            string nomFichier = Path.GetFileNameWithoutExtension(chemin);
-            using (SQLiteCommand cmd = new SQLiteCommand($@"SELECT Count(*) FROM {TABLE_FILMS} WHERE {FILMS_CHEMIN} LIKE '%\{nomFichier}.%'"))
+            using (SQLiteCommand cmd = new SQLiteCommand($@"SELECT Count(*) FROM {TABLE_FILMS} WHERE {FILMS_CHEMIN} LIKE '%\@nomfichier.%'"))
             {
-                //cmd.Parameters.AddWithValue("@chemin", Path.GetFileNameWithoutExtension(chemin));
+                cmd.Parameters.AddWithValue("@nomfichier", Path.GetFileNameWithoutExtension(chemin));
                 try
                 {
                     object o = executeScalar(cmd);
@@ -123,15 +124,17 @@ namespace Collection_de_films.Database
 
             return false;
         }
+
+
         async public void ajouteFilm( Film f )
         {
             using ( SQLiteCommand command = new SQLiteCommand( $"INSERT into {TABLE_FILMS} " +
-                        $"({FILMS_CHEMIN}, {FILMS_TITRE}, {FILMS_REALISATEUR}, {FILMS_ACTEURS}, {FILMS_GENRES}, {FILMS_NATIONALITE}, {FILMS_RESUME}, {FILMS_DATESORTIE}, {FILMS_IMAGE_ID}, {FILMS_ETAT}, {FILMS_TAG}, {FILMS_FLAGS})"
+                        $"({FILMS_CHEMIN}, {FILMS_TITRE}, {FILMS_REALISATEUR}, {FILMS_ACTEURS}, {FILMS_GENRES}, {FILMS_NATIONALITE}, {FILMS_RESUME}, {FILMS_DATESORTIE}, {FILMS_IMAGE}, {FILMS_ETAT}, {FILMS_TAG}, {FILMS_FLAGS})"
                     + " VALUES (@chemin, @titre, @realisateur, @acteurs, @genres, @nationalite, @resume, @datesortie, @affiche, @etat, @tag, @flags)" ) )
             {
-                if ( f.getAffiche() != null )
-                    f.imageId = getImageId( f.imageId, f.getAffiche() );
-
+                //if ( f.getImage() != null )
+                //    f.imageId = getImageId( f.imageId, f.getImage() );
+                    
                 command.Parameters.AddWithValue( "@chemin", f.Chemin );
                 command.Parameters.AddWithValue( "@titre", f.Titre );
                 command.Parameters.AddWithValue( "@realisateur", f.Realisateur );
@@ -140,10 +143,10 @@ namespace Collection_de_films.Database
                 command.Parameters.AddWithValue( "@nationalite", f.Nationalite );
                 command.Parameters.AddWithValue( "@datesortie", f.DateSortie );
                 command.Parameters.AddWithValue( "@resume", f.Resume );
-                command.Parameters.AddWithValue( "@affiche", f.imageId );
+                command.Parameters.AddWithValue( "@affiche", BaseFilms.SqlBinnaryPeutEtreNull(Images.imageToByteArray(f.Image)));
                 command.Parameters.AddWithValue( "@etat", f.EtatInt );
-                command.Parameters.AddWithValue( "@tag", f._etiquettes );
-                command.Parameters.AddWithValue( "@flags", f._flags );
+                command.Parameters.AddWithValue( "@tag", f.Etiquettes );
+                command.Parameters.AddWithValue( "@flags", f.Flags );
                 executeNonQuery( command );
 
                 // Obtenir l'id du dernier film ajoute
@@ -182,7 +185,6 @@ namespace Collection_de_films.Database
                 //supprimeImage( film.imageId );
                 command.Parameters.AddWithValue( "@id", filmId );
                 executeNonQuery( command );
-                supprimeImagesOrphelines();
             }
         }
 
@@ -191,13 +193,13 @@ namespace Collection_de_films.Database
             using ( SQLiteCommand command = new SQLiteCommand( $"UPDATE {TABLE_FILMS} "
                 + $"SET {FILMS_CHEMIN} =@chemin, {FILMS_TITRE} = @titre, {FILMS_REALISATEUR}=@realisateur, {FILMS_ACTEURS}=@acteurs, "
                 + $"{FILMS_GENRES}=@genres, {FILMS_NATIONALITE}=@nationalite, {FILMS_RESUME}=@resume, {FILMS_DATESORTIE}=@datesortie, "
-                + $"{FILMS_IMAGE_ID}=@affiche, {FILMS_ETAT}=@etat, {FILMS_TAG}=@tag, {FILMS_FLAGS}=@flags"
+                + $"{FILMS_IMAGE}=@image, {FILMS_ETAT}=@etat, {FILMS_TAG}=@tag, {FILMS_FLAGS}=@flags"
                 + $" WHERE {FILMS_ID} = @id" ) )
             {
                 // Supprimer l'ancienne image du film
                 //supprimeImage( film.imageId );
-                //if ( film.getAffiche() != null )
-                //    film.imageId = getImageId( film.imageId, film.getAffiche() );
+                //if ( film.getImage() != null )
+                //    film.imageId = getImageId( film.imageId, film.getImage() );
 
                 command.Parameters.AddWithValue( "@id", film.Id );
                 command.Parameters.AddWithValue( "@chemin", film.Chemin );
@@ -208,10 +210,10 @@ namespace Collection_de_films.Database
                 command.Parameters.AddWithValue( "@nationalite", film.Nationalite );
                 command.Parameters.AddWithValue( "@datesortie", film.DateSortie );
                 command.Parameters.AddWithValue( "@resume", film.Resume );
-                command.Parameters.AddWithValue( "@tag", film._etiquettes );
-                command.Parameters.AddWithValue( "@affiche", film.imageId );
+                command.Parameters.AddWithValue("@tag", film.Etiquettes);
+                command.Parameters.AddWithValue("@image", BaseFilms.SqlBinnaryPeutEtreNull(Images.imageToByteArray(film.Image)));
                 command.Parameters.AddWithValue( "@etat", film.EtatInt );
-                command.Parameters.AddWithValue( "@flags", film._flags );
+                command.Parameters.AddWithValue( "@flags", film.Flags );
                 executeNonQuery( command );
 
                 sauveAlternatives( film.Id, await film.Alternatives() );
@@ -227,14 +229,14 @@ namespace Collection_de_films.Database
         }
         public List<Film> getListFilms( Filtre filtre )
         {
-            List<Film> result = new List<Film>();
+              List<Film> result = new List<Film>();
             try
             {
-                using ( SQLiteCommand cmd = new SQLiteCommand( $"SELECT * FROM {VUE_FILMS_FILTRES}" ) )
-                using ( SQLiteDataReader reader = executeReader( cmd ) )
-                    if ( reader.HasRows )
-                        while ( reader.Read() )
-                            result.Add( new Film( reader ) );
+                using (SQLiteCommand cmd = new SQLiteCommand($"SELECT {BaseFilms.FILMS_ID}, {BaseFilms.FILMS_CHEMIN}, {BaseFilms.FILMS_TITRE},{BaseFilms.FILMS_REALISATEUR}, {BaseFilms.FILMS_ACTEURS},{BaseFilms.FILMS_GENRES},{BaseFilms.FILMS_NATIONALITE},{BaseFilms.FILMS_RESUME},{BaseFilms.FILMS_DATESORTIE},{BaseFilms.FILMS_ETAT},{BaseFilms.FILMS_FLAGS},{BaseFilms.FILMS_TAG} FROM {VUE_FILMS_FILTRES}"))
+                using (SQLiteDataReader reader = executeReader(cmd))
+                    if (reader.HasRows)
+                        while (reader.Read())
+                            result.Add(new Film(reader));
             }
             catch ( Exception e )
             {
@@ -254,7 +256,7 @@ namespace Collection_de_films.Database
             List<Film> result = new List<Film>();
             try
             {
-                using ( SQLiteCommand cmd = new SQLiteCommand( $"SELECT * FROM {TABLE_FILMS} WHERE {FILMS_ETAT} = @etat" ) )
+                using ( SQLiteCommand cmd = new SQLiteCommand( $"SELECT {BaseFilms.FILMS_ID}, {BaseFilms.FILMS_CHEMIN}, {BaseFilms.FILMS_TITRE},{BaseFilms.FILMS_REALISATEUR}, {BaseFilms.FILMS_ACTEURS},{BaseFilms.FILMS_GENRES},{BaseFilms.FILMS_NATIONALITE},{BaseFilms.FILMS_RESUME},{BaseFilms.FILMS_DATESORTIE},{BaseFilms.FILMS_ETAT},{BaseFilms.FILMS_FLAGS},{BaseFilms.FILMS_TAG} FROM {TABLE_FILMS} WHERE {FILMS_ETAT} = @etat" ) )
                 {
                     cmd.Parameters.AddWithValue( "@etat", Film.etatToInt( etat ) );
                     using ( SQLiteDataReader reader = executeReader( cmd ) )
@@ -279,7 +281,7 @@ namespace Collection_de_films.Database
         internal void creerVueFilms( Filtre filtre )
         {
             DeleteView( VUE_FILMS_FILTRES );
-            CreateView( VUE_FILMS_FILTRES, filtre );
+            CreateView( VUE_FILMS_FILTRES, VUE_FILMS_SELECT, filtre );
         }
 
 
@@ -326,6 +328,46 @@ namespace Collection_de_films.Database
                         return null;
                 }
             }
+        }
+
+        internal Image getImageFilm( int filmId )
+        {
+            using (SQLiteCommand cmd = new SQLiteCommand($"SELECT {FILMS_IMAGE} FROM {TABLE_FILMS} WHERE {FILMS_ID} = @id"))
+            {
+                cmd.Parameters.AddWithValue("@id", filmId);
+                using (SQLiteDataReader reader = executeReader(cmd))
+                {
+                    // Check is the reader has any rows at all before starting to read.
+                    if (reader.HasRows)
+                    {
+                        // Read advances to the next row.
+                        if ( reader.Read())
+                        {
+                            return readImage( reader, reader.GetOrdinal(BaseFilms.FILMS_IMAGE));
+                        }
+                        else
+                            return null;
+                    }
+                    else
+                        return null;
+                }
+            }
+        }
+
+        public static Image readImage(SQLiteDataReader reader, int colonne)
+        {
+            try
+            {
+                Stream picData = reader.GetStream(colonne);
+                return new Bitmap(picData);
+            }
+            catch (Exception e)
+            {
+                //MainForm.WriteErrorToConsole( "Film.getImage: impossible de lire l'image" );
+                //MainForm.WriteExceptionToConsole( e );
+            }
+
+            return null;
         }
     }
 }

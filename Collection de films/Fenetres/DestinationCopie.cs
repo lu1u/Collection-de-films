@@ -55,7 +55,7 @@ namespace Collection_de_films.Fenetres
             {
                 labelTitre.Text = film.Titre;
                 labelChemin.Text = film.Chemin;
-                Image img = film.getAffiche();
+                Image img = film.Image;
                 if (img != null)
                     pictureBoxAffiche.Image = img;
 

@@ -34,18 +34,36 @@ namespace Collection_de_films
                 _style = STYLE_RECHERCHE.CHAINE;
                 if (_recherche?.Length > 0)
                 {
-                    string rech = "'%" + _recherche.ToUpper() + "%'";
-                    _condition = string.Format(" WHERE ("
-                        + "    (UPPER(chemin) like {0})"
-                        + " OR (UPPER(titre) like {0})"
-                        + " OR (UPPER(realisateur) like {0})"
-                        + " OR (UPPER(acteurs) like {0})"
-                        + " OR (UPPER(genres) like {0})"
-                        + " OR (UPPER(nationalite) like {0})"
-                        + " OR (UPPER(resume) like {0})"
-                        + " OR (UPPER(datesortie) like {0})"
-                        + " OR (UPPER(tag)  like {0})"
-                        + ")", rech );
+                    if (_recherche.StartsWith("-"))
+                    {
+                        string rech = "'%" + _recherche.Substring(1).ToUpper() + "%'";
+                        _condition = string.Format(" WHERE ("
+                            + "    (UPPER(chemin) not like {0})"
+                            + " AND (UPPER(titre) not like {0})"
+                            + " AND (UPPER(realisateur) not like {0})"
+                            + " AND (UPPER(acteurs) not like {0})"
+                            + " AND (UPPER(genres) not like {0})"
+                            + " AND (UPPER(nationalite) not like {0})"
+                            + " AND (UPPER(resume) not like {0})"
+                            + " AND (UPPER(datesortie) not like {0})"
+                            + " AND (UPPER(tag)  not like {0})"
+                            + ")", rech);
+                    }
+                    else
+                    {
+                        string rech = "'%" + _recherche.ToUpper() + "%'";
+                        _condition = string.Format(" WHERE ("
+                            + "    (UPPER(chemin) like {0})"
+                            + " OR (UPPER(titre) like {0})"
+                            + " OR (UPPER(realisateur) like {0})"
+                            + " OR (UPPER(acteurs) like {0})"
+                            + " OR (UPPER(genres) like {0})"
+                            + " OR (UPPER(nationalite) like {0})"
+                            + " OR (UPPER(resume) like {0})"
+                            + " OR (UPPER(datesortie) like {0})"
+                            + " OR (UPPER(tag)  like {0})"
+                            + ")", rech);
+                    }
                 }
                 else
                     _condition = "";
@@ -75,7 +93,7 @@ namespace Collection_de_films
         public void alternativesAucuneChoisie()
         {
             _style = STYLE_RECHERCHE.ALTERNATIVES;
-            _condition = $"where ({BaseFilms.FILMS_IMAGE_ID}=-1) AND {BaseFilms.FILMS_ID} IN (SELECT {BaseFilms.ALTERNATIVES_FILMID} FROM {BaseFilms.TABLE_ALTERNATIVES})"
+            _condition = $"where ({BaseFilms.FILMS_IMAGE} IS NULL) AND {BaseFilms.FILMS_ID} IN (SELECT {BaseFilms.ALTERNATIVES_FILMID} FROM {BaseFilms.TABLE_ALTERNATIVES})"
                         + rechercheTexte();
         }
 

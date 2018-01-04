@@ -32,7 +32,9 @@ namespace Collection_de_films.Database
         }
 
         public string name => Path.GetFileNameWithoutExtension( _dbPath );
-        
+
+
+
         internal void executeNonQuery( string sql )
         {
             using ( SQLiteCommand cmd = new SQLiteCommand( sql ) )
@@ -51,6 +53,7 @@ namespace Collection_de_films.Database
             try
             {
                 command.Connection = connexion;
+                MainForm.WriteMessageToConsole(command.CommandText);
                 command.ExecuteNonQuery();
             }
             catch ( Exception e )
@@ -68,6 +71,7 @@ namespace Collection_de_films.Database
             try
             {
                 command.Connection = connexion;
+                MainForm.WriteMessageToConsole(command.CommandText);
                 await command.ExecuteNonQueryAsync();
             }
             catch ( Exception e )
@@ -83,6 +87,7 @@ namespace Collection_de_films.Database
             try
             {
                 command.Connection = connexion;
+                MainForm.WriteMessageToConsole(command.CommandText);
                 return command.ExecuteReader();
             }
             catch ( Exception e )
@@ -96,9 +101,11 @@ namespace Collection_de_films.Database
             return null;
         }
 
-        internal object executeScalar( string slqCommand )
+        internal object executeScalar( string sqlCommand )
         {
-            using ( SQLiteCommand cmd = new SQLiteCommand( slqCommand ) )
+            MainForm.WriteMessageToConsole(sqlCommand);
+
+            using ( SQLiteCommand cmd = new SQLiteCommand( sqlCommand ) )
                 return executeScalar( cmd );
         }
 
@@ -107,6 +114,7 @@ namespace Collection_de_films.Database
             try
             {
                 command.Connection = connexion;
+                MainForm.WriteMessageToConsole(command.CommandText);
                 return command.ExecuteScalar();
             }
             catch ( Exception e )

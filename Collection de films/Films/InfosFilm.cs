@@ -16,28 +16,9 @@ namespace Collection_de_films.Films
         public string _nationalite = "";
         public string _resume = "";
         public string _dateSortie = "";
-        public int _imageId = -1;
-        private Image _affiche = null;
-
-        public Image affiche
-        {
-            get
-            {
-                if ( _affiche == null && _imageId != -1 )
-                    _affiche = BaseFilms.instance.getImage( _imageId );
-                return _affiche;
-            }
-
-            set
-            {
-                _affiche = value;
-                if ( _imageId != -1 )
-                    BaseFilms.instance.supprimeImage( _imageId );
-
-                if ( _affiche != null )
-                    _imageId = BaseFilms.instance.ajouteImage( _affiche );
-            }
-        }
+        public Image _image ;
+        
+        public Image affiche { get => _image; set  => _image = value;        }
 
         public InfosFilm()
         {
@@ -53,7 +34,7 @@ namespace Collection_de_films.Films
             _nationalite = reader.GetString( reader.GetOrdinal( (BaseFilms.ALTERNATIVES_NATIONALITE) ) );
             _resume = reader.GetString( reader.GetOrdinal( (BaseFilms.ALTERNATIVES_RESUME) ) );
             _dateSortie = reader.GetString( reader.GetOrdinal( (BaseFilms.ALTERNATIVES_DATESORTIE) ) );
-            _imageId = reader.GetInt32( reader.GetOrdinal( (BaseFilms.ALTERNATIVES_AFFICHE) ) );
+            _image = BaseFilms.readImage(reader, reader.GetOrdinal( (BaseFilms.ALTERNATIVES_IMAGE) ) );
         }
 
         /// <summary>
@@ -69,9 +50,7 @@ namespace Collection_de_films.Films
             if ( _resume?.Length > 0 ) return false;
             if ( _dateSortie?.Length > 0 )
                 return false;
-            if ( _affiche != null )
-                return false;
-            if ( _imageId != -1 )
+            if ( _image != null )
                 return false;
             return true;
         }
@@ -115,9 +94,7 @@ namespace Collection_de_films.Films
             _nationalite = autre._nationalite;
             _resume = autre._resume;
             _dateSortie = autre._dateSortie;
-            _imageId = autre._imageId;
-            _affiche = autre._affiche;
-
+            _image = autre._image;
         }
     }
 }

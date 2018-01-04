@@ -29,8 +29,8 @@ namespace Collection_de_films.Fenetres
             textBoxNationalite.Text = film.Nationalite;
             textBoxActeurs.Text = film.Acteurs;
             textBoxResume.Text = film.Resume;
-            textBoxEtiquettes.Text = film._etiquettes;
-            Image image = film.getAffiche();
+            textBoxEtiquettes.Text = film.Etiquettes;
+            Image image = film.Image;
             if (image != null)
                 pictureBoxAffiche.Image = image;
         }
@@ -129,10 +129,10 @@ namespace Collection_de_films.Fenetres
             film.Genres = textBoxGenres.Text;
             film.DateSortie = textBoxDateSortie.Text;
             film.Nationalite = textBoxNationalite.Text;
-            film._etiquettes = textBoxEtiquettes.Text;
+            film.Etiquettes = textBoxEtiquettes.Text;
             film.Resume = textBoxResume.Text;
             if (afficheChangee)
-                film.affiche = pictureBoxAffiche.Image;
+                film.Image = pictureBoxAffiche.Image;
 
             BaseFilms.instance.update(film);
             MainForm.update(film);

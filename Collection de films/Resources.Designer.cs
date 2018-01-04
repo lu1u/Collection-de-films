@@ -83,6 +83,16 @@ namespace Collection_de_films {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap film_alternatives {
+            get {
+                object obj = ResourceManager.GetObject("film_alternatives", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap film_dans_la_queue {
             get {
                 object obj = ResourceManager.GetObject("film_dans_la_queue", resourceCulture);

@@ -64,6 +64,7 @@
             System.Windows.Forms.ToolStripMenuItem toolStripMenuItem16;
             System.Windows.Forms.ToolStripMenuItem vueToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem filtreToolStripMenuItem;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.ToolStripMenuItem effacerToolStripMenuItem1;
             System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
             System.Windows.Forms.ToolStripMenuItem filmTousToolStripMenuItem;
@@ -75,7 +76,6 @@
             System.Windows.Forms.ToolStripMenuItem filmsAvecAlternativesAucuneChoisieToolStripMenuItem;
             System.Windows.Forms.ToolStripMenuItem configurationToolStripMenuItem;
             System.Windows.Forms.StatusStrip statusStrip1;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
@@ -542,7 +542,7 @@
             this.toolStripTextBoxFiltre.Name = "toolStripTextBoxFiltre";
             this.toolStripTextBoxFiltre.Padding = new System.Windows.Forms.Padding(8);
             this.toolStripTextBoxFiltre.Size = new System.Drawing.Size(200, 52);
-            this.toolStripTextBoxFiltre.ToolTipText = "Tapez un texte pour filtrer les films";
+            this.toolStripTextBoxFiltre.ToolTipText = resources.GetString("toolStripTextBoxFiltre.ToolTipText");
             this.toolStripTextBoxFiltre.TextChanged += new System.EventHandler(this.onTextBoxFiltreTextChanged);
             // 
             // effacerToolStripMenuItem
@@ -868,7 +868,7 @@
             this.tabControlAlternatives.Location = new System.Drawing.Point(0, 64);
             this.tabControlAlternatives.Name = "tabControlAlternatives";
             this.tabControlAlternatives.SelectedIndex = 0;
-            this.tabControlAlternatives.Size = new System.Drawing.Size(390, 479);
+            this.tabControlAlternatives.Size = new System.Drawing.Size(386, 479);
             this.tabControlAlternatives.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControlAlternatives.TabIndex = 0;
             // 
@@ -878,7 +878,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(382, 453);
+            this.tabPage1.Size = new System.Drawing.Size(378, 453);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Film";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -896,7 +896,7 @@
             this.flowLayoutPanelInfosFilm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelInfosFilm.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanelInfosFilm.Name = "flowLayoutPanelInfosFilm";
-            this.flowLayoutPanelInfosFilm.Size = new System.Drawing.Size(376, 447);
+            this.flowLayoutPanelInfosFilm.Size = new System.Drawing.Size(372, 447);
             this.flowLayoutPanelInfosFilm.TabIndex = 7;
             // 
             // flowLayoutPanelPasTrouve
@@ -1126,7 +1126,7 @@
             this.tabpageAlternatives.Location = new System.Drawing.Point(4, 22);
             this.tabpageAlternatives.Name = "tabpageAlternatives";
             this.tabpageAlternatives.Padding = new System.Windows.Forms.Padding(3);
-            this.tabpageAlternatives.Size = new System.Drawing.Size(382, 453);
+            this.tabpageAlternatives.Size = new System.Drawing.Size(378, 453);
             this.tabpageAlternatives.TabIndex = 1;
             this.tabpageAlternatives.Text = "Alternatives";
             this.tabpageAlternatives.UseVisualStyleBackColor = true;
@@ -1137,7 +1137,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.Location = new System.Drawing.Point(0, 3);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(382, 26);
+            this.label7.Size = new System.Drawing.Size(378, 26);
             this.label7.TabIndex = 2;
             this.label7.Text = "Plusieurs alternatives ont été trouvées pour ce film, veuillez choisir celle qui " +
     "correspond le mieux en double-cliquant sur la ligne";
@@ -1162,7 +1162,7 @@
             this.listViewAlternatives.Name = "listViewAlternatives";
             this.listViewAlternatives.ShowGroups = false;
             this.listViewAlternatives.ShowItemToolTips = true;
-            this.listViewAlternatives.Size = new System.Drawing.Size(373, 428);
+            this.listViewAlternatives.Size = new System.Drawing.Size(369, 428);
             this.listViewAlternatives.SmallImageList = this.imageListAlternatives;
             this.listViewAlternatives.TabIndex = 7;
             this.listViewAlternatives.UseCompatibleStateImageBehavior = false;

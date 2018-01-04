@@ -123,7 +123,6 @@ namespace Collection_de_films.Database
             dlg.pourcentage( 30 );
             // Purger les alternatives non associees a un film
             supprimeAlternativesOrphelines();
-            supprimeImagesOrphelines();
             dlg.pourcentage( 60 );
             // Compression de la base
             executeScalar( "VACUUM" );
@@ -145,7 +144,6 @@ namespace Collection_de_films.Database
                     connexion = new SQLiteConnection( $"Data Source={dbName};Version=3;" );
                     connexion.Open();
 
-                    creerTableImages();
                     creerTableFilms();
                     creerTableAlternatives();
 

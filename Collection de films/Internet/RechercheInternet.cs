@@ -136,14 +136,14 @@ namespace Collection_de_films.Internet
                     return "";
 
                 case 1:
-                    return elements[0];
+                    return trim(elements[0]);
 
                 default:
                     string result = elements[0];
                     for (int i = 1; i < elements.Count; i++)
                         result += BaseFilms.SEPARATEUR_LISTES + elements[i];
 
-                    return result;
+                    return trim(result);
             }
         }
 
@@ -203,10 +203,12 @@ namespace Collection_de_films.Internet
                 return false;
 
             int indexSlash = path.LastIndexOf('/');
-
             if (indexSlash > indexArrobas)
                 return false;
 
+            int indexCrochet= path.LastIndexOf(']');
+            if (indexCrochet> indexArrobas)
+                return false;
             name = path.Substring(indexArrobas + 1);
             return true;
         }

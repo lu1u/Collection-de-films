@@ -64,12 +64,18 @@ namespace Collection_de_films
 
             return newImage;
         }
+
         static public byte[] imageToByteArray( Image imageIn )
         {
-            if ( imageIn != null )
+            return imageToByteArray(imageIn, getImageFormat(imageIn));
+        }
+
+        static public byte[] imageToByteArray(Image imageIn, ImageFormat format)
+        {
+            if (imageIn != null)
             {
                 MemoryStream ms = new MemoryStream();
-                imageIn.Save( ms, getImageFormat( imageIn ) );
+                imageIn.Save(ms, format);
                 return ms.ToArray();
             }
             else
@@ -78,21 +84,26 @@ namespace Collection_de_films
 
         private static ImageFormat getImageFormat( Image image )
         {
-            if ( ImageFormat.Jpeg.Equals( image.RawFormat ) )
+            try
             {
-                return ImageFormat.Jpeg;
-            }
-            else if ( ImageFormat.Png.Equals( image.RawFormat ) )
-            {
-                return ImageFormat.Png;
+                if (ImageFormat.Jpeg.Equals(image.RawFormat))
+                {
+                    return ImageFormat.Jpeg;
+                }
+                else if (ImageFormat.Png.Equals(image.RawFormat))
+                {
+                    return ImageFormat.Png;
 
+                }
+                else if (ImageFormat.Gif.Equals(image.RawFormat))
+                {
+                    return ImageFormat.Gif;
+                }
             }
-            else if ( ImageFormat.Gif.Equals( image.RawFormat ) )
+            catch
             {
-                return ImageFormat.Gif;
             }
-
-            return ImageFormat.Jpeg; // Format par defaut
+            return ImageFormat.Png; // Format par defaut
         }
 
         public static Image byteArrayToImage( byte[] byteArrayIn )

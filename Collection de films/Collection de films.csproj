@@ -116,7 +116,6 @@
     <Compile Include="Database\BaseDonnees.cs" />
     <Compile Include="Database\BaseFilms.Alternatives.cs" />
     <Compile Include="Database\BaseFilms.Films.cs" />
-    <Compile Include="Database\BaseFilms.Images.cs" />
     <Compile Include="Database\BaseConfiguration.Recherches.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Database\BaseConfiguration.cs" />
@@ -366,6 +365,7 @@
   <ItemGroup>
     <Content Include="collectionfilms.ico" />
     <Content Include="favicon%282%29.ico" />
+    <None Include="Resources\alternatives.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.104.0\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.104.0\build\net451\System.Data.SQLite.Core.targets')" />

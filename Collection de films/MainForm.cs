@@ -10,6 +10,7 @@ using System.Data.SQLite;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -261,11 +262,13 @@ namespace Collection_de_films
             /// Ajoute les films deja dans la base de donnees
             using (Splashscreen s = new Splashscreen())
             {
+
                 s.Show();
                 s.Update();
+                //migreDonnees();
 
                 //if ( Configuration.relancerRechercheAuto )
-                //   relanceRechercheFilms();
+                // relanceRechercheFilms();
 
                 Configuration conf = Configuration.instance;
                 switchVueFilms(Configuration.CONF_PARAM_LARGEICON.Equals(conf.vue));
@@ -275,67 +278,73 @@ namespace Collection_de_films
                    s.setPourcent(x, y);
                });
                 s.Close();
+
                 //bgWorkerChargePages.RunWorkerAsync();
+
             }
         }
 
-        private void ChangeTableFilms()
+        private void migreDonnees()
         {
-            /// Ajoute les films deja dans la base de donnees
-            using (Splashscreen s = new Splashscreen())
+            // Creer la nouvelle table
+            /*
+            BaseFilms bd = BaseFilms.instance;
+            try
             {
-                s.Show();
-                s.Update();
+                using (SQLiteCommand commande = new SQLiteCommand("DROP TABLE IF EXISTS FILMS_NEW ;"))
+                    bd.executeNonQuery(commande);
+            }
+            catch
+            {
+            }
+            using (SQLiteCommand commande = new SQLiteCommand("CREATE TABLE FILMS_NEW "
+                           + " ( "
+                           + BaseFilms.FILMS_ID + " INTEGER PRIMARY KEY   AUTOINCREMENT,"
+                           + BaseFilms.FILMS_CHEMIN + " TEXT NOT NULL,"
+                           + BaseFilms.FILMS_TITRE + " TEXT NOT NULL,"
+                           + BaseFilms.FILMS_REALISATEUR + " TEXT NOT NULL,"
+                           + BaseFilms.FILMS_ACTEURS + " TEXT NOT NULL,"
+                           + BaseFilms.FILMS_GENRES + " TEXT NOT NULL,"
+                           + BaseFilms.FILMS_NATIONALITE + " TEXT NOT NULL,"
+                           + BaseFilms.FILMS_RESUME + " TEXT NOT NULL,"
+                           + BaseFilms.FILMS_DATESORTIE + " TEXT NOT NULL,"
+                           + BaseFilms.FILMS_ETAT + " INTEGER NOT NULL,"
+                           + BaseFilms.FILMS_FLAGS + " INTEGER NOT NULL,"
+                           + BaseFilms.FILMS_TAG + " TEXT NOT NULL,"
+                           + BaseFilms.FILMS_IMAGE + " BLOB "
+                           + " );"))
+                           bd.executeNonQuery(commande);
 
-                BaseFilms bd = BaseFilms.instance;
-                // Changement de tables
-
-                // Creer la table des images
-                bd.creerTableImages();
-                //bd.executeScalar("ALTER TABLE FILMS ADD COLUMN IMAGE_ID INTEGER REFERENCES IMAGES(IMAGE)");
-
-                int nb = bd.getNbFilms();
-                using (SQLiteCommand cmd = new SQLiteCommand("SELECT *, ROWID FROM FILMS"))
-                using (SQLiteDataReader reader = bd.executeReader(cmd))
-                {
-                    // Check is the reader has any rows at all before starting to read.
+            using (SQLiteCommand commandSelect = new SQLiteCommand("SELECT * FROM FILMS"))
+            {
+                using (SQLiteDataReader reader = BaseFilms.instance.executeReader(commandSelect))
                     if (reader.HasRows)
-                    {
-                        int no = 0;
-                        // Read advances to the next row.
                         while (reader.Read())
                         {
-                            s.setPourcent((int)(no++ * 100.0f / nb), "");
-                            using (Image img = Film.getImage(reader, reader.GetOrdinal("affiche")))
-                                if (img != null)
-                                {
-                                    using (SQLiteCommand c = new SQLiteCommand("INSERT INTO IMAGES (IMAGE) VALUES (@image)"))
-                                    {
-                                        c.Parameters.AddWithValue("@image", BaseFilms.SqlBinnaryPeutEtreNull(Images.imageToByteArray(img)));
-                                        bd.executeNonQuery(c);
-                                    }
-
-                                    // Recuper l'id de l'image
-                                    using (SQLiteCommand c = new SQLiteCommand("select last_insert_rowid() as id from FILMS;"))
-                                    {
-                                        object o = bd.executeScalar(c);
-                                        int imageId = Convert.ToInt32(o);
-
-                                        // Stocker l'id de l'image dans le film
-                                        using (SQLiteCommand cd = new SQLiteCommand("update FILMS set IMAGE_ID = @imageId where ID = @filmId"))
-                                        {
-                                            cd.Parameters.AddWithValue("@imageId", imageId);
-                                            cd.Parameters.AddWithValue("@filmId", reader.GetInt32(reader.GetOrdinal("Id")));
-                                            bd.executeScalar(c);
-                                        }
-                                    }
-                                }
+                            using (SQLiteCommand command = new SQLiteCommand($"INSERT into FILMS_NEW " +
+                        $"({BaseFilms.FILMS_CHEMIN}, {BaseFilms.FILMS_TITRE}, {BaseFilms.FILMS_REALISATEUR}, {BaseFilms.FILMS_ACTEURS}, {BaseFilms.FILMS_GENRES}, {BaseFilms.FILMS_NATIONALITE}, {BaseFilms.FILMS_RESUME}, {BaseFilms.FILMS_DATESORTIE}, {BaseFilms.FILMS_IMAGE}, {BaseFilms.FILMS_ETAT}, {BaseFilms.FILMS_TAG}, {BaseFilms.FILMS_FLAGS})"
+                    + " VALUES (@chemin, @titre, @realisateur, @acteurs, @genres, @nationalite, @resume, @datesortie, @image, @etat, @tag, @flags)"))
+                            {
+                                command.Parameters.AddWithValue("@chemin", reader.GetString(reader.GetOrdinal(BaseFilms.FILMS_CHEMIN)));
+                                command.Parameters.AddWithValue("@titre", reader.GetString(reader.GetOrdinal(BaseFilms.FILMS_TITRE)));
+                                command.Parameters.AddWithValue("@realisateur", reader.GetString(reader.GetOrdinal(BaseFilms.FILMS_REALISATEUR)) ?? "");
+                                command.Parameters.AddWithValue("@acteurs", reader.GetString(reader.GetOrdinal(BaseFilms.FILMS_ACTEURS)) ?? "");
+                                command.Parameters.AddWithValue("@genres", reader.GetString(reader.GetOrdinal(BaseFilms.FILMS_GENRES)) ?? "");
+                                command.Parameters.AddWithValue("@nationalite", reader.GetString(reader.GetOrdinal(BaseFilms.FILMS_NATIONALITE)) ?? "");
+                                command.Parameters.AddWithValue("@datesortie", reader.GetString(reader.GetOrdinal(BaseFilms.FILMS_DATESORTIE)) ?? "");
+                                command.Parameters.AddWithValue("@resume", reader.GetString(reader.GetOrdinal(BaseFilms.FILMS_RESUME)) ?? "");
+                                command.Parameters.AddWithValue("@image", getImage(reader.GetInt32(reader.GetOrdinal(BaseFilms.FILMS_IMAGE_ID))));
+                                command.Parameters.AddWithValue("@etat", reader.GetInt32(reader.GetOrdinal(BaseFilms.FILMS_ETAT)));
+                                command.Parameters.AddWithValue("@tag", reader.GetString(reader.GetOrdinal(BaseFilms.FILMS_TAG)) ?? "");
+                                command.Parameters.AddWithValue("@flags", reader.GetInt32(reader.GetOrdinal(BaseFilms.FILMS_FLAGS)));
+                                bd.executeNonQuery(command);
+                            }
                         }
-                    }
-                }
-                s.Close();
+                
             }
+            */
         }
+
 
         /// <summary>
         /// Change le style de vue de la liste des films
@@ -487,15 +496,23 @@ namespace Collection_de_films
         {
             if (e.IsSelected)
             {
-                _selectedId = (int)e.Item.Tag;
-                Film f = await getSelectedFilm();
+                //_selectedId = (int)e.Item.Tag;
+                //Film f = await getSelectedFilm();
+                Film f = (Film)e.Item.Tag;
+                _selectedId = f.Id;
                 updatePanneauInfo(f);
             }
         }
 
         private async Task<Film> getSelectedFilm()
         {
-            return await BaseFilms.instance.getFilm(_selectedId);
+            if (listViewFilms.SelectedItems?.Count > 0)
+            {
+                Film f = (Film)listViewFilms.SelectedItems[0].Tag;
+                return f;
+            }
+            else
+                return null;
         }
 
         /// <summary>
@@ -511,7 +528,7 @@ namespace Collection_de_films
                 return;
             }
 
-            WriteMessageToConsole($"Film: {film.Titre}, Id={film.Id}, ImageId={film.imageId}");
+            WriteMessageToConsole($"Film: {film.Titre}, Id={film.Id}");
 
             flowLayoutPanelInfosFilm.Show();
             flowLayoutPanelInfosFilm.SuspendLayout();
@@ -523,7 +540,7 @@ namespace Collection_de_films
             afficheInfoLinks(labelKeyGenres, linkLabelGenres, film.Genres);
             afficheInfo(labelKeyDateSortie, labelDateSortie, film.DateSortie);
             afficheInfo(labelKeyNationalite, labelNationalite, film.Nationalite);
-            afficheInfoLinks(labelKeyEtiquettes, linkLabelEtiquettes, film._etiquettes);
+            afficheInfoLinks(labelKeyEtiquettes, linkLabelEtiquettes, film.Etiquettes);
             labelResume.Text = film.Resume;
 
             switch (film.Etat)
@@ -540,8 +557,7 @@ namespace Collection_de_films
                     break;
             }
 
-            Image affiche = film.getAffiche();
-            pictureBoxAffiche.Image = affiche;
+            pictureBoxAffiche.Image = film.Image;
 
             listViewAlternatives.Items.Clear();
             List<InfosFilm> alternatives = await film.Alternatives();
@@ -550,7 +566,7 @@ namespace Collection_de_films
                 WriteMessageToConsole($"Alternatives: {alternatives.Count}");
                 foreach (InfosFilm i in alternatives)
                 {
-                    WriteMessageToConsole($"Alternative: imageId={i._imageId}, resumé={i._resume}");
+                    WriteMessageToConsole($"Alternative: imageId={i._image}, resumé={i._resume}");
                 }
 
                 if (tabControlAlternatives.TabPages.IndexOf(tabpageAlternatives) == -1)
@@ -683,7 +699,15 @@ namespace Collection_de_films
                 return;
 
             WriteMessageToConsole("Lecture du film " + selected.Chemin);
-            Process.Start(selected.Chemin);
+            try
+            {
+                Process.Start(selected.Chemin);
+            }
+            catch( Exception ex)
+            {
+                WriteExceptionToConsole(ex);
+                MessageBox.Show($"Impossible de lire le film {selected.Chemin}", "Erreur de lecture", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public static void OpenFolderAndSelectItem(string file)
@@ -809,7 +833,8 @@ namespace Collection_de_films
             if (selected == null)
                 return;
 
-            selected._titre = textBoxTitrePasTrouve.Text;
+            selected.Titre = textBoxTitrePasTrouve.Text;
+            selected.Etat = Film.ETAT.RECHERCHE;
             WriteMessageToConsole($"Recharger les informations de {selected.Titre}");
             _actionsDifferees.ajoute(new ActionNouveauFilm(selected));
         }
@@ -821,6 +846,7 @@ namespace Collection_de_films
                 return;
 
             WriteMessageToConsole($"Recharger les informations de {selected.Titre}");
+            selected.Etat = Film.ETAT.RECHERCHE;
             _actionsDifferees.ajoute(new ActionNouveauFilm(selected)); ;
         }
 
@@ -835,7 +861,10 @@ namespace Collection_de_films
             {
                 BaseFilms.instance.supprimeFilm(_selectedId);
                 _selectedId = -1;
-                updateListeFilms();
+                //updateListeFilms();
+                listViewFilms.Items.Remove(listViewFilms.SelectedItems[0]);
+                toolStripStatusLabelNbAffiches.Text = string.Format("{0} films affichés", listViewFilms.Items.Count);
+                toolStripStatusLabelNbFilmsBD.Text = string.Format("{0} films dans la base", BaseFilms.instance.getNbFilms());
             }
         }
 
@@ -895,20 +924,22 @@ namespace Collection_de_films
                         Rectangle rImage = new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height - (int)s.Height);
                         rImage.Inflate(-4, -4);
 
-                        Film f = await getFilm(e.Item);
-                        Image image = await f.getImage(rImage);// await ((Film)e.Item.Tag).getImage(rImage);
-                        if (image != null)
+                        Film f = getFilm(e.Item);
+                        if (f != null)
                         {
-                            int dx = (rImage.Width - image.Width) / 2;
-                            int dy = (rImage.Height - image.Height) / 2;
-                            rImage.Offset(dx, dy);
+                            Image image = await f.getImageGrandeIcone(rImage);// await ((Film)e.Item.Tag).getImage(rImage);
+                            if (image != null)
+                            {
+                                int dx = (rImage.Width - image.Width) / 2;
+                                int dy = (rImage.Height - image.Height) / 2;
+                                rImage.Offset(dx, dy);
 
-                            //Rectangle rShadow = new Rectangle(rImage.Left, rImage.Top, image.Width, image.Height);
-                            //rShadow.Offset( 2, 2 );
-                            //e.Graphics.FillRectangle( _brosseOmbre, rShadow );
-                            e.Graphics.DrawImage(image, rImage.Left, rImage.Top);
+                                //Rectangle rShadow = new Rectangle(rImage.Left, rImage.Top, image.Width, image.Height);
+                                //rShadow.Offset( 2, 2 );
+                                //e.Graphics.FillRectangle( _brosseOmbre, rShadow );
+                                e.Graphics.DrawImage(image, rImage.Left, rImage.Top);
+                            }
                         }
-
                         using (Brush b = new SolidBrush(e.Item.ListView.ForeColor))
                             e.Graphics.DrawString(e.Item.Text, e.Item.ListView.Font, b, e.Bounds, _formatLargeIcones);
                     }
@@ -921,9 +952,9 @@ namespace Collection_de_films
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        private Task<Film> getFilm(ListViewItem item)
+        private Film getFilm(ListViewItem item)
         {
-            return BaseFilms.instance.getFilm((int)item.Tag);
+            return (Film)item.Tag;// BaseFilms.instance.getFilm((int)item.Tag);
         }
 
         async private void onListviewFilmsDrawSubItem(object sender, DrawListViewSubItemEventArgs e)
@@ -952,7 +983,7 @@ namespace Collection_de_films
                 Rectangle rImage = new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height);
                 rImage.Inflate(-1, -1);
 
-                Film film = await BaseFilms.instance.getFilm((int)e.Item.Tag);
+                Film film = (Film)e.Item.Tag;// await BaseFilms.instance.getFilm((int)e.Item.Tag);
                 Image image = await film.getImageSmall(rImage);
                 Rectangle rTexte;
                 if (image != null)

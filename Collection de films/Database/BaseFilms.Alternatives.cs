@@ -19,7 +19,7 @@ namespace Collection_de_films.Database
         public const string ALTERNATIVES_NATIONALITE = "NATIONALITE";
         public const string ALTERNATIVES_RESUME = "RESUME";
         public const string ALTERNATIVES_DATESORTIE = "DATESORTIE";
-        public const string ALTERNATIVES_AFFICHE = "AFFICHE_ID";
+        public const string ALTERNATIVES_IMAGE = "IMAGE";
 
         private void creerTableAlternatives()
         {
@@ -31,7 +31,7 @@ namespace Collection_de_films.Database
                 + $" {ALTERNATIVES_NATIONALITE} TEXT NOT NULL,"
                 + $" {ALTERNATIVES_RESUME} NOT NULL,"
                 + $" {ALTERNATIVES_DATESORTIE} TEXT NOT NULL,"
-                + $" {ALTERNATIVES_AFFICHE} INTEGER REFERENCES {TABLE_IMAGES}([{IMAGES_ID}]) "
+                + $" {ALTERNATIVES_IMAGE} BLOB"
                 + " );" );
         }
 
@@ -47,11 +47,9 @@ namespace Collection_de_films.Database
             if ( alternatives != null )
                 foreach ( InfosFilm alternative in alternatives )
                     using ( SQLiteCommand command = new SQLiteCommand( $"INSERT into {TABLE_ALTERNATIVES} " +
-                                $"({ALTERNATIVES_FILMID}, {ALTERNATIVES_REALISATEUR}, {ALTERNATIVES_ACTEURS}, {ALTERNATIVES_GENRES}, {ALTERNATIVES_NATIONALITE}, {ALTERNATIVES_RESUME}, {ALTERNATIVES_DATESORTIE}, {ALTERNATIVES_AFFICHE})"
+                                $"({ALTERNATIVES_FILMID}, {ALTERNATIVES_REALISATEUR}, {ALTERNATIVES_ACTEURS}, {ALTERNATIVES_GENRES}, {ALTERNATIVES_NATIONALITE}, {ALTERNATIVES_RESUME}, {ALTERNATIVES_DATESORTIE}, {ALTERNATIVES_IMAGE})"
                             + " VALUES (@id, @realisateur, @acteurs, @genres, @nationalite, @resume, @datesortie, @affiche)" ) )
                     {
-                        alternative._imageId = getImageId( alternative._imageId, alternative.affiche );
-
                         command.Parameters.AddWithValue( "@id", id );
                         command.Parameters.AddWithValue( "@realisateur", alternative._realisateur );
                         command.Parameters.AddWithValue( "@acteurs", alternative._acteurs );
@@ -59,7 +57,7 @@ namespace Collection_de_films.Database
                         command.Parameters.AddWithValue( "@nationalite", alternative._nationalite );
                         command.Parameters.AddWithValue( "@datesortie", alternative._dateSortie );
                         command.Parameters.AddWithValue( "@resume", alternative._resume );
-                        command.Parameters.AddWithValue( "@affiche", alternative._imageId );
+                        command.Parameters.AddWithValue( "@affiche", BaseFilms.SqlBinnaryPeutEtreNull(Images.imageToByteArray(alternative._image)));
                         executeNonQuery( command );
                     }
         }
@@ -108,15 +106,13 @@ namespace Collection_de_films.Database
                 command.Parameters.AddWithValue( "@id", filmId );
                 executeNonQuery( command );
             }
-
-            supprimeImagesOrphelines();
         }
 
 
 
         public void supprimeAlternativesOrphelines()
         {
-            using ( SQLiteCommand command = new SQLiteCommand( $"DELETE FROM {TABLE_ALTERNATIVES} WHERE  {TABLE_ALTERNATIVES}.{ALTERNATIVES_FILMID} not in ( SELECT {TABLE_FILMS}.{FILMS_ID} FROM {TABLE_FILMS}" ) )
+            using ( SQLiteCommand command = new SQLiteCommand( $"DELETE FROM {TABLE_ALTERNATIVES} WHERE  {TABLE_ALTERNATIVES}.{ALTERNATIVES_FILMID} not in ( SELECT {TABLE_FILMS}.{FILMS_ID} FROM {TABLE_FILMS})" ) )
             {
                 executeNonQuery( command );
             }

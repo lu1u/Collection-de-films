@@ -216,6 +216,9 @@
   <metadata name="filtreToolStripMenuItem.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
+  <data name="toolStripTextBoxFiltre.ToolTipText" xml:space="preserve">
+    <value>Tapez un texte pour filtrer les films. Tapez "comédie" pour sélectionner tous les films ayant ce mot dans leurs informations.Tapez "-comédies" pour sélectionner tous les films n'ayant pas ce mot dans leurs informations.</value>
+  </data>
   <metadata name="effacerToolStripMenuItem1.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </metadata>
