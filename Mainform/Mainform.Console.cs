@@ -14,6 +14,9 @@ namespace CollectionDeFilms
         delegate void AppendTextDelegate(string text);
         private void AppendConsoleText(string text)
         {
+            if (this.consoleRichTextBox.IsDisposed)
+                return;
+
             // Use a delegate if called from a different thread,
             // else just append the text directly
             if (this.consoleRichTextBox.InvokeRequired)
@@ -62,7 +65,7 @@ namespace CollectionDeFilms
 
         // Thread-safe method of appending text to the console box
         delegate void ScrollToCaretDelegate();
-        async private void ScrollConsoleToCaret()
+        private void ScrollConsoleToCaret()
         {
             // Use a delegate if called from a different thread,
             // else just append the text directly
@@ -80,7 +83,7 @@ namespace CollectionDeFilms
 		/// Ecrit une ligne sur la console et scrolle pour qu'elle soit visible
 		/// </summary>
 		/// <param name="text"></param>
-		async static public void WriteToConsole(string text)
+		static public void WriteToConsole(string text)
         {
             _instance?.AppendConsoleText(text + Environment.NewLine);
         }
@@ -89,7 +92,7 @@ namespace CollectionDeFilms
         /// Ecrit une erreur sur la console
         /// </summary>
         /// <param name="text"></param>
-        async static public void WriteErrorToConsole(string text)
+        static public void WriteErrorToConsole(string text)
         {
             WriteToConsole(ERROR_PREFIX + text);
         }
@@ -99,7 +102,7 @@ namespace CollectionDeFilms
         /// Afficher une exception dans la console
         /// </summary>
         /// <param name="e"></param>
-        async public static void WriteExceptionToConsole(Exception e)
+        public static void WriteExceptionToConsole(Exception e)
         {
             WriteErrorToConsole("!Exception raised: " + e.Message);
             WriteErrorToConsole(e.StackTrace);
@@ -109,7 +112,7 @@ namespace CollectionDeFilms
         /// Ecrit un message sur la console
         /// </summary>
         /// <param name="text"></param>
-        async public static void WriteMessageToConsole(string text)
+        public static void WriteMessageToConsole(string text)
         {
             WriteToConsole(MESSAGE_PREFIX + text);
         }

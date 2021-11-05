@@ -41,7 +41,6 @@
             this.Name = "Splashscreen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Splashscreen";
-            this.TopMost = true;
             this.ResumeLayout(false);
 
         }

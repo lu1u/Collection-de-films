@@ -8,6 +8,7 @@ namespace CollectionDeFilms.Films
 {
     public class InfosFilm
     {
+        public string _titre = "";
         public string _realisateur = "";
         public string _acteurs = "";
         public string _genres = "";
@@ -25,6 +26,7 @@ namespace CollectionDeFilms.Films
 
         public InfosFilm(SqlDataReader reader)
         {
+            _titre = reader.GetString(reader.GetOrdinal(BaseFilms.ALTERNATIVES_TITRE));
             _realisateur = reader.GetString(reader.GetOrdinal(BaseFilms.ALTERNATIVES_REALISATEUR));
             _acteurs = reader.GetString(reader.GetOrdinal((BaseFilms.ALTERNATIVES_ACTEURS)));
             _genres = reader.GetString(reader.GetOrdinal((BaseFilms.ALTERNATIVES_GENRES)));
@@ -40,6 +42,7 @@ namespace CollectionDeFilms.Films
         /// <returns></returns>
         public bool estVide()
         {
+            if (_titre?.Length > 0) return false;
             if (_realisateur?.Length > 0) return false;
             if (_acteurs?.Length > 0) return false;
             if (_genres?.Length > 0) return false;
@@ -59,8 +62,9 @@ namespace CollectionDeFilms.Films
         /// <returns></returns>
         internal ListViewItem getListViewItem(ListView listView)
         {
-            ListViewItem item = new ListViewItem(_realisateur);
-            item.Text = _realisateur;
+            ListViewItem item = new ListViewItem(_titre);
+            item.Text = _titre;
+            item.SubItems.Add(_realisateur);
             item.SubItems.Add(_resume);
             item.SubItems.Add(_genres);
             item.SubItems.Add(_acteurs);
@@ -83,16 +87,17 @@ namespace CollectionDeFilms.Films
             return item;
         }
 
-        internal void copie(InfosFilm autre)
-        {
-            _realisateur = autre._realisateur;
-            _acteurs = autre._acteurs;
-            _genres = autre._genres;
-            _nationalite = autre._nationalite;
-            _resume = autre._resume;
-            _dateSortie = autre._dateSortie;
-            _image = autre._image;
-        }
+        //internal void copie(InfosFilm autre)
+        //{
+        //    _titre = autre._titre;
+        //    _realisateur = autre._realisateur;
+        //    _acteurs = autre._acteurs;
+        //    _genres = autre._genres;
+        //    _nationalite = autre._nationalite;
+        //    _resume = autre._resume;
+        //    _dateSortie = autre._dateSortie;
+        //    _image = autre._image;
+        //}
     }
 }
 

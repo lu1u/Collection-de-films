@@ -98,6 +98,7 @@ namespace CollectionDeFilms.Database
         /// </summary>
         protected override void SQLInitial()
         {
+            executeNonQuery("PRAGMA CACHE_SIZE = 200000");
         }
 
 
@@ -151,9 +152,23 @@ namespace CollectionDeFilms.Database
             creerTableCopies();
             creerTableAlternatives();
         }
+
+        /// <summary>
+        /// Faire le menage de la base des films
+        /// </summary>
+        /// <param name="dlg"></param>
         internal void menage(MenageEnCours dlg)
         {
-            dlg.pourcentage(30);
+            dlg.pourcentage(20);
+
+            // Supprimer les affiches de films qui ne sont plus associées à un film
+            using (SQLiteCommand cmd = new SQLiteCommand($"DELETE FROM {TABLE_IMAGES} WHERE {IMAGES_FILM_ID} NOT IN (SELECT {FILMS_ID} from {TABLE_FILMS});"))
+            {
+                executeNonQuery(cmd);
+            }
+
+            dlg.pourcentage(40);
+
             // Purger les alternatives non associees a un film
             supprimeAlternativesOrphelines();
             dlg.pourcentage(60);
@@ -167,7 +182,7 @@ namespace CollectionDeFilms.Database
             SQLiteDataReader reader = null;
             try
             {
-                using (SQLiteCommand cmd = new SQLiteCommand($"SELECT {BaseFilms.FILMS_ID} FROM {TABLE_FILMS} WHERE {condition} ;"))
+                using (SQLiteCommand cmd = new SQLiteCommand($"SELECT {BaseFilms.FILMS_ID} FROM {TABLE_FILMS} {condition} ;"))
                 {
                     reader = executeReader(cmd);
                 }

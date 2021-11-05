@@ -25,9 +25,10 @@ namespace CollectionDeFilms
             {
                 Genres.updateGenres();
                 Etiquettes.updateEtiquettes();
-
+                Film selected = _instance.getSelectedFilm();
                 _instance.updateFilm(f);
-                _instance.updatePanneauInfo(f);
+                if (f == selected)
+                    _instance.updatePanneauInfo(f);
             }
         }
 
@@ -50,7 +51,7 @@ namespace CollectionDeFilms
 
                 _instance.listViewFilms.Select();
                 _instance.listViewFilms.Invalidate(_instance.listViewFilms.Items[index].Bounds);
-            }            
+            }
         }
 
     }

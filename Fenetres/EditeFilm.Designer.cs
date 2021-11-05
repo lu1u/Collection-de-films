@@ -55,6 +55,8 @@
             this.buttonCancel = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.labelId = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.comboBoxEtat = new System.Windows.Forms.ComboBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -165,7 +167,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxTitre.Location = new System.Drawing.Point(88, 25);
             this.textBoxTitre.Name = "textBoxTitre";
-            this.textBoxTitre.Size = new System.Drawing.Size(698, 20);
+            this.textBoxTitre.Size = new System.Drawing.Size(890, 20);
             this.textBoxTitre.TabIndex = 28;
             // 
             // textBoxRealisateur
@@ -174,7 +176,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxRealisateur.Location = new System.Drawing.Point(88, 51);
             this.textBoxRealisateur.Name = "textBoxRealisateur";
-            this.textBoxRealisateur.Size = new System.Drawing.Size(698, 20);
+            this.textBoxRealisateur.Size = new System.Drawing.Size(890, 20);
             this.textBoxRealisateur.TabIndex = 30;
             // 
             // textBoxActeurs
@@ -183,7 +185,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxActeurs.Location = new System.Drawing.Point(88, 77);
             this.textBoxActeurs.Name = "textBoxActeurs";
-            this.textBoxActeurs.Size = new System.Drawing.Size(698, 20);
+            this.textBoxActeurs.Size = new System.Drawing.Size(890, 20);
             this.textBoxActeurs.TabIndex = 32;
             // 
             // label5
@@ -201,7 +203,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxGenres.Location = new System.Drawing.Point(88, 103);
             this.textBoxGenres.Name = "textBoxGenres";
-            this.textBoxGenres.Size = new System.Drawing.Size(698, 20);
+            this.textBoxGenres.Size = new System.Drawing.Size(890, 20);
             this.textBoxGenres.TabIndex = 34;
             // 
             // textBoxDateSortie
@@ -210,7 +212,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxDateSortie.Location = new System.Drawing.Point(88, 129);
             this.textBoxDateSortie.Name = "textBoxDateSortie";
-            this.textBoxDateSortie.Size = new System.Drawing.Size(698, 20);
+            this.textBoxDateSortie.Size = new System.Drawing.Size(890, 20);
             this.textBoxDateSortie.TabIndex = 36;
             // 
             // textBoxNationalite
@@ -219,7 +221,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxNationalite.Location = new System.Drawing.Point(88, 155);
             this.textBoxNationalite.Name = "textBoxNationalite";
-            this.textBoxNationalite.Size = new System.Drawing.Size(698, 20);
+            this.textBoxNationalite.Size = new System.Drawing.Size(890, 20);
             this.textBoxNationalite.TabIndex = 38;
             // 
             // textBoxEtiquettes
@@ -228,7 +230,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxEtiquettes.Location = new System.Drawing.Point(88, 181);
             this.textBoxEtiquettes.Name = "textBoxEtiquettes";
-            this.textBoxEtiquettes.Size = new System.Drawing.Size(698, 20);
+            this.textBoxEtiquettes.Size = new System.Drawing.Size(890, 20);
             this.textBoxEtiquettes.TabIndex = 40;
             // 
             // textBoxResume
@@ -239,7 +241,7 @@
             this.textBoxResume.Location = new System.Drawing.Point(88, 207);
             this.textBoxResume.Multiline = true;
             this.textBoxResume.Name = "textBoxResume";
-            this.textBoxResume.Size = new System.Drawing.Size(698, 89);
+            this.textBoxResume.Size = new System.Drawing.Size(890, 72);
             this.textBoxResume.TabIndex = 42;
             // 
             // pictureBoxAffiche
@@ -247,9 +249,9 @@
             this.pictureBoxAffiche.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBoxAffiche.BackColor = System.Drawing.SystemColors.ControlDark;
             this.pictureBoxAffiche.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBoxAffiche.Location = new System.Drawing.Point(88, 305);
+            this.pictureBoxAffiche.Location = new System.Drawing.Point(88, 313);
             this.pictureBoxAffiche.Name = "pictureBoxAffiche";
-            this.pictureBoxAffiche.Size = new System.Drawing.Size(202, 258);
+            this.pictureBoxAffiche.Size = new System.Drawing.Size(202, 233);
             this.pictureBoxAffiche.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBoxAffiche.TabIndex = 43;
             this.pictureBoxAffiche.TabStop = false;
@@ -261,7 +263,7 @@
             this.flowLayoutPanel2.Controls.Add(buttonOuvreFichier);
             this.flowLayoutPanel2.Controls.Add(this.buttonRechercheInternet);
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(296, 305);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(296, 313);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(200, 100);
             this.flowLayoutPanel2.TabIndex = 46;
@@ -290,7 +292,7 @@
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonOK.Location = new System.Drawing.Point(7, 573);
+            this.buttonOK.Location = new System.Drawing.Point(7, 556);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 44;
@@ -302,7 +304,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(711, 573);
+            this.buttonCancel.Location = new System.Drawing.Point(903, 556);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 45;
@@ -320,11 +322,32 @@
             // 
             this.labelId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelId.AutoSize = true;
-            this.labelId.Location = new System.Drawing.Point(744, 8);
+            this.labelId.Location = new System.Drawing.Point(936, 8);
             this.labelId.Name = "labelId";
             this.labelId.Size = new System.Drawing.Size(41, 13);
             this.labelId.TabIndex = 47;
             this.labelId.Text = "label10";
+            // 
+            // label10
+            // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(7, 286);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(29, 13);
+            this.label10.TabIndex = 48;
+            this.label10.Text = "Etat:";
+            // 
+            // comboBoxEtat
+            // 
+            this.comboBoxEtat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxEtat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxEtat.FormattingEnabled = true;
+            this.comboBoxEtat.Location = new System.Drawing.Point(88, 286);
+            this.comboBoxEtat.Name = "comboBoxEtat";
+            this.comboBoxEtat.Size = new System.Drawing.Size(889, 21);
+            this.comboBoxEtat.TabIndex = 49;
             // 
             // EditeFilm
             // 
@@ -332,8 +355,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(798, 603);
+            this.ClientSize = new System.Drawing.Size(990, 591);
             this.ControlBox = false;
+            this.Controls.Add(this.comboBoxEtat);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.labelId);
             this.Controls.Add(label1);
             this.Controls.Add(this.labelChemin);
@@ -359,6 +384,7 @@
             this.Controls.Add(this.buttonCancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(525, 607);
             this.Name = "EditeFilm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -391,5 +417,7 @@
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Label labelId;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox comboBoxEtat;
     }
 }

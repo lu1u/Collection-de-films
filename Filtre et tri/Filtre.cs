@@ -10,18 +10,22 @@ namespace CollectionDeFilms
     public class Filtre
     {
         public enum TROIS_ETATS { INDIFFERENT, OUI, NON };
-
+        public enum TRI { TITRE, DATE_AJOUT, DATE_VUE, DUREE };
+        public enum ORDRE { CROISSANT, DECROISSANT };
         private string _recherche = null;
         private string _requeteSQL = "";
         private string _critereTri = $" ORDER BY {BaseFilms.FILMS_TITRE} ";
         private string _genre = "";
         private string _etiquette = "";
-
+        
         private TROIS_ETATS _vu = TROIS_ETATS.INDIFFERENT;
         private TROIS_ETATS _aVoir = TROIS_ETATS.INDIFFERENT;
         private TROIS_ETATS _alternatives = TROIS_ETATS.INDIFFERENT;
         public bool change { get; set; }
-        public String Recherche
+
+        public  TRI tri { get; set; }
+
+        public string Recherche
         {
             get { return _recherche; }
             set { _recherche = value; updateFiltre(); }
@@ -53,8 +57,8 @@ namespace CollectionDeFilms
             set { _etiquette = value; updateFiltre(); }
         }
 
-        public object RequeteSQL { get { return _requeteSQL; } private set { } }
-        public object CritereTri { get { return _critereTri; } private set { } }
+        public string RequeteSQL { get { return _requeteSQL; } private set { } }
+        public string CritereTri { get { return _critereTri; } private set { } }
 
         private void updateFiltre()
         {
@@ -125,34 +129,36 @@ namespace CollectionDeFilms
                 case TROIS_ETATS.NON: critereAlternatives = $"({BaseFilms.TABLE_FILMS}.{BaseFilms.FILMS_ID} NOT IN (SELECT {BaseFilms.ALTERNATIVES_FILMID} FROM {BaseFilms.TABLE_ALTERNATIVES}))"; break;
             }
 
-            if (contient.Length > 0)
+            if (contient?.Length > 0)
                 _requeteSQL += contient;
 
-            if (critereVu.Length > 0)
+            if (critereVu?.Length > 0)
                 _requeteSQL += mayBeAnd(_requeteSQL) + critereVu;
 
-            if (critereAVoire.Length > 0)
+            if (critereAVoire?.Length > 0)
                 _requeteSQL += mayBeAnd(_requeteSQL) + critereAVoire;
 
-            if (critereAlternatives.Length > 0)
+            if (critereAlternatives?.Length > 0)
                 _requeteSQL += mayBeAnd(_requeteSQL) + critereAlternatives;
 
+            // Filtre sur le genre
             if (_genre?.Length > 0)
             {
-                string rech = "'%" + _genre + "%'";
+                string rech = "'%" + _genre.ToUpper() + "%'";
                 contient = string.Format($"(UPPER({BaseFilms.FILMS_GENRES}) like {{0}})", rech);
                 _requeteSQL += mayBeAnd(_requeteSQL) + contient;
             }
 
+            // Filtre sur les etiquettes
             if (_etiquette?.Length > 0)
             {
-                string rech = "'%" + _etiquette + "%'";
+                string rech = "'%" + _etiquette.ToUpper() + "%'";
                 contient = string.Format($"(UPPER({BaseFilms.FILMS_TAG}) like {{0}})", rech);
                 _requeteSQL += mayBeAnd(_requeteSQL) + contient;
             }
 
             // Ajouter mot cle SQL WHERE s'il y a des criteres
-            if (_requeteSQL.Length > 0)
+            if (_requeteSQL?.Length > 0)
                 _requeteSQL = $"WHERE ({_requeteSQL})";
 
         }
@@ -176,6 +182,29 @@ namespace CollectionDeFilms
             SQLiteCommand cmd = new SQLiteCommand();
             cmd.CommandText = "SELECT count(*) FROM FILMS " + _requeteSQL;
             return cmd;
+        }
+
+
+        internal void TriPar(TRI tri, ORDRE o )
+        {
+            string critere="";
+            string ordre="";
+            this.tri = tri;
+            switch( tri)
+            {
+                case TRI.TITRE: critere = BaseFilms.FILMS_TITRE; break;
+                case TRI.DATE_AJOUT: critere = BaseFilms.FILMS_DATECREATION; break;
+                case TRI.DUREE: critere = BaseFilms.FILMS_DUREE; break;
+                case TRI.DATE_VUE: critere = BaseFilms.FILMS_DATEVU; break;
+            }
+
+            switch( o)
+            {
+                case ORDRE.CROISSANT: ordre = "ASC";break;
+                case ORDRE.DECROISSANT: ordre = "DESC"; break;
+            }
+
+            _critereTri = $" ORDER BY {critere} {ordre}";
         }
     }
 }

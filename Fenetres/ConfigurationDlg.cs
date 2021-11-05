@@ -1,8 +1,12 @@
-﻿
-using CollectionDeFilms.Database;
-using CollectionDeFilms.Internet;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CollectionDeFilms.Fenetres
@@ -14,31 +18,14 @@ namespace CollectionDeFilms.Fenetres
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Chargement du formulaire
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void onFormLoad(object sender, EventArgs e)
         {
             // Checkboxes: relancer automatiquement les recherche au demarrage
             checkBoxRelanceRecherche.Checked = Configuration.relancerRechercheAuto;
             checkBoxMenageFin.Checked = Configuration.menageALaFin;
-
-            // Radio button: recherche les infos sur tous les sites ou s'arreter dès qu'on trouve
-            if (Configuration.arretRecherchePremier)
-            {
-                radioButtonPremierSite.Checked = true;
-                radioButtonTousLesSites.Checked = false;
-            }
-            else
-            {
-                radioButtonPremierSite.Checked = false;
-                radioButtonTousLesSites.Checked = true;
-            }
-
-            // Liste des configurations de recherche
-            remplitListeRecherches();
+            textBoxChercherFilm.Text = Configuration.urlTMDBChercherFilm;
+            textBoxInfosFilm.Text = Configuration.urlTMDBInfosFilm;
+            textBoxAfficheFilm.Text = Configuration.urlTMDBAfficheFilm;
 
             // Retailler les images trop grandes
             int tailleImage = Configuration.largeurMaxImages;
@@ -58,146 +45,30 @@ namespace CollectionDeFilms.Fenetres
             checkBoxSupprimerAlternatives.Checked = Configuration.supprimerAutresAlternatives;
         }
 
-        /// <summary>
-        /// Remplissage de la liste des recherche sur Internet
-        /// </summary>
-        private void remplitListeRecherches()
+        private void Button1_Click(object sender, EventArgs e)
         {
-            listViewRecherches.BeginUpdate();
-            listViewRecherches.Items.Clear();
-            List<RechercheInternet> recherches = BaseConfiguration.instance.getListeRechercheInternet();
-            foreach (RechercheInternet r in recherches)
+            if (!controleUrlListeFilms())
             {
-                ListViewItem item = new ListViewItem(r.nom);
-                item.SubItems.Add(r.rang.ToString());
-                listViewRecherches.Items.Add(item);
-            }
-            listViewRecherches.EndUpdate();
-        }
-
-        /// <summary>
-        /// Ajouter un site de recherche internet
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonAddClick(object sender, EventArgs e)
-        {
-            EditeRechercheInternet dlg = new EditeRechercheInternet();
-            if (dlg.ShowDialog(this) == DialogResult.OK)
-            {
-                RechercheInternet r = dlg.rechercheInternet;
-                if (r != null)
-                {
-                    r.rang = listViewRecherches.Items.Count;
-                    BaseConfiguration.instance.addRechercheInternet(r);
-                    remplitListeRecherches();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Modifier un site de recherche
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonEditClick(object sender, EventArgs e)
-        {
-            if (listViewRecherches.SelectedIndices.Count == 0)
+                textBoxChercherFilm.Focus();
                 return;
-            string nom = listViewRecherches.Items[listViewRecherches.SelectedIndices[0]].Text;
-            if (nom == null)
-                return;
-
-            EditeRechercheInternet dlg = new EditeRechercheInternet();
-            dlg.rechercheInternet = BaseConfiguration.instance.getRechercheInternet(nom);
-
-            if (dlg.ShowDialog(this) == DialogResult.OK)
-            {
-                RechercheInternet r = dlg.rechercheInternet;
-                if (r != null)
-                {
-                    r.rang = listViewRecherches.Items.Count;
-                    BaseConfiguration.instance.updateRechercheInternet(r);
-                    remplitListeRecherches();
-                }
             }
-        }
-
-        /// <summary>
-        /// Remonter la recherche dans la liste
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void onClickButtonPrev(object sender, EventArgs e)
-        {
-            if (listViewRecherches.SelectedIndices.Count == 0)
-                return;
-
-            int selected = listViewRecherches.SelectedIndices[0];
-            if (selected > 0)
+            if (!controleUrlInfosFilm())
             {
-                List<RechercheInternet> liste = BaseConfiguration.instance.getListeRechercheInternet();
-                RechercheInternet r = liste[selected];
-                liste.RemoveAt(selected);
-                liste.Insert(selected - 1, r);
-                for (int i = 0; i <= selected; i++)
-                {
-                    liste[i].rang = i;
-                    BaseConfiguration.instance.updateRechercheInternet(liste[i]);
-                }
-                remplitListeRecherches();
-
-                listViewRecherches.SelectedItems.Clear();
-                listViewRecherches.Items[selected - 1].Selected = true; ;
-            }
-        }
-
-        private void onClicButtonNext(object sender, EventArgs e)
-        {
-            if (listViewRecherches.SelectedIndices.Count == 0)
+                textBoxInfosFilm.Focus();
                 return;
-
-            int selected = listViewRecherches.SelectedIndices[0];
-            if (selected < listViewRecherches.Items.Count - 1)
-            {
-                List<RechercheInternet> liste = BaseConfiguration.instance.getListeRechercheInternet();
-                RechercheInternet r = liste[selected];
-                liste.RemoveAt(selected);
-                liste.Insert(selected + 1, r);
-                for (int i = 0; i <= selected + 1; i++)
-                {
-                    liste[i].rang = i;
-                    BaseConfiguration.instance.updateRechercheInternet(liste[i]);
-                }
-                remplitListeRecherches();
-
-                listViewRecherches.SelectedItems.Clear();
-                listViewRecherches.Items[selected + 1].Selected = true; ;
             }
-        }
-
-        private void onClickTousLesSites(object sender, EventArgs e)
-        {
-            Configuration.arretRecherchePremier = false;
-            radioButtonPremierSite.Checked = false;
-            radioButtonTousLesSites.Checked = true;
-        }
-
-        private void onClickPremierSite(object sender, EventArgs e)
-        {
-            Configuration.arretRecherchePremier = true;
-            radioButtonPremierSite.Checked = true;
-            radioButtonTousLesSites.Checked = false;
-        }
-
-
-        private void buttonOK_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBoxRetailleImagesSelectedIndexChanged(object sender, EventArgs e)
-        {
+            if (!controleUrlAfficheFilm())
+            {
+                textBoxAfficheFilm.Focus();
+                return;
+            }
+            Configuration.relancerRechercheAuto = checkBoxRelanceRecherche.Checked;
+            Configuration.menageALaFin = checkBoxMenageFin.Checked;
+            Configuration.supprimerAutresAlternatives = checkBoxSupprimerAlternatives.Checked;
+            Configuration.urlTMDBChercherFilm = textBoxChercherFilm.Text;
+            Configuration.urlTMDBInfosFilm = textBoxInfosFilm.Text;
+            Configuration.urlTMDBAfficheFilm = textBoxAfficheFilm.Text;
+            
             int taille;
             switch (comboBoxRetailleImages.SelectedIndex)
             {
@@ -209,22 +80,101 @@ namespace CollectionDeFilms.Fenetres
                 default: taille = 0; break;
             }
             Configuration.largeurMaxImages = taille;
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
-        private void onClickSupprimerAutresAlternatives(object sender, EventArgs e)
+        private bool controleUrlAfficheFilm()
         {
-            Configuration.supprimerAutresAlternatives = checkBoxSupprimerAlternatives.Checked;
+            string url = textBoxAfficheFilm.Text;
+            // Verifier qu'il y a bien http: ou https:
+            if (!url.StartsWith("http:") && !url.StartsWith("https:"))
+            {
+                MessageBox.Show("L'url doit commencer par http:// ou https://", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Verifier que la clef a ete inserée
+            if (url.IndexOf("VOTRE_CLEF_TMDB") != -1)
+                if (!url.StartsWith("http:") && !url.StartsWith("https:"))
+                {
+                    MessageBox.Show("Vous devez intégrer votre clef TMDB dans l'url", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+            // Verifier que le placeholder pour le parametre de recherche a bien ete inséré
+            if (url.IndexOf("{0}") == -1)
+                if (!url.StartsWith("http:") && !url.StartsWith("https:"))
+                {
+                    MessageBox.Show("L'url doit comporter la séquence '{0}' pour intégrer le film à rechercher", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+            return true;
         }
 
-        private void onClickRechercheDemarrage(object sender, EventArgs e)
+        private bool controleUrlInfosFilm()
         {
-            Configuration.relancerRechercheAuto = checkBoxRelanceRecherche.Checked;
+            string url = textBoxInfosFilm.Text;
+            // Verifier qu'il y a bien http: ou https:
+            if (!url.StartsWith("http:") && !url.StartsWith("https:"))
+            {
+                MessageBox.Show("L'url doit commencer par http:// ou https://", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Verifier que la clef a ete inserée
+            if (url.IndexOf("VOTRE_CLEF_TMDB") != -1)
+                if (!url.StartsWith("http:") && !url.StartsWith("https:"))
+                {
+                    MessageBox.Show("Vous devez intégrer votre clef TMDB dans l'url", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+            // Verifier que le placeholder pour le parametre de recherche a bien ete inséré
+            if (url.IndexOf("{0}") == -1)
+                if (!url.StartsWith("http:") && !url.StartsWith("https:"))
+                {
+                    MessageBox.Show("L'url doit comporter la séquence '{0}' pour intégrer le film à rechercher", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+            return true;
         }
 
-        private void onClickMenageFin(object sender, EventArgs e)
+        private bool controleUrlListeFilms()
         {
-            Configuration.menageALaFin = checkBoxMenageFin.Checked;
+            string url = textBoxChercherFilm.Text;
+            // Verifier qu'il y a bien http: ou https:
+            if ( ! url.StartsWith("http:") && ! url.StartsWith("https:"))
+            {
+                MessageBox.Show("L'url doit commencer par http:// ou https://", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            // Verifier que la clef a ete inserée
+            if ( url.IndexOf("VOTRE_CLEF_TMDB") != -1)
+                if (!url.StartsWith("http:") && !url.StartsWith("https:"))
+                {
+                    MessageBox.Show("Vous devez intégrer votre clef TMDB dans l'ur", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+            // Verifier que le placeholder pour le parametre de recherche a bien ete inséré
+            if (url.IndexOf("{0}") == -1)
+                if (!url.StartsWith("http:") && !url.StartsWith("https:"))
+                {
+                    MessageBox.Show("L'url doit comporter la séquence '{0}' pour intégrer le film à rechercher", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            return true;
         }
 
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var si = new ProcessStartInfo("https://www.themoviedb.org");
+            Process.Start(si);
+            linkLabelTMDB.LinkVisited = true;
+        }
     }
 }

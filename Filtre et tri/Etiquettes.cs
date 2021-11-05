@@ -16,13 +16,13 @@ namespace CollectionDeFilms.Filtre_et_tri
         /// Retourne une liste de genres uniques
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<string>> getEtiquettes()
+        public static List<string> getEtiquettes()
         {
             if (_etiquettes == null)
             {
                 // Construire une nouvelle liste d'etiquettes
                 _etiquettes = new List<string>();
-                SQLiteDataReader reader = await BaseFilms.instance.getEtiquettes();
+                SQLiteDataReader reader = BaseFilms.instance.getEtiquettes();
                 if (reader.HasRows)
                 {
                     int ordinal = reader.GetOrdinal(BaseFilms.FILMS_TAG);
@@ -35,7 +35,7 @@ namespace CollectionDeFilms.Filtre_et_tri
                 }
 
                 for (int i = 0; i < _etiquettes.Count; i++)
-                    _etiquettes[i] = magnifique(_etiquettes[i]);
+                    _etiquettes[i] = Genres.magnifique(_etiquettes[i]);
 
                 _etiquettes.Sort();
                 }
@@ -56,9 +56,8 @@ namespace CollectionDeFilms.Filtre_et_tri
         /// </summary>
         /// <param name="genres"></param>
         /// <param name="res"></param>
-        private static bool ajouteEtiquettes(string genres, List<string> res)
+        private static void ajouteEtiquettes(string genres, List<string> res)
         {
-            bool change = false;
             genres = genres.Trim();
             string[] morceaux = genres.Split(BaseFilms.SEPARATEUR_LISTES_CHAR);
             foreach (string m in morceaux)
@@ -66,29 +65,33 @@ namespace CollectionDeFilms.Filtre_et_tri
                 if (m?.Length > 0)
                 {
                     string s = m.Trim().ToLower() ;
-                    if (res.IndexOf(s) == -1)
-                    {
-                        change = true;
+                    if (!recherche(res, s))
                         res.Add(s);
-                    }
                 }
             }
-
-            return change;
         }
 
+        private static bool recherche(List<string> res, string val)
+        {
+            string Val = val.ToLower();
+            foreach (string s in res)
+                if (s.ToLower().Equals(Val))
+                    return true;
+
+            return false;
+        }
 
         /// <summary>
         /// Tranforme une chaine de caracteres: initiale majuscule, le reste en minuscules
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        private static string magnifique(string v)
-        {
-            if (v?.Length < 2)
-                return v;
-
-            return v.Substring(0, 1).ToUpper() + v.Substring(1).ToLower() ;
-        }
+        //private static string magnifique(string v)
+        //{
+        //    if (v?.Length < 2)
+        //        return v;
+        //
+        //    return v.Substring(0, 1).ToUpper() + v.Substring(1).ToLower() ;
+        //}
     }
 }

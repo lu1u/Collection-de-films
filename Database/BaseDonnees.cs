@@ -20,8 +20,8 @@ namespace CollectionDeFilms.Database
             _dbPath = Path.Combine(baseDefaultLocation(), dbPath);
             assureBDExiste(_dbPath);
             connexion.Open();
-            creerTablesSiNonExiste();
             SQLInitial();
+            creerTablesSiNonExiste();
         }
 
         public static string baseDefaultLocation()

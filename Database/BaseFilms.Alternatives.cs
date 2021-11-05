@@ -16,6 +16,7 @@ namespace CollectionDeFilms.Database
         /// </summary>
         public const string TABLE_ALTERNATIVES = "ALTERNATIVES";
         public const string ALTERNATIVES_FILMID = "FilmId";
+        public const string ALTERNATIVES_TITRE = "TITRE";
         public const string ALTERNATIVES_REALISATEUR = "REALISATEUR";
         public const string ALTERNATIVES_ACTEURS = "ACTEURS";
         public const string ALTERNATIVES_GENRES = "GENRES";
@@ -28,6 +29,7 @@ namespace CollectionDeFilms.Database
         {
             executeNonQuery($"CREATE TABLE IF NOT EXISTS {TABLE_ALTERNATIVES} "
                 + $" ({ALTERNATIVES_FILMID} INTEGER REFERENCES {TABLE_FILMS}([{FILMS_ID}]),"
+                + $" {ALTERNATIVES_TITRE} TEXT NOT NULL,"
                 + $" {ALTERNATIVES_REALISATEUR} TEXT NOT NULL,"
                 + $" {ALTERNATIVES_ACTEURS} TEXT NOT NULL,"
                 + $" {ALTERNATIVES_GENRES} TEXT NOT NULL,"
@@ -50,10 +52,11 @@ namespace CollectionDeFilms.Database
             if (alternatives != null)
                 foreach (InfosFilm alternative in alternatives)
                     using (SQLiteCommand command = new SQLiteCommand($"INSERT into {TABLE_ALTERNATIVES} " +
-                                $"({ALTERNATIVES_FILMID}, {ALTERNATIVES_REALISATEUR}, {ALTERNATIVES_ACTEURS}, {ALTERNATIVES_GENRES}, {ALTERNATIVES_NATIONALITE}, {ALTERNATIVES_RESUME}, {ALTERNATIVES_DATESORTIE}, {ALTERNATIVES_IMAGE})"
-                            + " VALUES (@id, @realisateur, @acteurs, @genres, @nationalite, @resume, @datesortie, @affiche)"))
+                                $"({ALTERNATIVES_FILMID}, {ALTERNATIVES_TITRE}, {ALTERNATIVES_REALISATEUR}, {ALTERNATIVES_ACTEURS}, {ALTERNATIVES_GENRES}, {ALTERNATIVES_NATIONALITE}, {ALTERNATIVES_RESUME}, {ALTERNATIVES_DATESORTIE}, {ALTERNATIVES_IMAGE})"
+                            + " VALUES (@id, @titre, @realisateur, @acteurs, @genres, @nationalite, @resume, @datesortie, @affiche)"))
                     {
                         command.Parameters.AddWithValue("@id", id);
+                        command.Parameters.AddWithValue("@titre", alternative._titre);
                         command.Parameters.AddWithValue("@realisateur", alternative._realisateur);
                         command.Parameters.AddWithValue("@acteurs", alternative._acteurs);
                         command.Parameters.AddWithValue("@genres", alternative._genres);
@@ -113,6 +116,20 @@ namespace CollectionDeFilms.Database
         }
 
 
+        /// <summary>
+        /// Supprime les affiches d'un film
+        /// </summary>
+        /// <param name="film">Id du film</param>
+        /// <returns>true si la commande s'est bien passee</returns>
+        public bool supprimeImages(int filmId)
+        {
+            // Supprimer les alternatives
+            using (SQLiteCommand command = new SQLiteCommand($"DELETE FROM {TABLE_IMAGES} WHERE {IMAGES_FILM_ID} = @id"))
+            {
+                command.Parameters.AddWithValue("@id", filmId);
+                return executeNonQuery(command);
+            }
+        }
 
         public void supprimeAlternativesOrphelines()
         {
@@ -125,7 +142,12 @@ namespace CollectionDeFilms.Database
 
         internal void sauveImage(int id, Image image)
         {
-            using (SQLiteCommand command = new SQLiteCommand($"UPDATE {TABLE_FILMS}  SET {FILMS_IMAGE} =@image WHERE {FILMS_ID} = @id"))
+            using (SQLiteCommand command = new SQLiteCommand($"DELETE FROM {TABLE_IMAGES} WHERE {IMAGES_FILM_ID} = @id"))
+            {
+                command.Parameters.AddWithValue("@id", id);
+                executeNonQuery(command);
+            }
+            using (SQLiteCommand command = new SQLiteCommand($"INSERT INTO {TABLE_IMAGES}  VALUES (@id, @image)"))
             {
                 command.Parameters.AddWithValue("@id", id);
                 command.Parameters.AddWithValue("@image", BaseFilms.SqlBinaryPeutEtreNull(Images.imageToByteArray(image)));
@@ -167,6 +189,23 @@ namespace CollectionDeFilms.Database
                 executeNonQuery(command);
             }
         }
+
+
+        /// <summary>
+        /// Met a jour une des colonnes d'un film
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="colonne"></param>
+        /// <param name="valeur"></param>
+        internal void updateFilm(int id, string colonne, double valeur)
+        {
+            using (SQLiteCommand command = new SQLiteCommand($"UPDATE {TABLE_FILMS}  SET {colonne} = @valeur WHERE {FILMS_ID} = @id"))
+            {
+                command.Parameters.AddWithValue("@id", id);
+                command.Parameters.AddWithValue("@valeur", valeur);
+                executeNonQuery(command);
+            }
+        }
         /// <summary>
         /// Met a jour une des colonnes d'un film
         /// </summary>
@@ -192,7 +231,7 @@ namespace CollectionDeFilms.Database
             using (SQLiteCommand command = new SQLiteCommand($"DELETE FROM {TABLE_FILMS} WHERE {FILMS_ID} = @id"))
             {
                 supprimeAlternatives(id);
-                //supprimeImage( film.imageId );
+                supprimeImages( id );
                 command.Parameters.AddWithValue("@id", id);
                 executeNonQuery(command);
             }

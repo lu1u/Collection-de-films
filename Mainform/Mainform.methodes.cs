@@ -2,6 +2,7 @@
 using CollectionDeFilms.Actions;
 using CollectionDeFilms.Database;
 using CollectionDeFilms.Films;
+using CollectionDeFilms.Filtre_et_tri;
 using CollectionDeFilms.Internet;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace CollectionDeFilms
         /// </summary>
         /// <param name="film">film</param>
         ///////////////////////////////////////////////////////////////////////////////////////////
-        async private void updatePanneauInfo(Film film = null)
+        private void updatePanneauInfo(Film film = null)
         {
             if (film == null)
             {
@@ -41,8 +42,13 @@ namespace CollectionDeFilms
             afficheInfoLinks(labelKeyGenres, linkLabelGenres, film.Genres);
             afficheInfo(labelKeyDateSortie, labelDateSortie, film.DateSortie);
             afficheInfo(labelKeyNationalite, labelNationalite, film.Nationalite);
-            afficheInfo(labelKeyVuLe, labelVuLe, film.DateVu.Ticks == 0 ? null: film.DateVu.ToLongDateString());
+            afficheInfo(labelKeyVuLe, labelVuLe, film.DateVu.Ticks == 0 ? null : film.DateVu.ToLongDateString());
+            afficheInfo(labelKeyAjouteLe, labelAjouteLe, film.DateCreation.ToLongDateString());
             afficheInfoLinks(labelKeyEtiquettes, linkLabelEtiquettes, film.Etiquettes);
+
+            TimeSpan s = film.Duree;
+            afficheInfo(labelKeyDuree, labelDuree, s.Equals(TimeSpan.Zero) ? "" : $"{s:hh\\:mm\\:ss}");
+
             labelResume.Text = film.Resume;
 
             switch (film.Etat)
@@ -95,11 +101,13 @@ namespace CollectionDeFilms
         /// Mettre a jour un film dans la liste
         /// </summary>
         /// <param name="f"></param>
-        private async void updateFilm(Film f)
+        private void updateFilm(Film f)
         {
             if (f != null)
             {
-                if (listViewFilms.SelectedItems.Count > 0)
+                Film selected = getSelectedFilm();
+                //if (listViewFilms.SelectedItems.Count > 0)
+                if (f == selected)
                 {
                     listViewFilms.Invalidate(_instance.listViewFilms.SelectedItems[0].Bounds);
                     listViewFilms.SelectedItems[0].ToolTipText = f.getTooltip();
@@ -116,7 +124,6 @@ namespace CollectionDeFilms
         /// <param name="texte"></param>
         private void afficheInfoLinks(Label key, LinkLabel link, string texte)
         {
-            char[] SEPARATEURS = { ',' };
             if (texte?.Length > 0)
             {
                 key.Show();
@@ -228,10 +235,49 @@ namespace CollectionDeFilms
             listViewFilms.EndUpdate();
             listViewFilms.Invalidate();
 
+            RemplitListeGenres();
+            RemplitListeEtiquettes();
+
             toolStripStatusLabelNbAffiches.Text = string.Format("{0} films affichés", listViewFilms.Items.Count);
             toolStripStatusLabelNbFilmsBD.Text = string.Format("{0} films dans la base", BaseFilms.instance.getNbFilms());
 
             Cursor = c;
+        }
+
+        private void RemplitListeEtiquettes()
+        {
+            List<string> liste = Etiquettes.getEtiquettes();
+            toolStripComboBoxEtiquettes.Items.Clear();
+            string etiquette = _filtre.Etiquette.ToUpper();
+            int selected = 0;
+            // Option specifique pour pas de genre selectionne
+
+            toolStripComboBoxEtiquettes.Items.Add("[Pas d'etiquette sélectionnée]");
+            foreach (string s in liste)
+            {
+                if (s.ToUpper().Equals(etiquette))
+                    selected = toolStripComboBoxEtiquettes.Items.Count;
+                toolStripComboBoxEtiquettes.Items.Add(s);
+            }
+            toolStripComboBoxEtiquettes.SelectedIndex = selected;
+
+        }
+
+        private void RemplitListeGenres()
+        {
+            // Une option de menu par genre
+            List<string> liste = Genres.getGenres();
+            toolStripComboBoxGenres.Items.Clear();
+            int selected = 0;
+            string genre = _filtre.Genre.ToUpper();
+            toolStripComboBoxGenres.Items.Add("[Pas de genre sélectionné]");
+            foreach (string s in liste)
+            {
+                if (s.ToUpper().Equals(genre))
+                    selected = toolStripComboBoxGenres.Items.Count;
+                toolStripComboBoxGenres.Items.Add(s);
+            }
+            toolStripComboBoxGenres.SelectedIndex = selected;
         }
 
 
@@ -242,7 +288,6 @@ namespace CollectionDeFilms
         public void reprendTraitementFilms()
         {
             _actionsDifferees.Clear();
-
             IEnumerator<Film> iFilms = BaseFilms.instance.getFilmEnumerator($" {BaseFilms.FILMS_ETAT}={Film.etatToInt(Film.ETAT.PAS_TROUVE)} OR {BaseFilms.FILMS_ETAT}={Film.etatToInt(Film.ETAT.NOUVEAU)} OR {BaseFilms.FILMS_ETAT}={Film.etatToInt(Film.ETAT.DANS_LA_QUEUE)}");
             while (iFilms.MoveNext())
             {
@@ -300,9 +345,10 @@ namespace CollectionDeFilms
                                     {
                                         WriteMessageToConsole($"{fichier} déjà référencé, ajouter le nouveau");
                                         Film film = new Film(fichier, etiquettes);
+                                        film.DateCreation = DateTime.Now;
                                         bd.ajouteFilm(film);
                                         ajouteFilm(film);
-                                        _actionsDifferees.ajoute(new ActionNouveauFilm(film));                                        
+                                        _actionsDifferees.ajoute(new ActionNouveauFilm(film));
                                     }
                                     break;
 
@@ -312,10 +358,17 @@ namespace CollectionDeFilms
                                         if (f != null)
                                         {
                                             WriteMessageToConsole($"{fichier} déjà référencé, remplacer l'ancien {f.Chemin}.");
-                                            if (!f.Chemin.Equals(fichier))
+                                            try
                                             {
-                                                f.Chemin = fichier;
-                                                bd.update(f);
+                                                if (!(fichier.Equals(f.Chemin)))
+                                                {
+                                                    f.Chemin = fichier;
+                                                    bd.update(f, null);
+                                                }
+                                            }
+                                            catch (Exception e)
+                                            {
+                                                WriteExceptionToConsole(e);
                                             }
                                         }
                                     }
@@ -327,6 +380,7 @@ namespace CollectionDeFilms
                             // Nouveau fichier non encore reference dans la base
                             Film film = new Film(fichier, etiquettes);
                             WriteMessageToConsole($"Ajout du film {fichier}");
+                            film.DateCreation = DateTime.Now;
                             bd.ajouteFilm(film);
                             ajouteFilm(film);
                             _actionsDifferees.ajoute(new ActionNouveauFilm(film));
@@ -367,6 +421,17 @@ namespace CollectionDeFilms
         public bool getCancel()
         {
             return false;
+        }
+
+        private void verifiePresenceFichiers()
+        {
+            IEnumerator<Film> iFilms = BaseFilms.instance.getFilmEnumerator(new Filtre());
+
+            while (iFilms.MoveNext())
+            {
+                Film f = iFilms.Current;
+                _actionsDifferees.ajoute(new ActionVerifFichier(f), ActionsDifferees.PRIORITE.BASSE);
+            }
         }
     }
 }

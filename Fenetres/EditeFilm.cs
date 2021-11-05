@@ -32,6 +32,13 @@ namespace CollectionDeFilms.Fenetres
             textBoxActeurs.Text = film.Acteurs;
             textBoxResume.Text = film.Resume;
             textBoxEtiquettes.Text = film.Etiquettes;
+
+            // Etats
+            for (int i = 0; i < Film.TEXTES_ETATS.Length; i++)
+                comboBoxEtat.Items.Add(Film.TEXTES_ETATS[i]);
+
+            comboBoxEtat.SelectedIndex = film.EtatInt ;
+            
             Image image = film.Affiche;
             if (image != null)
                 pictureBoxAffiche.Image = image;
@@ -46,13 +53,10 @@ namespace CollectionDeFilms.Fenetres
             string urlAssociation = @"Software\Microsoft\Windows\Shell\Associations\UrlAssociations\http";
             string browserPathKey = @"$BROWSER$\shell\open\command";
 
-            RegistryKey userChoiceKey = null;
-            string browserPath = "";
-
             try
             {
                 //Read default browser path from userChoiceLKey
-                userChoiceKey = Registry.CurrentUser.OpenSubKey(urlAssociation + @"\UserChoice", false);
+                RegistryKey userChoiceKey = Registry.CurrentUser.OpenSubKey(urlAssociation + @"\UserChoice", false);
 
                 //If user choice was not found, try machine default
                 if (userChoiceKey == null)
@@ -80,7 +84,7 @@ namespace CollectionDeFilms.Fenetres
                     // now look up the path of the executable
                     string concreteBrowserKey = browserPathKey.Replace("$BROWSER$", progId);
                     var kp = Registry.ClassesRoot.OpenSubKey(concreteBrowserKey, false);
-                    browserPath = CleanifyBrowserPath(kp.GetValue(null) as string);
+                    string browserPath = CleanifyBrowserPath(kp.GetValue(null) as string);
                     kp.Close();
                     return browserPath;
                 }
@@ -126,6 +130,11 @@ namespace CollectionDeFilms.Fenetres
             }
         }
 
+        /// <summary>
+        /// Clic sur le bouton OK
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonOK_Click(object sender, EventArgs e)
         {
             // Validation du film
@@ -137,10 +146,9 @@ namespace CollectionDeFilms.Fenetres
             film.Nationalite = textBoxNationalite.Text;
             film.Etiquettes = textBoxEtiquettes.Text;
             film.Resume = textBoxResume.Text;
-            if (afficheChangee)
-                film.Affiche = pictureBoxAffiche.Image;
+            film.Etat = Film.intToEtat(comboBoxEtat.SelectedIndex);
 
-            BaseFilms.instance.update(film);
+            BaseFilms.instance.update(film, afficheChangee? pictureBoxAffiche.Image : null );
             MainForm.changeEtat(film);
 
             DialogResult = DialogResult.OK;

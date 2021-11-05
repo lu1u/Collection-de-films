@@ -1,8 +1,8 @@
 ﻿using CollectionDeFilms.Internet;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Data.SQLite;
-
 
 namespace CollectionDeFilms.Database
 {
@@ -98,6 +98,10 @@ namespace CollectionDeFilms.Database
         public List<RechercheInternet> getListeRechercheInternet()
         {
             List<RechercheInternet> result = new List<RechercheInternet>();
+            // Recherche sur TheMovieDB.Org
+            result.Add(new RechercheTheMovieDBOrg());
+
+            // Recherche sur les sites Internet
             try
             {
                 using (SQLiteCommand cmd = new SQLiteCommand())
@@ -111,7 +115,7 @@ namespace CollectionDeFilms.Database
                             // Read advances to the next row.
                             while (reader.Read())
                             {
-                                result.Add(new RechercheInternet(reader));
+                                result.Add(new RechercheSurSite(reader));
                             }
                         }
                     }
@@ -125,7 +129,7 @@ namespace CollectionDeFilms.Database
             return result;
         }
 
-        public void addRechercheInternet(RechercheInternet r)
+        public void addRechercheInternet(RechercheSurSite r)
         {
             using (SQLiteCommand command = new SQLiteCommand("INSERT into " + TABLE_RECHERCHES + " ("
                         + RECHERCHE_NOM + ","
@@ -160,7 +164,7 @@ namespace CollectionDeFilms.Database
             }
         }
 
-        public RechercheInternet getRechercheInternet(string nom)
+        public RechercheSurSite getRechercheInternet(string nom)
         {
             using (SQLiteCommand cmd = new SQLiteCommand("SELECT * FROM " + TABLE_RECHERCHES + " WHERE " + RECHERCHE_NOM + " = @nom"))
                 try
@@ -172,7 +176,7 @@ namespace CollectionDeFilms.Database
                         if (reader.HasRows)
                         {
                             reader.Read();
-                            return new RechercheInternet(reader);
+                            return new RechercheSurSite(reader);
                         }
                     }
 
@@ -184,7 +188,7 @@ namespace CollectionDeFilms.Database
             return null;
         }
 
-        public void updateRechercheInternet(RechercheInternet r)
+        public void updateRechercheInternet(RechercheSurSite r)
         {
             using (SQLiteCommand command = new SQLiteCommand("INSERT OR REPLACE INTO "
                                                         + TABLE_RECHERCHES

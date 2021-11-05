@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
@@ -55,9 +56,9 @@ namespace CollectionDeFilms
             int newWidth = (int)(image.Width * ratio);
             int newHeight = (int)(image.Height * ratio);
 
-            var newImage = new Bitmap(newWidth, newHeight);
+            Image newImage = new Bitmap(newWidth, newHeight);
 
-            using (var graphics = Graphics.FromImage(newImage))
+            using (Graphics graphics = Graphics.FromImage(newImage))
                 graphics.DrawImage(image, 0, 0, newWidth, newHeight);
 
             return newImage;
@@ -129,14 +130,53 @@ namespace CollectionDeFilms
             if (decalage < 1)
                 decalage = 1;
 
-            Image img = new Bitmap(image.Width + decalage, image.Height + decalage);
+            Image img = new Bitmap(image.Width + decalage*2, image.Height + decalage*2);
             using (Graphics g = Graphics.FromImage(img))
             {
-                using (Brush b = new SolidBrush(Color.FromArgb((int)(256.0f / (float)decalage), 0, 0, 0)))
-                    for (int i = 0; i < decalage; i++)
-                        g.FillRectangle(b, i, i, image.Width, image.Height);
+                 using (Brush b = new SolidBrush(Color.FromArgb((int)(128.0f / (float)decalage), 0, 0, 0)))
+                     for (int i = 1; i <= decalage; i++)
+                         g.FillRectangle(b, i, i, image.Width, image.Height);
+
+                //Rectangle rect = new Rectangle(0, 0, image.Width + decalage, image.Height + decalage);
+                //
+                //GraphicsPath path = new GraphicsPath();
+                //path.AddRectangle(rect);
+                //// this is where we create the shadow effect, so we will use a 
+                //// pathgradientbursh and assign our GraphicsPath that we created of a 
+                //// Rounded Rectangle
+                //using (PathGradientBrush _Brush = new PathGradientBrush(path))
+                //{
+                //    // set the wrapmode so that the colors will layer themselves
+                //    // from the outer edge in
+                //    _Brush.WrapMode = WrapMode.Clamp;
+                //
+                //    // Create a color blend to manage our colors and positions and
+                //    // since we need 3 colors set the default length to 3
+                //    ColorBlend _ColorBlend = new ColorBlend(3);
+                //
+                //    // here is the important part of the shadow making process, remember
+                //    // the clamp mode on the colorblend object layers the colors from
+                //    // the outside to the center so we want our transparent color first
+                //    // followed by the actual shadow color. Set the shadow color to a 
+                //    // slightly transparent DimGray, I find that it works best.|
+                //    _ColorBlend.Colors = new Color[] { Color.Transparent, Color.FromArgb(250, Color.Black), Color.FromArgb(250, Color.DarkGray) };
+                //
+                //    // our color blend will control the distance of each color layer
+                //    // we want to set our transparent color to 0 indicating that the 
+                //    // transparent color should be the outer most color drawn, then
+                //    // our Dimgray color at about 10% of the distance from the edge
+                //    _ColorBlend.Positions = new float[] { 0f, .1f, 1f };
+                //
+                //    // assign the color blend to the pathgradientbrush
+                //    _Brush.InterpolationColors = _ColorBlend;
+                //
+                //    // fill the shadow with our pathgradientbrush
+                //    g.FillPath(_Brush, path);
+                //}
+
                 g.DrawImageUnscaled(image, 0, 0);
             }
+
             return img;
         }
 
@@ -152,6 +192,19 @@ namespace CollectionDeFilms
             if (image == null)
                 return null;
             return new Bitmap(image);
+        }
+
+        internal static Image cadre(Image image, Color couleur, int largeur)
+        {
+            Image img = new Bitmap(image.Width + largeur*2, image.Height + largeur*2);
+            using (Graphics g = Graphics.FromImage(img))
+            {
+                g.DrawImageUnscaled(image, largeur, largeur);
+                using (Pen p = new Pen(couleur, largeur))
+                    g.DrawRectangle(p, largeur/2, largeur/2, img.Width-largeur, img.Height-largeur);
+            }
+
+            return img;
         }
     }
 }

@@ -24,10 +24,15 @@ namespace CollectionDeFilms.Database
         public const string FILMS_DATESORTIE = "DATESORTIE";
         public const string FILMS_ETAT = "ETAT";
         public const string FILMS_DATEVU = "DATE_VU";
+        public const string FILMS_DATECREATION = "DATE_CREATION";
         public const string FILMS_FLAGS = "FLAGS";
         public const string FILMS_TAG = "TAG";
-        public const string FILMS_IMAGE = "IMAGE";
+        //public const string FILMS_IMAGE = "IMAGE";
+        public const string FILMS_DUREE = "DUREE";
 
+        public const string TABLE_IMAGES = "IMAGES";
+        public const string IMAGES_FILM_ID = "ID_FILM";
+        public const string IMAGES_IMAGE = "IMAGE";
         internal void creerTableFilms()
         {
             // Table films
@@ -42,10 +47,17 @@ namespace CollectionDeFilms.Database
                 + $"{FILMS_RESUME} TEXT NOT NULL,"
                 + $"{FILMS_DATESORTIE} TEXT NOT NULL,"
                 + $"{FILMS_ETAT} INTEGER NOT NULL,"
+                + $"{FILMS_DUREE} INTEGER NOT NULL DEFAULT 0,"
                 + $"{FILMS_DATEVU} INTEGER,"
+                + $"{FILMS_DATECREATION} INTEGER NOT NULL DEFAULT 0,"
                 + $"{FILMS_FLAGS} INTEGER NOT NULL,"
-                + $"{FILMS_TAG} TEXT NOT NULL,"
-                + $"{FILMS_IMAGE} BLOB"
+                + $"{FILMS_TAG} TEXT NOT NULL"
+                + " );"))
+                executeNonQuery(commande);
+
+            using (SQLiteCommand commande = new SQLiteCommand($"CREATE TABLE IF NOT EXISTS {TABLE_IMAGES}  ( "
+                + $"{IMAGES_FILM_ID} INTEGER  REFERENCES {TABLE_FILMS}([{FILMS_ID}]),"
+                + $"{IMAGES_IMAGE} BLOB"
                 + " );"))
                 executeNonQuery(commande);
         }
@@ -59,7 +71,7 @@ namespace CollectionDeFilms.Database
         /// <returns></returns>
         internal bool filmExisteFichier(string chemin)
         {
-            String nom = BaseDonnees.Encode(Path.GetFileNameWithoutExtension(chemin));
+            string nom = BaseDonnees.Encode(Path.GetFileNameWithoutExtension(chemin));
 
             using (SQLiteCommand cmd = new SQLiteCommand($@"SELECT Count(*) FROM {TABLE_FILMS} WHERE {FILMS_CHEMIN} LIKE '%\{nom}.%'"))
             {
@@ -101,11 +113,11 @@ namespace CollectionDeFilms.Database
             return false;
         }
 
-        public async void ajouteFilm(Film f)
+        public void ajouteFilm(Film f)
         {
             using (SQLiteCommand command = new SQLiteCommand($"INSERT into {TABLE_FILMS} " +
-                        $"({FILMS_CHEMIN}, {FILMS_TITRE}, {FILMS_REALISATEUR}, {FILMS_ACTEURS}, {FILMS_GENRES}, {FILMS_NATIONALITE}, {FILMS_RESUME}, {FILMS_DATESORTIE}, {FILMS_ETAT}, {FILMS_TAG}, {FILMS_FLAGS}, {FILMS_IMAGE})"
-                    + " VALUES (@chemin, @titre, @realisateur, @acteurs, @genres, @nationalite, @resume, @datesortie, @etat, @tag, @flags, @image)"))
+                        $"({FILMS_CHEMIN}, {FILMS_TITRE}, {FILMS_REALISATEUR}, {FILMS_ACTEURS}, {FILMS_GENRES}, {FILMS_NATIONALITE}, {FILMS_RESUME}, {FILMS_DATECREATION}, {FILMS_DATESORTIE}, {FILMS_ETAT}, {FILMS_TAG}, {FILMS_FLAGS}, {FILMS_DUREE})"
+                    + " VALUES (@chemin, @titre, @realisateur, @acteurs, @genres, @nationalite, @resume, @datecreation, @datesortie, @etat, @tag, @flags, @duree)"))
             {
                 //if ( f.getImage() != null )
                 //    f.imageId = getImageId( f.imageId, f.getImage() );
@@ -116,19 +128,27 @@ namespace CollectionDeFilms.Database
                 command.Parameters.AddWithValue("@acteurs", f.Acteurs);
                 command.Parameters.AddWithValue("@genres", f.Genres);
                 command.Parameters.AddWithValue("@nationalite", f.Nationalite);
+                command.Parameters.AddWithValue("@datecreation", f.DateCreation.Ticks);
                 command.Parameters.AddWithValue("@datesortie", f.DateSortie);
                 command.Parameters.AddWithValue("@resume", f.Resume);
                 command.Parameters.AddWithValue("@etat", f.EtatInt);
                 command.Parameters.AddWithValue("@tag", f.Etiquettes);
                 command.Parameters.AddWithValue("@flags", f.Flags);
-                command.Parameters.AddWithValue("@image", BaseFilms.SqlBinaryPeutEtreNull(Images.imageToByteArray(f.Affiche)));
-
+                //command.Parameters.AddWithValue("@image", BaseFilms.SqlBinaryPeutEtreNull(Images.imageToByteArray(f.Affiche)));
+                command.Parameters.AddWithValue("@duree", f.Duree.TotalSeconds);
                 executeNonQuery(command);
 
                 // Obtenir l'id du dernier film ajoute
                 command.CommandText = $"select last_insert_rowid() as {FILMS_ID} from {TABLE_FILMS};";
                 object o = executeScalar(command);
                 f.Id = Convert.ToInt32(o);
+
+                using (SQLiteCommand cmdImage = new SQLiteCommand($"INSERT INTO {TABLE_IMAGES} {IMAGES_FILM_ID}, {IMAGES_IMAGE} VALUES (@id, @image)"))
+                {
+                    cmdImage.Parameters.AddWithValue("@id", f.Id);
+                    cmdImage.Parameters.AddWithValue("@image", BaseFilms.SqlBinaryPeutEtreNull(Images.imageToByteArray(f.Affiche)));
+                    executeNonQuery(cmdImage);
+                }
                 sauveAlternatives(f.Id, f.Alternatives());
             }
 
@@ -139,7 +159,7 @@ namespace CollectionDeFilms.Database
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        async internal Task<SQLiteDataReader> getFilmsReader(int id)
+        internal SQLiteDataReader getFilmsReader(int id)
         {
             try
             {
@@ -219,7 +239,7 @@ namespace CollectionDeFilms.Database
         {
             try
             {
-                using (SQLiteCommand cmd = new SQLiteCommand($"SELECT {FILMS_IMAGE} FROM {TABLE_FILMS} WHERE {FILMS_ID} = @id"))
+                using (SQLiteCommand cmd = new SQLiteCommand($"SELECT {IMAGES_IMAGE} FROM {TABLE_IMAGES} WHERE {IMAGES_FILM_ID} = @id"))
                 {
                     cmd.Parameters.AddWithValue("@id", filmId);
                     using (SQLiteDataReader reader = executeReader(cmd))
@@ -230,7 +250,7 @@ namespace CollectionDeFilms.Database
                             // Read advances to the next row.
                             if (reader.Read())
                             {
-                                return readImage(reader, reader.GetOrdinal(BaseFilms.FILMS_IMAGE));
+                                return readImage(reader, reader.GetOrdinal(BaseFilms.IMAGES_IMAGE));
                             }
                             else
                                 return null;
@@ -245,6 +265,34 @@ namespace CollectionDeFilms.Database
                 MainForm.WriteExceptionToConsole(e);
                 return null;
             }
+            //try
+            //{
+            //    using (SQLiteCommand cmd = new SQLiteCommand($"SELECT {FILMS_IMAGE} FROM {TABLE_FILMS} WHERE {FILMS_ID} = @id"))
+            //    {
+            //        cmd.Parameters.AddWithValue("@id", filmId);
+            //        using (SQLiteDataReader reader = executeReader(cmd))
+            //        {
+            //            // Check is the reader has any rows at all before starting to read.
+            //            if (reader.HasRows)
+            //            {
+            //                // Read advances to the next row.
+            //                if (reader.Read())
+            //                {
+            //                    return readImage(reader, reader.GetOrdinal(BaseFilms.FILMS_IMAGE));
+            //                }
+            //                else
+            //                    return null;
+            //            }
+            //            else
+            //                return null;
+            //        }
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    MainForm.WriteExceptionToConsole(e);
+            //    return null;
+            //}
         }
 
 
@@ -252,13 +300,24 @@ namespace CollectionDeFilms.Database
         /// Met a jour les informations d'un film
         /// </summary>
         /// <param name="film"></param>
-        public async void update(Film film)
+        public void update(Film film, Image image)
         {
-            using (SQLiteCommand command = new SQLiteCommand($"UPDATE {TABLE_FILMS} "
-                + $"SET {FILMS_CHEMIN} =@chemin, {FILMS_TITRE} = @titre, {FILMS_REALISATEUR}=@realisateur, {FILMS_ACTEURS}=@acteurs, "
-                + $"{FILMS_GENRES}=@genres, {FILMS_NATIONALITE}=@nationalite, {FILMS_RESUME}=@resume, {FILMS_DATESORTIE}=@datesortie, "
-                + $"{FILMS_ETAT}=@etat, {FILMS_DATEVU}=@datevu, {FILMS_TAG}=@tag, {FILMS_FLAGS}=@flags"
-                + $" WHERE {FILMS_ID} = @id"))
+            using (SQLiteCommand command = new SQLiteCommand($@"UPDATE {TABLE_FILMS} SET
+                {FILMS_CHEMIN} = @chemin, 
+                {FILMS_TITRE} = @titre, 
+                {FILMS_REALISATEUR}= @realisateur, 
+                {FILMS_ACTEURS} = @acteurs,
+                {FILMS_GENRES} = @genres, 
+                {FILMS_NATIONALITE}=@nationalite, 
+                {FILMS_RESUME}=@resume, 
+                {FILMS_DATECREATION}=@datecreation,
+                {FILMS_DATESORTIE}=@datesortie,
+                {FILMS_ETAT}=@etat, 
+                {FILMS_DATEVU}=@datevu, 
+                {FILMS_TAG}=@tag, 
+                {FILMS_FLAGS}=@flags,
+                {FILMS_DUREE}=@duree
+                 WHERE {FILMS_ID} = @id"))
             {
                 command.Parameters.AddWithValue("@id", film.Id);
                 command.Parameters.AddWithValue("@chemin", film.Chemin);
@@ -268,13 +327,19 @@ namespace CollectionDeFilms.Database
                 command.Parameters.AddWithValue("@genres", film.Genres);
                 command.Parameters.AddWithValue("@nationalite", film.Nationalite);
                 command.Parameters.AddWithValue("@datesortie", film.DateSortie);
+                command.Parameters.AddWithValue("@datecreation", film.DateCreation.Ticks);
                 command.Parameters.AddWithValue("@resume", film.Resume);
                 command.Parameters.AddWithValue("@datevu", film.DateVu.Ticks);
+                command.Parameters.AddWithValue("@duree", film.Duree.TotalSeconds);
                 command.Parameters.AddWithValue("@tag", film.Etiquettes);
-                command.Parameters.AddWithValue("@image", BaseFilms.SqlBinaryPeutEtreNull(Images.imageToByteArray(film.Affiche)));
                 command.Parameters.AddWithValue("@etat", film.EtatInt);
                 command.Parameters.AddWithValue("@flags", film.Flags);
+
+                // Remplace l'affiche
                 executeNonQuery(command);
+                if (image != null)
+                    sauveImage(film.Id, image);
+
                 sauveAlternatives(film.Id, film.Alternatives());
             }
         }
@@ -283,7 +348,7 @@ namespace CollectionDeFilms.Database
         /// Retourne la liste des genres de films
         /// </summary>
         /// <returns></returns>
-        internal async Task<SQLiteDataReader> getGenres()
+        internal SQLiteDataReader getGenres()
         {
             using (SQLiteCommand command = new SQLiteCommand($"SELECT DISTINCT {BaseFilms.FILMS_GENRES} FROM {BaseFilms.TABLE_FILMS};"))
                 return executeReader(command);
@@ -292,7 +357,7 @@ namespace CollectionDeFilms.Database
         /// Retourne la liste des etiquettes de films
         /// </summary>
         /// <returns></returns>
-        internal async Task<SQLiteDataReader> getEtiquettes()
+        internal SQLiteDataReader getEtiquettes()
         {
             using (SQLiteCommand command = new SQLiteCommand($"SELECT DISTINCT {BaseFilms.FILMS_TAG} FROM {BaseFilms.TABLE_FILMS};"))
                 return executeReader(command);

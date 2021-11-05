@@ -27,7 +27,11 @@ namespace CollectionDeFilms.Actions
             {
                 MainForm.WriteMessageToConsole($"Vérification du fichier {_film.Chemin}");
                 if (!File.Exists(_film.Chemin))
+                {
                     _film.FichierNonTrouve = true;
+                    _film.changeEtat();
+                    MainForm.changeEtat(_film);
+                }
             }
             catch (Exception e)
             {

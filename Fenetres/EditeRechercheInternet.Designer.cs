@@ -1,6 +1,6 @@
 ﻿namespace CollectionDeFilms.Fenetres
 {
-    partial class EditeRechercheInternet
+    partial class EditeRechercheSurSite
     {
         /// <summary>
         /// Required designer variable.

@@ -20,6 +20,9 @@ namespace CollectionDeFilms
         private const string CONFIGURATION_ACTION_SI_DUPPLIQUE = "Action si dupplique";
         private const string CONFIGURATION_SPLITTER_1_DISTANCE = "splitter 1 distance";
         private const string CONFIGURATION_SPLITTER_2_DISTANCE = "splitter 2 distance";
+        private const string CONFIGURATION_TMDB_CHERCHER_FILM = "TMDB url chercher film";
+        private const string CONFIGURATION_TMDB_INFOS_FILM = "TMDB url infos film";
+        private const string CONFIGURATION_TMDB_AFFICHE_FILM = "TMDB url affiche film";
 
         static private Configuration _instance = new Configuration();
         private Configuration()
@@ -40,6 +43,22 @@ namespace CollectionDeFilms
 
                 return _instance;
             }
+        }
+        public static string urlTMDBChercherFilm
+        {
+            get => _instance.getStringValue(CONFIGURATION_TMDB_CHERCHER_FILM, "https://api.themoviedb.org/3/search/movie?api_key=[VOTRE_CLEF_TMDB]&language=fr&query={0}&page=1&include_adult=true");
+            set => _instance.setValue(CONFIGURATION_TMDB_CHERCHER_FILM, value);
+        }
+        public static string urlTMDBInfosFilm
+        {
+            get => _instance.getStringValue(CONFIGURATION_TMDB_INFOS_FILM, "https://api.themoviedb.org/3/movie/{0}?api_key=[VOTRE_CLEF_TMDB]&language=fr");
+            set => _instance.setValue(CONFIGURATION_TMDB_INFOS_FILM, value);
+        }
+
+        public static string urlTMDBAfficheFilm
+        {
+            get => _instance.getStringValue(CONFIGURATION_TMDB_AFFICHE_FILM, "https://image.tmdb.org/t/p/w500{0}");
+            set => _instance.setValue(CONFIGURATION_TMDB_AFFICHE_FILM, value);
         }
 
         public string vue

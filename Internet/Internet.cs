@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CollectionDeFilms.Internet
@@ -38,6 +40,22 @@ namespace CollectionDeFilms.Internet
                 return await web.LoadFromWebAsync(requete);
             }
             catch( HtmlWebException e)
+            {
+                MainForm.WriteErrorToConsole("Erreur lors du chargmement d'une page: " + requete);
+                MainForm.WriteExceptionToConsole(e);
+                return null;
+            }
+        }
+
+        async static public Task<JsonDocument> loadJson(string requete)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                string res = await client.GetStringAsync(requete);
+                return JsonDocument.Parse(res);
+            }
+            catch (HtmlWebException e)
             {
                 MainForm.WriteErrorToConsole("Erreur lors du chargmement d'une page: " + requete);
                 MainForm.WriteExceptionToConsole(e);
@@ -97,7 +115,6 @@ namespace CollectionDeFilms.Internet
         public static string urlRecherche(string u)
         {
             return @"https://www.google.com/search?q=film+" + u.Replace(" ", "+").Replace("/", "").Replace("&", "+").Replace("++", "+");
-
         }
     }
 }

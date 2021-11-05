@@ -5,10 +5,10 @@ using System.Windows.Forms;
 
 namespace CollectionDeFilms.Fenetres
 {
-    public partial class EditeRechercheInternet : Form
+    public partial class EditeRechercheSurSite : Form
     {
-        public RechercheInternet rechercheInternet;
-        public EditeRechercheInternet()
+        public RechercheSurSite rechercheInternet;
+        public EditeRechercheSurSite()
         {
             InitializeComponent();
         }
@@ -64,7 +64,7 @@ namespace CollectionDeFilms.Fenetres
             }
 
             if (rechercheInternet == null)
-                rechercheInternet = new RechercheInternet();
+                rechercheInternet = new RechercheSurSite();
 
             rechercheInternet.nom = textBoxNom.Text;
             rechercheInternet.formatUrlRecherche = textBoxFormatURLRecherche.Text;

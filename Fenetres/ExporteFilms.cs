@@ -108,10 +108,10 @@ namespace CollectionDeFilms.Fenetres
         private string toCSV(string v)
         {
             string res = v;
-            if (res.Length > 0)
+            if (res?.Length > 0)
             {
                 res.Replace("\"", "\"\"");
-                if (res.IndexOf(",") != -1 || res.IndexOf("\"") != -1 || res.IndexOf("\n") != -1 || res.StartsWith(" ") || res.EndsWith(" "))
+                if (res.IndexOf(',') != -1 || res.IndexOf('\"') != -1 || res.IndexOf('\n') != -1 || res.StartsWith(" ") || res.EndsWith(" "))
                     res = "\"" + res + "\"";
             }
             return res;

@@ -1,6 +1,4 @@
-﻿using Collection_de_films;
-using Collection_de_films.Fenetres;
-using Collection_de_films_2;
+﻿using Collection_de_films.Fenetres;
 using Collection_de_films_2.Resources;
 using CollectionDeFilms.Actions;
 using CollectionDeFilms.Database;
@@ -29,38 +27,49 @@ namespace CollectionDeFilms
 
         public MainForm()
         {
-            _filtre = new Filtre();
             _instance = this;
+            _filtre = new Filtre();
 
             InitializeComponent();
 
             _copieFichiers = new CopieFichiers(toolStripStatusLabelFichiersACopier, tsProgressbarCopieEnCours);
         }
 
-        async private void onFormLoad(object sender, EventArgs e)
+        private void onFormLoad(object sender, EventArgs e)
         {
-            //IEnumerator<Film> iFilms = BaseFilms.instance.GetFilmEnumerator(new Filtre());
-            //_filtre.change = false;
-            //
-            //while (iFilms.MoveNext())
-            //{
-            //   
-            //}
             // Ajoute les films deja dans la base de donnees
             using (Splashscreen s = new Splashscreen())
             {
-
                 s.Show();
                 s.Update();
                 _actionsDifferees = new ActionsDifferees(toolStripStatusLabel);
+                toolStripComboBoxTri.SelectedIndex = 0;
+
+
+                #region DATE_AJOUT
+                //IEnumerator<Film> iFilms = BaseFilms.instance.getFilmEnumerator("");
+                //while (iFilms.MoveNext())
+                //{
+                //    Film f = iFilms.Current;
+                //    f.chargeDonneesDepuisBase();
+                //    try
+                //    {
+                //        f.DateCreation = File.GetCreationTime(f.Chemin);
+                //        WriteMessageToConsole(f.Titre + ": date de création " + f.DateCreation.ToShortDateString() + " " + f.DateCreation.ToShortTimeString());
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        WriteErrorToConsole("Erreur date de creation " + f.Chemin);
+                //        WriteExceptionToConsole(ex);
+                //    }
+                //}
+                #endregion
 
                 // Etat des separateurs de fenetre
                 splitContainer1.SplitterDistance = Configuration.splitter1Distance;
                 splitContainer2.SplitterDistance = Configuration.splitter2Distance;
-                //toolStripMenuSelectionVus.setImages(new Image[] { Resources.threestate_undefined, Resources.threestate_unchecked, Resources.threestate_checked });
-                //toolStripMenuSelectionAVoir.setImages(new Image[] { Resources.threestate_undefined, Resources.threestate_checked, Resources.threestate_unchecked });
-                //toolStripMenuSelectionAlternatives.setImages(new Image[] { Resources.threestate_undefined, Resources.threestate_checked, Resources.threestate_unchecked });
                 remplitListFilms();
+                //verifiePresenceFichiers();
 
                 if (Configuration.relancerRechercheAuto)
                     reprendTraitementFilms();
@@ -73,7 +82,7 @@ namespace CollectionDeFilms
             if (e.Item.Tag is Film)
             {
                 Film f = (Film)e.Item.Tag;
-                f?.drawItem(e);
+                f?.drawItem(e, _filtre);
             }
         }
 
@@ -108,7 +117,7 @@ namespace CollectionDeFilms
 
 
 
-        private async void onListviewFilmsMouseClick(object sender, MouseEventArgs e)
+        private void onListviewFilmsMouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
@@ -153,7 +162,7 @@ namespace CollectionDeFilms
         }
 
         // Click sur un menu "Copier sur" construit dynamiquement avec la liste des medias amovibles
-        private async void onClickItemCopierSur(object sender, EventArgs e)
+        private void onClickItemCopierSur(object sender, EventArgs e)
         {
             Film selected = getSelectedFilm();
             if (selected == null)
@@ -181,7 +190,7 @@ namespace CollectionDeFilms
             remplitListFilms();
         }
 
-        async private void onFilmContextMenuLireLeFilm(object sender, EventArgs e)
+        private void onFilmContextMenuLireLeFilm(object sender, EventArgs e)
         {
             Film selected = getSelectedFilm();
             if (selected == null)
@@ -199,7 +208,7 @@ namespace CollectionDeFilms
             }
         }
 
-        private async void onFilmContextMenuLireMarquerVu(object sender, EventArgs e)
+        private void onFilmContextMenuLireMarquerVu(object sender, EventArgs e)
         {
             Film selected = getSelectedFilm();
             if (selected == null)
@@ -221,7 +230,7 @@ namespace CollectionDeFilms
             }
         }
 
-        private async void onFilmContextMenuLireMarquerAVoir(object sender, EventArgs e)
+        private void onFilmContextMenuLireMarquerAVoir(object sender, EventArgs e)
         {
             Film selected = getSelectedFilm();
             if (selected == null)
@@ -232,7 +241,7 @@ namespace CollectionDeFilms
             Toast.Show(this, selected.aVoir ? "Film marqué comme à voir" : "Suppression de l'indicateur A voir");
         }
 
-        private async void onFilmContextMenuLireExplorer(object sender, EventArgs e)
+        private void onFilmContextMenuLireExplorer(object sender, EventArgs e)
         {
             Film selected = getSelectedFilm();
             if (selected == null)
@@ -242,7 +251,7 @@ namespace CollectionDeFilms
             FileDriveUtils.OpenFolderAndSelectItem(selected.Chemin);
         }
 
-        private async void onFilmContextMenuLireEditer(object sender, EventArgs e)
+        private void onFilmContextMenuLireEditer(object sender, EventArgs e)
         {
             Film selected = getSelectedFilm();
             if (selected == null)
@@ -255,7 +264,7 @@ namespace CollectionDeFilms
             }
         }
 
-        private async void onFilmContextMenuLireSupprimer(object sender, EventArgs e)
+        private void onFilmContextMenuLireSupprimer(object sender, EventArgs e)
         {
             Film selected = getSelectedFilm();
             if (selected == null)
@@ -285,7 +294,7 @@ namespace CollectionDeFilms
             MainForm.changeEtat(selected);
         }
 
-        async private void onFilmContextMenuLireCopierSurCle(object sender, EventArgs e)
+        private void onFilmContextMenuLireCopierSurCle(object sender, EventArgs e)
         {
             Film selected = getSelectedFilm();
             if (selected == null)
@@ -394,6 +403,7 @@ namespace CollectionDeFilms
                     {
                         WriteMessageToConsole("Ajout du film " + fichier);
                         film.Etat = Film.ETAT.NOUVEAU;
+                        film.DateCreation = DateTime.Now;
                         bd.ajouteFilm(film);
                         ajouteFilm(film);
                         _actionsDifferees.ajoute(new ActionNouveauFilm(film));
@@ -541,7 +551,7 @@ namespace CollectionDeFilms
             }
         }
 
-        private async void onClickItemRechargerDepuis(object sender, EventArgs e)
+        private void onClickItemRechargerDepuis(object sender, EventArgs e)
         {
             Film selected = getSelectedFilm();
             if (selected == null)
@@ -550,7 +560,7 @@ namespace CollectionDeFilms
             ToolStripLabel l = sender as ToolStripLabel;
             if (l != null)
             {
-                RechercheInternet ri = l.Tag as RechercheInternet;
+                RechercheInternet ri = new RechercheTheMovieDBOrg();// l.Tag as RechercheInternet;
                 if (ri != null)
                 {
                     WriteMessageToConsole($"Recherche de {selected.Titre} sur {ri.nom}");
@@ -560,58 +570,15 @@ namespace CollectionDeFilms
                     changeEtat(selected);
                 }
             }
-
         }
 
-        async private void onGenresToolStripMenuItemDropDownOpening(object sender, EventArgs e)
+       
+
+
+        private void onEtiquettesToolStripMenuItemDropDownOpening(object sender, EventArgs e)
         {
             ToolStripMenuItem dropDown = (ToolStripMenuItem)sender;
-            List<string> liste = await Genres.getGenres() ;
-            dropDown.DropDownItems.Clear();
-            string genre = _filtre.Genre.ToUpper() ;
-
-
-            // Option specifique pour pas de genre selectionne
-            {
-                ToolStripMenuItem item = new ToolStripMenuItem("[Pas de genre sélectionné]");
-                item.Tag = "";
-                item.Enabled = true;
-                item.Click += onClickItemSelectGenres;
-                if ("".ToUpper().Equals(genre))
-                    item.Checked = true;
-
-                dropDown.DropDownItems.Add(item);
-            }
-
-            foreach (string s in liste)
-            {
-                ToolStripMenuItem item = new ToolStripMenuItem(s);
-                item.Tag = s;
-                item.Enabled = true;
-                item.Click += onClickItemSelectGenres;
-                if (s.ToUpper().Equals(genre))
-                    item.Checked = true;
-
-                dropDown.DropDownItems.Add(item);
-            }
-        }
-
-        private async void onClickItemSelectGenres(object sender, EventArgs e)
-        {
-            ToolStripMenuItem l = sender as ToolStripMenuItem;
-            if (l != null)
-            {
-                string genre = l.Tag as string;
-                _filtre.Genre = genre;
-                remplitListFilms();
-            }
-
-        }
-
-        async private void onEtiquettesToolStripMenuItemDropDownOpening(object sender, EventArgs e)
-        {
-            ToolStripMenuItem dropDown = (ToolStripMenuItem)sender;
-            List<string> liste = await Etiquettes.getEtiquettes();
+            List<string> liste = Etiquettes.getEtiquettes();
             dropDown.DropDownItems.Clear();
             string etiquette = _filtre.Etiquette.ToUpper();
 
@@ -640,7 +607,7 @@ namespace CollectionDeFilms
             }
         }
 
-        private async void onClickItemSelectEtiquette(object sender, EventArgs e)
+        private void onClickItemSelectEtiquette(object sender, EventArgs e)
         {
             ToolStripMenuItem l = sender as ToolStripMenuItem;
             if (l != null)
@@ -652,68 +619,133 @@ namespace CollectionDeFilms
 
         }
 
-        private void onToolStripFilmsVu(object sender, EventArgs e)
-        {
-            indifférentToolStripMenuItem.Checked = false;
-            vusToolStripMenuItem.Checked = true;
-            nonVusToolStripMenuItem.Checked = false;
-            _filtre.Vu = Filtre.TROIS_ETATS.OUI;
-            remplitListFilms();
-        }
-
-        private void NonVusToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            indifférentToolStripMenuItem.Checked = false;
-            vusToolStripMenuItem.Checked = false;
-            nonVusToolStripMenuItem.Checked = true;
-            _filtre.Vu = Filtre.TROIS_ETATS.NON;
-            remplitListFilms();
-
-        }
-
-        private void IndifférentToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            indifférentToolStripMenuItem.Checked = true;
-            vusToolStripMenuItem.Checked = false;
-            nonVusToolStripMenuItem.Checked = false;
-            _filtre.Vu = Filtre.TROIS_ETATS.INDIFFERENT;
-            remplitListFilms();
-
-        }
-
-
-
-        private void onToolStripMenuAVoirIndiferrent(object sender, EventArgs e)
-        {
-            aVoirIndifferentToolStripMenuItem.Checked = true;
-            aVoirOuiToolStripMenuItem.Checked = false;
-            aVoirNonToolStripMenuItem.Checked = false;
-            _filtre.AVoir = Filtre.TROIS_ETATS.INDIFFERENT;
-            remplitListFilms();
-        }
-
-        private void onToolStripMenuAVoirOui(object sender, EventArgs e)
-        {
-            aVoirIndifferentToolStripMenuItem.Checked = false;
-            aVoirOuiToolStripMenuItem.Checked = true;
-            aVoirNonToolStripMenuItem.Checked = false;
-            _filtre.AVoir = Filtre.TROIS_ETATS.OUI;
-            remplitListFilms();
-        }
-
-        private void onToolStripMenuAVoirNon(object sender, EventArgs e)
-        {
-            aVoirIndifferentToolStripMenuItem.Checked = false;
-            aVoirOuiToolStripMenuItem.Checked = false;
-            aVoirNonToolStripMenuItem.Checked = true;
-            _filtre.AVoir = Filtre.TROIS_ETATS.NON;
-            remplitListFilms();
-        }
-
         private void onExporterListeFilmsMenuItem(object sender, EventArgs e)
         {
             ExporteFilms dlg = new ExporteFilms();
             dlg.ShowDialog(this);
+        }
+
+        private void onLinkLabelClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            LinkLabel Sender = sender as LinkLabel;
+            if (Sender != null)
+            {
+                string url;
+                if (e.Link.LinkData != null)
+                    url = e.Link.LinkData.ToString();
+                else
+                    url = Sender.Text.Substring(e.Link.Start, e.Link.Length);
+
+                if (!url.Contains("://"))
+                    url = "https://" + url;
+
+                var si = new ProcessStartInfo(url);
+                Process.Start(si);
+                Sender.LinkVisited = true;
+            }
+        }
+
+        private void onLinkCheminClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            LinkLabel Sender = sender as LinkLabel;
+            if (Sender != null)
+            {
+                Film selected = getSelectedFilm();
+                if (selected == null)
+                    return;
+
+                WriteMessageToConsole($"Ouverture du film {selected.Chemin} dans l'explorateur Windows");
+                FileDriveUtils.OpenFolderAndSelectItem(selected.Chemin);
+            }
+        }
+
+        private void MenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void onClicFilmsVus(object sender, EventArgs e)
+        {
+            MultistateToolstripMenuItem option = sender as MultistateToolstripMenuItem;
+            if (option != null)
+            {
+                int etat = option.Etat;
+                switch (etat)
+                {
+                    case 0: _filtre.Vu = Filtre.TROIS_ETATS.INDIFFERENT; break;
+                    case 1: _filtre.Vu = Filtre.TROIS_ETATS.OUI; break;
+                    case 2: _filtre.Vu = Filtre.TROIS_ETATS.NON; break;
+                }
+                remplitListFilms();
+            }
+        }
+
+        private void onClicFilmsAVoir(object sender, EventArgs e)
+        {
+            MultistateToolstripMenuItem option = sender as MultistateToolstripMenuItem;
+            if (option != null)
+            {
+                int etat = option.Etat;
+                switch (etat)
+                {
+                    case 0: _filtre.AVoir = Filtre.TROIS_ETATS.INDIFFERENT; break;
+                    case 1: _filtre.AVoir = Filtre.TROIS_ETATS.OUI; break;
+                    case 2: _filtre.AVoir = Filtre.TROIS_ETATS.NON; break;
+                }
+                remplitListFilms();
+            }
+        }
+
+        private void onTriSelectedChanged(object sender, EventArgs e)
+        {
+            ToolStripComboBox combo = sender as ToolStripComboBox;
+            if (combo != null)
+            {
+                switch (combo.SelectedIndex)
+                {
+                    case 0: _filtre.TriPar(Filtre.TRI.TITRE, Filtre.ORDRE.CROISSANT); break;
+                    case 1: _filtre.TriPar(Filtre.TRI.TITRE, Filtre.ORDRE.DECROISSANT); break;
+                    case 2: _filtre.TriPar(Filtre.TRI.DUREE, Filtre.ORDRE.CROISSANT); break;
+                    case 3: _filtre.TriPar(Filtre.TRI.DUREE, Filtre.ORDRE.DECROISSANT); break;
+                    case 4: _filtre.TriPar(Filtre.TRI.DATE_VUE, Filtre.ORDRE.CROISSANT); break;
+                    case 5: _filtre.TriPar(Filtre.TRI.DATE_VUE, Filtre.ORDRE.DECROISSANT); break;
+                    case 6: _filtre.TriPar(Filtre.TRI.DATE_AJOUT, Filtre.ORDRE.CROISSANT); break;
+                    case 7: _filtre.TriPar(Filtre.TRI.DATE_AJOUT, Filtre.ORDRE.DECROISSANT); break;
+                }
+
+                remplitListFilms();
+            }
+        }
+
+        private void ButtonRelancerPasTrouve_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void onToolStripComboBoxGenresSelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (toolStripComboBoxGenres.SelectedIndex >= 0)
+            {
+                string genre = toolStripComboBoxGenres.SelectedIndex == 0? "" : toolStripComboBoxGenres.Items[toolStripComboBoxGenres.SelectedIndex].ToString();
+                if (!genre.Equals(_filtre.Genre))
+                {
+                    _filtre.Genre = genre;
+                    remplitListFilms();
+                }
+            }
+        }
+
+        private void onToolStripComboBoxEtiquettesSelectedChanged(object sender, EventArgs e)
+        {
+            if (toolStripComboBoxEtiquettes.SelectedIndex >= 0)
+            {
+                string etiquette = toolStripComboBoxEtiquettes.SelectedIndex == 0 ? "" : toolStripComboBoxEtiquettes.Items[toolStripComboBoxEtiquettes.SelectedIndex].ToString();
+                if (!etiquette.Equals(_filtre.Etiquette))
+                {
+                    _filtre.Etiquette = etiquette;
+                    remplitListFilms();
+                }
+            }
         }
     }
 }

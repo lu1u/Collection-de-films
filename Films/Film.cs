@@ -1,15 +1,16 @@
-﻿using Collection_de_films;
-using Collection_de_films_2;
-using CollectionDeFilms.Database;
+﻿using CollectionDeFilms.Database;
 using CollectionDeFilms.Internet;
+using Shell32;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using WMPLib;
 
 namespace CollectionDeFilms.Films
 {
@@ -29,6 +30,8 @@ namespace CollectionDeFilms.Films
         private string _dateSortie = "";
         private bool _fichierNonTrouve;
         private DateTime _dateVu;
+        private DateTime _dateCreation;
+        private TimeSpan _duree;
         private ETAT _etat;
         // Masque de bits pour FLAG
         public const int FLAG_A_VOIR = 1;
@@ -44,6 +47,7 @@ namespace CollectionDeFilms.Films
             _formatLargeIcones.Alignment = StringAlignment.Center;
             _formatLargeIcones.LineAlignment = StringAlignment.Far;
             _formatLargeIcones.Trimming = StringTrimming.EllipsisWord;
+            _formatLargeIcones.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
         }
 
 
@@ -58,6 +62,76 @@ namespace CollectionDeFilms.Films
             _titre = Path.GetFileNameWithoutExtension(fichier);
             _etiquettes = etiquettes;
             _fichierNonTrouve = false;
+            _duree = getDureeMedia(_chemin);
+            _dateCreation = DateTime.Now;
+        }
+
+        public static TimeSpan getDureeMedia(string chemin)
+        {
+            TimeSpan d = getDureeMediaWMP(chemin);
+            if (d.Equals(TimeSpan.Zero))
+                d = getDureeMediaShell(chemin);
+
+            return d;
+        }
+
+        private static TimeSpan getDureeMediaWMP(string chemin)
+        {
+            TimeSpan d = TimeSpan.Zero;
+            try
+            {
+                var player = new WindowsMediaPlayer();
+                if (player != null)
+                {
+                    var clip = player.newMedia(chemin);
+                    if (clip != null)
+                        d = TimeSpan.FromSeconds(clip.duration);
+                }
+            }
+            catch (StackOverflowException)
+            {
+                Debug.WriteLine("alternative 1: stackoverflow");
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("alternative 1: exception" + e.Message);
+            }
+
+            Debug.WriteLine("Duree WMP " + chemin + ":" + d.ToString());
+            return d;
+        }
+
+        private static TimeSpan getDureeMediaShell(string chemin)
+        {
+            TimeSpan d = TimeSpan.Zero;
+            try
+            {
+                var shell = new Shell();
+                if (shell != null)
+                {
+                    string dir = Path.GetDirectoryName(chemin);
+                    string name = Path.GetFileName(chemin);
+                    var folder = shell.NameSpace(dir);
+                    foreach (FolderItem2 item in folder.Items())
+                    {
+                        if (item.Name.Equals(name))
+                        {
+                            double secondes = item.ExtendedProperty("System.Media.Duration") / 10000000L;
+                            d = TimeSpan.FromSeconds(secondes);
+                        }
+                    }
+                    Marshal.ReleaseComObject(folder);
+                }
+
+                Marshal.ReleaseComObject(shell);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("alternative 2: exception" + e.Message);
+            }
+
+            Debug.WriteLine("Duree Sell " + chemin + ":" + d.ToString());
+            return d;
         }
 
         public enum ETAT
@@ -68,7 +142,7 @@ namespace CollectionDeFilms.Films
             OK,          // informations trouvees
             DANS_LA_QUEUE, // film mis dans la queue de traitement
         };
-
+        public static readonly string[] TEXTES_ETATS = { "Nouveau", "Recherche", "Pas trouvé", "Ok", "Dans la queue" };
         internal ListViewItem createListviewItem()
         {
             ListViewItem lvi = new ListViewItem();
@@ -76,15 +150,20 @@ namespace CollectionDeFilms.Films
             return lvi;
         }
 
-        async internal void drawItem(DrawListViewItemEventArgs e)
+        /// <summary>
+        /// Dessiner le film dans la listview
+        /// </summary>
+        /// <param name="e"></param>
+        internal void drawItem(DrawListViewItemEventArgs e, Filtre f)
         {
             chargeDonneesDepuisBase();
-            if (e.Item.ToolTipText == null || e.Item.ToolTipText.Length == 0)
+            if (e.Item.ToolTipText?.Length == 0)
             {
                 // En profiter pour calculer le tooltip
                 e.Item.ToolTipText = getTooltip();
             }
 
+            e.DrawBackground();
             // Fond spécifique pour image sélectionnee
             if ((e.State & ListViewItemStates.Selected) != 0 && (e.State & ListViewItemStates.Focused) != 0)
             {
@@ -92,8 +171,12 @@ namespace CollectionDeFilms.Films
                 e.DrawFocusRectangle();
             }
 
-            SizeF s = e.Graphics.MeasureString(Titre, e.Item.ListView.Font, e.Bounds.Width);
-            Rectangle rImage = new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height - (int)s.Height);
+            Rectangle r = new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height);
+            r.Inflate(-2, -2);
+            string texte = getListViewItemText(f);
+
+            SizeF s = e.Graphics.MeasureString(texte, e.Item.ListView.Font, r.Width);
+            Rectangle rImage = new Rectangle(r.Left, r.Top, r.Width, Math.Max(18, r.Height - (int)s.Height));
 
             // Image
             Image image = getImageFilm(rImage);
@@ -102,12 +185,42 @@ namespace CollectionDeFilms.Films
                 int dx = (rImage.Width - image.Width) / 2;
                 int dy = (rImage.Height - image.Height) / 2;
                 rImage.Offset(dx, dy);
-                e.Graphics.DrawImageUnscaled(image, rImage.Left, rImage.Top);
+                e.Graphics.DrawImageUnscaled(image, rImage.Left, rImage.Top + 2);
             }
 
-            // Texte
+            // Texte            
             using (Brush b = new SolidBrush(e.Item.ListView.ForeColor))
-                e.Graphics.DrawString(Titre, e.Item.ListView.Font, b, e.Bounds, _formatLargeIcones);
+                e.Graphics.DrawString(texte, e.Item.ListView.Font, b, r, _formatLargeIcones);
+        }
+
+        private string getListViewItemText(Filtre f)
+        {
+            string res = "";
+            switch( f.tri)
+            {
+                case Filtre.TRI.DUREE:
+                    {
+                        TimeSpan s = Duree;
+                        res=  s.Equals(TimeSpan.Zero) ? "" : $"Durée {s:hh\\:mm\\:ss}\n";
+                    }
+                    break;
+                case Filtre.TRI.DATE_VUE:
+                    {
+                        res = DateVu.Ticks == 0 ? "" : $"Vu le {DateVu.ToShortDateString()}\n";
+                    }
+                    break;
+
+                case Filtre.TRI.DATE_AJOUT:
+                    {
+                        res = DateCreation.Ticks == 0 ? "" : $"Ajouté le {DateCreation.ToShortDateString()}\n";
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            return res + Titre;
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////
@@ -121,12 +234,12 @@ namespace CollectionDeFilms.Films
             string result = "";
 
             result += Titre;
-            result += " [" + Id + "]";
+            result += _duree.Equals(TimeSpan.Zero) ? "" : $"\nDurée: {_duree:hh\\:mm\\:ss}";
             if (_realisateur?.Length > 0)
-                result += "\nDe : " + _realisateur;
+                result += $"\nDe: {_realisateur}";
 
             if (_acteurs?.Length > 0)
-                result += "\nAvec : " + _acteurs;
+                result += $"\nAvec: {_acteurs}";
 
             //if (_genres?.Length > 0)
             //    result += "\nGenre: " + _genres;
@@ -137,11 +250,8 @@ namespace CollectionDeFilms.Films
             if (_resume?.Length > 0)
                 result += "\n" + _resume;
 
-            if (_alternatives != null)
-                if (_alternatives.Count > 0)
-                {
+            if (_alternatives?.Count > 0)
                 result += "\nPlusieurs alternatives ont été trouvées pour ce film";
-                }
 
             if (_dateVu.Ticks != 0)
             {
@@ -177,12 +287,12 @@ namespace CollectionDeFilms.Films
             }
         }
 
-        async private void chargeDonneesDepuisBase()
+        public void chargeDonneesDepuisBase()
         {
             if (!_donneesChargees)
             {
                 // Lire les champs
-                SQLiteDataReader reader = await BaseFilms.instance.getFilmsReader(_id);
+                SQLiteDataReader reader = BaseFilms.instance.getFilmsReader(_id);
                 if (reader != null && reader.HasRows)
                 {
                     reader.Read();
@@ -197,21 +307,43 @@ namespace CollectionDeFilms.Films
                     _flags = reader.GetInt32(reader.GetOrdinal(BaseFilms.FILMS_FLAGS));
                     _etiquettes = reader.GetString(reader.GetOrdinal(BaseFilms.FILMS_TAG));
                     _etat = intToEtat(reader.GetInt32(reader.GetOrdinal(BaseFilms.FILMS_ETAT)));
-                    try
-                    {
-                        _dateVu = new DateTime(reader.GetInt64(reader.GetOrdinal(BaseFilms.FILMS_DATEVU)));
-                    }
-                    catch (Exception)
-                    {
-                        // Pour récup
-                        if ((reader.GetInt32(reader.GetOrdinal(BaseFilms.FILMS_ETAT)) & 2) != 0)
-                            _dateVu = DateTime.Now;
-                        else
-                            _dateVu = new DateTime(0);
-                    }
+                    _dateVu = getDateVue(reader, _etat);
+                    _dateCreation = getDateCreation(reader);
+                    _duree = TimeSpan.FromSeconds(reader.GetInt64(reader.GetOrdinal(BaseFilms.FILMS_DUREE)));
+                    
                     _fichierNonTrouve = false;
                     _donneesChargees = true;
                 }
+            }
+        }
+
+        private DateTime getDateCreation(SQLiteDataReader reader)
+        {
+            try
+            {
+                long date = reader.GetInt64(reader.GetOrdinal(BaseFilms.FILMS_DATECREATION));
+                return new DateTime(date);
+            }
+            catch (Exception)
+            {
+                return File.GetCreationTime(_chemin) ;
+            }
+        }
+
+        private DateTime getDateVue(SQLiteDataReader reader, ETAT etat)
+        {
+            try
+            {
+                long date = reader.GetInt64(reader.GetOrdinal(BaseFilms.FILMS_DATEVU));
+                return new DateTime(date);
+            }
+            catch (Exception)
+            {
+                // Pour récup
+                if (((int)etat & 2) != 0)
+                    return DateTime.Now;
+                else
+                    return new DateTime(0);
             }
         }
 
@@ -257,11 +389,6 @@ namespace CollectionDeFilms.Films
         {
             get
             {
-                //if (_image == null)
-                //{
-                //    _image = BaseFilms.instance.getImageFilm(_id);
-                //}
-                //return _image;
                 return BaseFilms.instance.getAfficheFilm(_id);
             }
             set
@@ -308,6 +435,17 @@ namespace CollectionDeFilms.Films
             }
         }
 
+        public DateTime DateCreation
+        {
+            get { return _dateCreation; }
+            set
+            {
+                _dateCreation = value;
+
+                BaseFilms.instance.updateFilm(_id, BaseFilms.FILMS_DATECREATION, _dateCreation.Ticks);
+                changeEtat();
+            }
+        }
         internal string Acteurs { get => _acteurs; set { _acteurs = value; changeEtat(); } }
         internal string Chemin { get => _chemin; set { _chemin = value; changeEtat(); } }
         internal string DateSortie { get => _dateSortie; set { _dateSortie = value; changeEtat(); } }
@@ -317,6 +455,24 @@ namespace CollectionDeFilms.Films
         internal string Resume { get => _resume; set { _resume = value; changeEtat(); } }
         internal string Titre { get { chargeDonneesDepuisBase(); return _titre; } set { _titre = value; changeEtat(); } }
         internal string Etiquettes { get => _etiquettes; set { _etiquettes = value; changeEtat(); } }
+
+        internal TimeSpan Duree
+        {
+            get
+            {
+                if (_duree.Equals(TimeSpan.Zero))
+                {
+                    Debug.WriteLine("Duree du film " + _chemin);
+                    _duree = getDureeMedia(Chemin);
+                    Debug.WriteLine("Duree: " + _duree.ToString());
+                    BaseFilms.instance.updateFilm(_id, BaseFilms.FILMS_DUREE, _duree.TotalSeconds);
+                }
+
+                return _duree;
+            }
+            set { _duree = value; changeEtat(); }
+        }
+
         public int Flags { get => _flags; set { _flags = value; changeEtat(); } }
         public int Id { get => _id; set => _id = value; }
 
@@ -352,7 +508,7 @@ namespace CollectionDeFilms.Films
         /// <summary>
         /// Prend en compte le changement d'etat du film
         /// </summary>
-        private void changeEtat()
+        public void changeEtat()
         {
             _imageGrandeIcone?.Dispose();
             _imageGrandeIcone = null;   // Pour etre sur de la redessiner
@@ -383,15 +539,16 @@ namespace CollectionDeFilms.Films
                         g.DrawImage(etiquettes, 0, imageGrandeIcone.Height - etiquettes.Height, Math.Min(imageGrandeIcone.Width, etiquettes.Width), etiquettes.Height);
                 }
 
+                // Etiquettes par dessus l'affiche
                 const int ratioEtiquette = 5;
                 int largeurEtiquette = imageGrandeIcone.Width / ratioEtiquette;
-                int hauteurEtiquette = largeurEtiquette;// imageGrandeIcone.Height / ratioEtiquette;
+                int hauteurEtiquette = largeurEtiquette;
+
                 if (Vu)
-                    g.DrawImage(Resources.deja_vu, 0, 0, largeurEtiquette, hauteurEtiquette);
+                    g.DrawImage(Resources.deja_vu, 2, 2, largeurEtiquette, hauteurEtiquette);
 
                 if (aVoir)
                     g.DrawImage(Resources.a_voir, imageGrandeIcone.Width - largeurEtiquette - 4, 0, largeurEtiquette, hauteurEtiquette);
-
 
                 if (FichierNonTrouve)
                     g.DrawImage(Resources.film_non_trouve, 2, imageGrandeIcone.Height - Resources.film_non_trouve.Height - 2, Resources.film_non_trouve.Width, Resources.film_non_trouve.Height);
@@ -432,7 +589,7 @@ namespace CollectionDeFilms.Films
             return etiquette;
         }
 
-        internal async void setAlternative(int indiceAlternative)
+        internal void setAlternative(int indiceAlternative)
         {
             BaseFilms baseFilms = BaseFilms.instance;
             List<InfosFilm> alternatives = Alternatives();
@@ -441,6 +598,7 @@ namespace CollectionDeFilms.Films
             if (indiceAlternative < 0 || indiceAlternative >= alternatives.Count)
                 return;
 
+            _titre = alternatives[indiceAlternative]._titre;
             _realisateur = alternatives[indiceAlternative]._realisateur;
             _acteurs = alternatives[indiceAlternative]._acteurs;
             _genres = alternatives[indiceAlternative]._genres;
@@ -453,7 +611,7 @@ namespace CollectionDeFilms.Films
             MainForm.WriteMessageToConsole("Date sortie " + DateSortie);
 
             _etat = ETAT.OK;
-            baseFilms.update(this);
+            baseFilms.update(this,null);
             if (Configuration.supprimerAutresAlternatives)
             {
                 MainForm.WriteMessageToConsole("Suppression des autres alternatives");
@@ -485,15 +643,17 @@ namespace CollectionDeFilms.Films
                 if (NbAlternatives > 0)
                     using (Graphics g = Graphics.FromImage(imageGrandeIcone))
                     {
-                        g.DrawImageUnscaled(Resources.alternatives, imageGrandeIcone.Width - Resources.alternatives.Width, imageGrandeIcone.Height - Resources.alternatives.Height);
+                        g.DrawImageUnscaled(Resources.alternatives, imageGrandeIcone.Width - Resources.alternatives.Width - 12, imageGrandeIcone.Height - Resources.alternatives.Height - 12);
                     }
             }
 
             if (imageGrandeIcone != null)
             {
                 Rectangle zoom = new Rectangle(bounds.Left, bounds.Top, bounds.Width, bounds.Height);
-                zoom.Inflate(-4, -4);
-                imageGrandeIcone = Images.ombre(Images.zoomImage(imageGrandeIcone, zoom), 4);
+                zoom.Inflate(-8, -8);
+                imageGrandeIcone = Images.zoomImage(imageGrandeIcone, zoom);
+                imageGrandeIcone = Images.cadre(imageGrandeIcone, Color.White, 2);
+                imageGrandeIcone = Images.ombre(imageGrandeIcone, 4);
             }
 
             return imageGrandeIcone;
@@ -522,7 +682,7 @@ namespace CollectionDeFilms.Films
             {
                 MainForm.WriteMessageToConsole($"Recherche d'informations pour le film {_titre} {_chemin}. Depuis le site: {nomSite}");
 
-                RechercheInternet recherche = BaseConfiguration.instance.getRechercheInternet(nomSite);
+                RechercheInternet recherche = new RechercheTheMovieDBOrg();// BaseConfiguration.instance.getRechercheInternet(nomSite);
                 if (recherche == null)
                 {
                     MainForm.WriteErrorToConsole("Impossible de trouver les informations de recherche sur ce site");
@@ -539,6 +699,7 @@ namespace CollectionDeFilms.Films
                 // Lancer la recherche, recuperer les versions du film trouvees sur internet
                 List<InfosFilm> liste = await recherche.rechercheInternet(this);
 
+                Image image = null;
                 // Interpretation du resultat de la recherche
                 switch (liste.Count)
                 {
@@ -557,7 +718,7 @@ namespace CollectionDeFilms.Films
                         _resume = liste[0]._resume;
                         _dateSortie = liste[0]._dateSortie;
 
-                        Affiche = liste[0]._image;
+                        image = liste[0]._image;
                         break;
 
                     default:
@@ -566,7 +727,7 @@ namespace CollectionDeFilms.Films
                         choisiMeilleureAlternative();
                         break;
                 }
-                BaseFilms.instance.update(this);
+                BaseFilms.instance.update(this, image);
             }
             catch (Exception e)
             {
@@ -632,7 +793,7 @@ namespace CollectionDeFilms.Films
         /// - un point par information
         /// - 5 points pour un resumé ou une affiche
         /// </summary>
-        async private void choisiMeilleureAlternative()
+        private void choisiMeilleureAlternative()
         {
             List<InfosFilm> alternatives = Alternatives();
             int meilleurScore = -1;
@@ -697,31 +858,37 @@ namespace CollectionDeFilms.Films
                 bool arretPremier = Configuration.arretRecherchePremier;
                 _alternatives?.Clear();
                 BaseFilms.instance.supprimeAlternatives(_id);
-
-                List<RechercheInternet> recherches = BaseConfiguration.instance.getListeRechercheInternet();
-
-                if (recherches != null)
+                RechercheTheMovieDBOrg recherche = new RechercheTheMovieDBOrg();
+                List<InfosFilm> info = await recherche.rechercheInternet(this);
+                if (info != null)
                 {
-                    foreach (RechercheInternet r in recherches)
-                    {
-                        List<InfosFilm> info = await r.rechercheInternet(this);
-                        if (info != null)
-                        {
-                            liste.AddRange(info);
-                            if (arretPremier)
-                                break;
-                        }
-                    }
+                    liste.AddRange(info);
                 }
-                else
-                    MainForm.WriteErrorToConsole("Configurez des recherches internet dans la boite de configuration");
+
+                //List<RechercheInternet> recherches = BaseConfiguration.instance.getListeRechercheInternet();
+                //
+                //if (recherches != null)
+                //{
+                //    foreach (RechercheInternet r in recherches)
+                //    {
+                //        List<InfosFilm> info = await r.rechercheInternet(this);
+                //        if (info != null)
+                //        {
+                //            liste.AddRange(info);
+                //            if (arretPremier)
+                //                break;
+                //        }
+                //    }
+                //}
+                //else
+                //    MainForm.WriteErrorToConsole("Configurez des recherches internet dans la boite de configuration");
             }
             catch (Exception e)
             {
                 MainForm.WriteExceptionToConsole(e);
             }
 
-
+            Image image = null;
             switch (liste.Count)
             {
                 case 0:
@@ -735,17 +902,18 @@ namespace CollectionDeFilms.Films
                     _nationalite = liste[0]._nationalite;
                     _resume = liste[0]._resume;
                     _dateSortie = liste[0]._dateSortie;
-                    //TODO: _image = liste[0]._image;
+                    image = liste[0]._image;
                     Etat = ETAT.OK;
                     break;
 
                 default:
                     _alternatives = liste;
                     choisiMeilleureAlternative();
+                    Etat = ETAT.OK;
                     break;
             }
 
-            BaseFilms.instance.update(this);
+            BaseFilms.instance.update(this, image);
             changeEtat();
             MainForm.changeEtat(this);
         }

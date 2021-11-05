@@ -1,7 +1,8 @@
 ﻿using CollectionDeFilms.Database;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Threading.Tasks;
+using System.Text;
 
 /// <summary>
 /// Gestion de la selection par Genres
@@ -16,13 +17,13 @@ namespace CollectionDeFilms.Filtre_et_tri
         /// Retourne une liste de genres uniques
         /// </summary>
         /// <returns></returns>
-        public static async Task<List<string>> getGenres()
+        public static List<string> getGenres()
         {
             if (_genres == null)
             {
                 // Construire une nouvelle liste de genres
                 _genres = new List<string>();
-                SQLiteDataReader reader = await BaseFilms.instance.getGenres();
+                SQLiteDataReader reader = BaseFilms.instance.getGenres();
                 if (reader.HasRows)
                 {
                     int ordinal = reader.GetOrdinal(BaseFilms.FILMS_GENRES);
@@ -53,9 +54,8 @@ namespace CollectionDeFilms.Filtre_et_tri
         /// </summary>
         /// <param name="genres"></param>
         /// <param name="res"></param>
-        private static bool ajouteGenres(string genres, List<string> res)
+        private static void ajouteGenres(string genres, List<string> res)
         {
-            bool change = false;
             genres = genres.Trim();
             string[] morceaux = genres.Split(BaseFilms.SEPARATEUR_LISTES_CHAR);
             foreach(string m in morceaux)
@@ -63,28 +63,44 @@ namespace CollectionDeFilms.Filtre_et_tri
                 if (m?.Length > 0)
                 {
                     string s = magnifique(m);
-                    if (res.IndexOf(s) == -1)
-                    {
-                        change = true;
+                    if (!recherche(res, s))
                         res.Add(s);
-                    }
                 }
             }
+        }
 
-            return change;
+        private static bool recherche(List<string> res, string val)
+        {
+            string Val = val.ToLower();
+            foreach (string s in res)
+                if (s.ToLower().Equals(Val))
+                    return true;
+
+            return false;
         }
 
         /// <summary>
-        /// Tranforme une chaine de caracteres: initiale majuscule
+        /// Tranforme une chaine de caracteres: initiale majuscule pour chaque mot
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        private static string magnifique(string v)
+        public static string magnifique(string v)
         {
-            if (v?.Length < 2)
-                return v;
+            StringBuilder res = new StringBuilder();
+            if (v != null)
+            {
+                bool precedentSeparateur = true;
+                for (int i = 0; i < v.Length; i++)
+                {
+                    if (precedentSeparateur)
+                        res.Append( char.ToUpper(v[i]));
+                    else
+                        res.Append(v[i]);
 
-            return v.Substring(0, 1).ToUpper() + v.Substring(1);
+                    precedentSeparateur = char.IsSeparator(v[i]);
+                }
+            }
+            return res.ToString();
         }
     }
 }
