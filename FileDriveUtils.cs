@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -130,38 +131,40 @@ namespace CollectionDeFilms
         /// <param name="file"></param>
         public static void OpenFolderAndSelectItem(string file)
         {
-            string folderPath = new FileInfo(file).DirectoryName;
-            IntPtr nativeFolder;
-            uint psfgaoOut;
-            SHParseDisplayName(folderPath, IntPtr.Zero, out nativeFolder, 0, out psfgaoOut);
-
-            if (nativeFolder == IntPtr.Zero)
-            {
-                // Log error, can't find folder
-                return;
-            }
-
-            IntPtr nativeFile;
-            SHParseDisplayName(Path.Combine(folderPath, file), IntPtr.Zero, out nativeFile, 0, out psfgaoOut);
-
-            IntPtr[] fileArray;
-            if (nativeFile == IntPtr.Zero)
-            {
-                // Open the folder without the file selected if we can't find the file
-                fileArray = new IntPtr[0];
-            }
-            else
-            {
-                fileArray = new IntPtr[] { nativeFile };
-            }
-
-            SHOpenFolderAndSelectItems(nativeFolder, (uint)fileArray.Length, fileArray, 0);
-
-            Marshal.FreeCoTaskMem(nativeFolder);
-            if (nativeFile != IntPtr.Zero)
-            {
-                Marshal.FreeCoTaskMem(nativeFile);
-            }
+            ProcessStartInfo p = new ProcessStartInfo(Path.Combine(Environment.GetEnvironmentVariable("WINDIR"), "explorer.exe"), " /select, \"" + file + "\"");
+            Process.Start(p);
+            //string folderPath = new FileInfo(file).DirectoryName;
+            //IntPtr nativeFolder;
+            //uint psfgaoOut;
+            //SHParseDisplayName(folderPath, IntPtr.Zero, out nativeFolder, 0, out psfgaoOut);
+            //
+            //if (nativeFolder == IntPtr.Zero)
+            //{
+            //    // Log error, can't find folder
+            //    return;
+            //}
+            //
+            //IntPtr nativeFile;
+            //SHParseDisplayName(Path.Combine(folderPath, file), IntPtr.Zero, out nativeFile, 0, out psfgaoOut);
+            //
+            //IntPtr[] fileArray;
+            //if (nativeFile == IntPtr.Zero)
+            //{
+            //    // Open the folder without the file selected if we can't find the file
+            //    fileArray = new IntPtr[0];
+            //}
+            //else
+            //{
+            //    fileArray = new IntPtr[] { nativeFile };
+            //}
+            //
+            //SHOpenFolderAndSelectItems(nativeFolder, (uint)fileArray.Length, fileArray, 0);
+            //
+            //Marshal.FreeCoTaskMem(nativeFolder);
+            //if (nativeFile != IntPtr.Zero)
+            //{
+            //    Marshal.FreeCoTaskMem(nativeFile);
+            //}
         }
 
     }

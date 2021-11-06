@@ -109,6 +109,16 @@
     <Compile Include="Actions\ActionsDifferees.cs" />
     <Compile Include="Actions\ActionVerifFichier.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="ControlesUtilisateur\ListeProprietes.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControlesUtilisateur\ListeProprietes.Designer.cs">
+      <DependentUpon>ListeProprietes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ControlesUtilisateur\Propriete.cs" />
+    <Compile Include="ControlesUtilisateur\ProprieteLink.cs" />
+    <Compile Include="ControlesUtilisateur\ProprieteSimple.cs" />
+    <Compile Include="ControlesUtilisateur\ProprieteTexte.cs" />
     <Compile Include="CopieFichiers\CopieEnCours.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,7 +202,7 @@
     <Compile Include="Filtre et tri\Etiquettes.cs" />
     <Compile Include="Filtre et tri\Filtre.cs" />
     <Compile Include="Filtre et tri\Genres.cs" />
-    <Compile Include="Images.cs" />
+    <Compile Include="ImagesUtils.cs" />
     <Compile Include="Internet\Internet.cs" />
     <Compile Include="Internet\TheMovieDBOrg\TMDBListeFilms.cs" />
     <Compile Include="Internet\RechercheFilm.cs" />
@@ -228,6 +238,9 @@
     <Compile Include="Fenetres\Toast.Designer.cs">
       <DependentUpon>Toast.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ControlesUtilisateur\ListeProprietes.resx">
+      <DependentUpon>ListeProprietes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CopieFichiers\CopieEnCours.resx">
       <DependentUpon>CopieEnCours.cs</DependentUpon>
     </EmbeddedResource>

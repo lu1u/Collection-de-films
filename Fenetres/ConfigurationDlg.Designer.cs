@@ -34,15 +34,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxRetailleImages = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBoxAfficheFilm = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxInfosFilm = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.linkLabelTMDB = new System.Windows.Forms.LinkLabel();
             this.textBoxChercherFilm = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBoxInfosFilm = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBoxAfficheFilm = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -115,6 +115,40 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "The Movie Database.Org";
             // 
+            // textBoxAfficheFilm
+            // 
+            this.textBoxAfficheFilm.Location = new System.Drawing.Point(99, 77);
+            this.textBoxAfficheFilm.Name = "textBoxAfficheFilm";
+            this.textBoxAfficheFilm.Size = new System.Drawing.Size(686, 20);
+            this.textBoxAfficheFilm.TabIndex = 6;
+            this.textBoxAfficheFilm.Text = "https://image.tmdb.org/t/p/w500{0}";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 84);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(76, 13);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Affiche du film:";
+            // 
+            // textBoxInfosFilm
+            // 
+            this.textBoxInfosFilm.Location = new System.Drawing.Point(99, 45);
+            this.textBoxInfosFilm.Name = "textBoxInfosFilm";
+            this.textBoxInfosFilm.Size = new System.Drawing.Size(686, 20);
+            this.textBoxInfosFilm.TabIndex = 4;
+            this.textBoxInfosFilm.Text = "https://api.themoviedb.org/3/movie/{0}?api_key=[VOTRE_CLEF_TMDB]&language=fr";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 52);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Infos du film:";
+            // 
             // linkLabelTMDB
             // 
             this.linkLabelTMDB.AutoSize = true;
@@ -161,42 +195,8 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 7;
-            this.button2.Text = "Cancel";
+            this.button2.Text = "Annuler";
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 52);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Infos du film:";
-            // 
-            // textBoxInfosFilm
-            // 
-            this.textBoxInfosFilm.Location = new System.Drawing.Point(99, 45);
-            this.textBoxInfosFilm.Name = "textBoxInfosFilm";
-            this.textBoxInfosFilm.Size = new System.Drawing.Size(686, 20);
-            this.textBoxInfosFilm.TabIndex = 4;
-            this.textBoxInfosFilm.Text = "https://api.themoviedb.org/3/movie/{0}?api_key=[VOTRE_CLEF_TMDB]&language=fr";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 84);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(76, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Affiche du film:";
-            // 
-            // textBoxAfficheFilm
-            // 
-            this.textBoxAfficheFilm.Location = new System.Drawing.Point(99, 77);
-            this.textBoxAfficheFilm.Name = "textBoxAfficheFilm";
-            this.textBoxAfficheFilm.Size = new System.Drawing.Size(686, 20);
-            this.textBoxAfficheFilm.TabIndex = 6;
-            this.textBoxAfficheFilm.Text = "https://image.tmdb.org/t/p/w500{0}";
             // 
             // ConfigurationDlg
             // 

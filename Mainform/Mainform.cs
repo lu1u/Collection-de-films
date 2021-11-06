@@ -310,54 +310,18 @@ namespace CollectionDeFilms
             }
         }
 
-        private void SplitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
+        private void onSplitContainer1Moved(object sender, SplitterEventArgs e)
         {
             Configuration.splitter1Distance = splitContainer1.SplitterDistance;
         }
 
-        private void SplitContainer2_SplitterMoved(object sender, SplitterEventArgs e)
+        private void onSplitContainer2Moved(object sender, SplitterEventArgs e)
         {
             Configuration.splitter2Distance = splitContainer2.SplitterDistance;
+            //flowLayoutPanelInfos.Width = splitContainer2.SplitterDistance -20;
+            listeProprietesFilm.MinimumSize = new Size(splitContainer2.SplitterDistance - 30, listeProprietesFilm.Size.Height);
+            //labelResume.Width = splitContainer2.SplitterDistance - 20;
         }
-
-        //private void ToolStripMenuSelectionVus_Click(object sender, EventArgs e)
-        //{
-        //    switch (toolStripMenuSelectionVus.Etat)
-        //    {
-        //        case 0: _filtre.Vu = Filtre.TROIS_ETATS.INDIFFERENT; break;
-        //        case 1: _filtre.Vu = Filtre.TROIS_ETATS.NON; break;
-        //        case 2: _filtre.Vu = Filtre.TROIS_ETATS.OUI; break;
-        //        default: return;
-        //    }
-        //
-        //    remplitListFilms();
-        //}
-
-        //private void ThreeStateMenuItemAVoir_Click(object sender, EventArgs e)
-        //{
-        //    switch (toolStripMenuSelectionAVoir.Etat)
-        //    {
-        //        case 0: _filtre.AVoir = Filtre.TROIS_ETATS.INDIFFERENT; break;
-        //        case 1: _filtre.AVoir = Filtre.TROIS_ETATS.OUI; break;
-        //        case 2: _filtre.AVoir = Filtre.TROIS_ETATS.NON; break;
-        //        default: return;
-        //    }
-        //
-        //    remplitListFilms();
-        //}
-        //
-        //private void ThreeStateMenuItemAlternatives(object sender, EventArgs e)
-        //{
-        //    switch (toolStripMenuSelectionAlternatives.Etat)
-        //    {
-        //        case 0: _filtre.Alternatives = Filtre.TROIS_ETATS.INDIFFERENT; break;
-        //        case 1: _filtre.Alternatives = Filtre.TROIS_ETATS.OUI; break;
-        //        case 2: _filtre.Alternatives = Filtre.TROIS_ETATS.NON; break;
-        //        default: return;
-        //    }
-        //
-        //    remplitListFilms();
-        //}
 
         private void onToolStripMenuConfiguration(object sender, EventArgs e)
         {
@@ -727,11 +691,21 @@ namespace CollectionDeFilms
             if (toolStripComboBoxGenres.SelectedIndex >= 0)
             {
                 string genre = toolStripComboBoxGenres.SelectedIndex == 0? "" : toolStripComboBoxGenres.Items[toolStripComboBoxGenres.SelectedIndex].ToString();
-                if (!genre.Equals(_filtre.Genre))
-                {
-                    _filtre.Genre = genre;
-                    remplitListFilms();
-                }
+                selectGenre(genre);
+            }
+        }
+
+        /// <summary>
+        /// Prend un genre comme critère de selection
+        /// </summary>
+        /// <param name="genre"></param>
+        private void selectGenre(string genre)
+        {
+            if (!genre.Equals(_filtre.Genre))
+            {
+                toolStripComboBoxGenres.SelectedItem = genre;
+                _filtre.Genre = genre;
+                remplitListFilms();
             }
         }
 
@@ -740,11 +714,17 @@ namespace CollectionDeFilms
             if (toolStripComboBoxEtiquettes.SelectedIndex >= 0)
             {
                 string etiquette = toolStripComboBoxEtiquettes.SelectedIndex == 0 ? "" : toolStripComboBoxEtiquettes.Items[toolStripComboBoxEtiquettes.SelectedIndex].ToString();
-                if (!etiquette.Equals(_filtre.Etiquette))
-                {
-                    _filtre.Etiquette = etiquette;
-                    remplitListFilms();
-                }
+                selectEtiquette(etiquette);
+            }
+        }
+
+        private void selectEtiquette(string etiquette)
+        {
+            if (!etiquette.Equals(_filtre.Etiquette))
+            {
+                toolStripComboBoxEtiquettes.SelectedItem = etiquette;
+                _filtre.Etiquette = etiquette;
+                remplitListFilms();
             }
         }
     }

@@ -33,7 +33,6 @@ namespace CollectionDeFilms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.Label label8;
             System.Windows.Forms.ColumnHeader columnHeader1;
             System.Windows.Forms.ColumnHeader columnHeader3;
             System.Windows.Forms.ColumnHeader columnHeader5;
@@ -64,6 +63,7 @@ namespace CollectionDeFilms
             System.Windows.Forms.ToolStripMenuItem toolStripMenuItem18;
             System.Windows.Forms.ToolStripMenuItem separateurToolStripMenuItem;
             System.Windows.Forms.ToolStripLabel toolStripLabel1;
+            System.Windows.Forms.Label label8;
             this.toolStripStatusLabelNbFilmsBD = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelNbAffiches = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -82,38 +82,17 @@ namespace CollectionDeFilms
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tabControlAlternatives = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.flowLayoutPanelInfos = new System.Windows.Forms.FlowLayoutPanel();
             this.flowLayoutPanelInfosFilm = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttonSupprimerAlternatives = new System.Windows.Forms.Button();
             this.flowLayoutPanelPasTrouve = new System.Windows.Forms.FlowLayoutPanel();
             this.textBoxTitrePasTrouve = new System.Windows.Forms.TextBox();
             this.buttonRelancerPasTrouve = new System.Windows.Forms.Button();
             this.pictureBoxAffiche = new System.Windows.Forms.PictureBox();
-            this.flowLayoutPanelInfos = new System.Windows.Forms.FlowLayoutPanel();
-            this.buttonSupprimerAlternatives = new System.Windows.Forms.Button();
-            this.labelKeyRealisateur = new System.Windows.Forms.Label();
-            this.linkLabelRealisateur = new System.Windows.Forms.LinkLabel();
-            this.labelKeyActeurs = new System.Windows.Forms.Label();
-            this.linkLabelActeurs = new System.Windows.Forms.LinkLabel();
-            this.labelKeyGenres = new System.Windows.Forms.Label();
-            this.linkLabelGenres = new System.Windows.Forms.LinkLabel();
-            this.labelKeyDateSortie = new System.Windows.Forms.Label();
-            this.labelDateSortie = new System.Windows.Forms.Label();
-            this.labelKeyNationalite = new System.Windows.Forms.Label();
-            this.labelNationalite = new System.Windows.Forms.Label();
-            this.labelKeyEtiquettes = new System.Windows.Forms.Label();
-            this.linkLabelEtiquettes = new System.Windows.Forms.LinkLabel();
-            this.labelKeyDuree = new System.Windows.Forms.Label();
-            this.labelDuree = new System.Windows.Forms.Label();
-            this.labelKeyVuLe = new System.Windows.Forms.Label();
-            this.labelVuLe = new System.Windows.Forms.Label();
-            this.labelKeyAjouteLe = new System.Windows.Forms.Label();
-            this.labelAjouteLe = new System.Windows.Forms.Label();
-            this.labelResume = new System.Windows.Forms.Label();
             this.tabpageAlternatives = new System.Windows.Forms.TabPage();
             this.label7 = new System.Windows.Forms.Label();
             this.listViewAlternatives = new System.Windows.Forms.ListView();
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
-            this.linkLabelChemin = new System.Windows.Forms.LinkLabel();
-            this.linkLabelTitre = new System.Windows.Forms.LinkLabel();
             this.labelEtat = new System.Windows.Forms.Label();
             this.listViewFilms = new System.Windows.Forms.ListView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -132,15 +111,16 @@ namespace CollectionDeFilms
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             this.textboxFiltre = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.multiStateToolstripMenuItemVus = new CollectionDeFilms.MultistateToolstripMenuItem();
-            this.multistateToolstripMenuItem2 = new CollectionDeFilms.MultistateToolstripMenuItem();
             this.genresToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBoxGenres = new System.Windows.Forms.ToolStripComboBox();
             this.etiquettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBoxEtiquettes = new System.Windows.Forms.ToolStripComboBox();
             this.triToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBoxTri = new System.Windows.Forms.ToolStripComboBox();
-            label8 = new System.Windows.Forms.Label();
+            this.listeProprietesFilm = new CollectionDeFilms.ControlesUtilisateur.ListeProprietes();
+            this.multiStateToolstripMenuItemVus = new CollectionDeFilms.MultistateToolstripMenuItem();
+            this.multistateToolstripMenuItem2 = new CollectionDeFilms.MultistateToolstripMenuItem();
+            this.labelTitre = new System.Windows.Forms.Label();
             columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -170,6 +150,7 @@ namespace CollectionDeFilms
             toolStripMenuItem18 = new System.Windows.Forms.ToolStripMenuItem();
             separateurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            label8 = new System.Windows.Forms.Label();
             statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -177,10 +158,10 @@ namespace CollectionDeFilms
             this.splitContainer2.SuspendLayout();
             this.tabControlAlternatives.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.flowLayoutPanelInfos.SuspendLayout();
             this.flowLayoutPanelInfosFilm.SuspendLayout();
             this.flowLayoutPanelPasTrouve.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAffiche)).BeginInit();
-            this.flowLayoutPanelInfos.SuspendLayout();
             this.tabpageAlternatives.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -189,17 +170,6 @@ namespace CollectionDeFilms
             this.contextMenuFilm.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            this.flowLayoutPanelPasTrouve.SetFlowBreak(label8, true);
-            label8.Location = new System.Drawing.Point(3, 0);
-            label8.Name = "label8";
-            label8.Size = new System.Drawing.Size(330, 26);
-            label8.TabIndex = 3;
-            label8.Text = "Film non trouvé sur internet, vous pouvez tenter de corriger le titre et relancer" +
-    " la recherche";
             // 
             // columnHeader1
             // 
@@ -543,16 +513,27 @@ namespace CollectionDeFilms
             toolStripLabel1.BackColor = System.Drawing.Color.Transparent;
             toolStripLabel1.ForeColor = System.Drawing.Color.White;
             toolStripLabel1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel1.Image")));
-            toolStripLabel1.Margin = new System.Windows.Forms.Padding(20, 1, 0, 2);
+            toolStripLabel1.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
             toolStripLabel1.Name = "toolStripLabel1";
             toolStripLabel1.Size = new System.Drawing.Size(101, 68);
             toolStripLabel1.Text = "Sélection:";
             toolStripLabel1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             toolStripLabel1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            this.flowLayoutPanelPasTrouve.SetFlowBreak(label8, true);
+            label8.Location = new System.Drawing.Point(3, 0);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(315, 26);
+            label8.TabIndex = 3;
+            label8.Text = "Film non trouvé sur internet, vous pouvez tenter de corriger le titre et relancer" +
+    " la recherche";
+            // 
             // imageList1
             // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
             this.imageList1.ImageSize = new System.Drawing.Size(120, 200);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
@@ -566,9 +547,8 @@ namespace CollectionDeFilms
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(117)))), ((int)(((byte)(171)))));
+            this.splitContainer2.Panel1.Controls.Add(this.labelTitre);
             this.splitContainer2.Panel1.Controls.Add(this.tabControlAlternatives);
-            this.splitContainer2.Panel1.Controls.Add(this.linkLabelChemin);
-            this.splitContainer2.Panel1.Controls.Add(this.linkLabelTitre);
             this.splitContainer2.Panel1.Controls.Add(this.labelEtat);
             this.splitContainer2.Panel1.Padding = new System.Windows.Forms.Padding(8);
             // 
@@ -579,7 +559,7 @@ namespace CollectionDeFilms
             this.splitContainer2.Size = new System.Drawing.Size(1754, 543);
             this.splitContainer2.SplitterDistance = 341;
             this.splitContainer2.TabIndex = 0;
-            this.splitContainer2.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer2_SplitterMoved);
+            this.splitContainer2.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.onSplitContainer2Moved);
             // 
             // tabControlAlternatives
             // 
@@ -589,52 +569,76 @@ namespace CollectionDeFilms
             this.tabControlAlternatives.Controls.Add(this.tabPage1);
             this.tabControlAlternatives.Controls.Add(this.tabpageAlternatives);
             this.tabControlAlternatives.HotTrack = true;
-            this.tabControlAlternatives.Location = new System.Drawing.Point(0, 55);
+            this.tabControlAlternatives.Location = new System.Drawing.Point(0, 42);
             this.tabControlAlternatives.Name = "tabControlAlternatives";
             this.tabControlAlternatives.SelectedIndex = 0;
-            this.tabControlAlternatives.Size = new System.Drawing.Size(339, 485);
+            this.tabControlAlternatives.Size = new System.Drawing.Size(339, 498);
             this.tabControlAlternatives.TabIndex = 26;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.flowLayoutPanelInfosFilm);
+            this.tabPage1.Controls.Add(this.flowLayoutPanelInfos);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(331, 459);
+            this.tabPage1.Size = new System.Drawing.Size(331, 472);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Film";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // flowLayoutPanelInfos
+            // 
+            this.flowLayoutPanelInfos.AutoScroll = true;
+            this.flowLayoutPanelInfos.BackColor = System.Drawing.Color.Transparent;
+            this.flowLayoutPanelInfos.Controls.Add(this.flowLayoutPanelInfosFilm);
+            this.flowLayoutPanelInfos.Controls.Add(this.pictureBoxAffiche);
+            this.flowLayoutPanelInfos.Controls.Add(this.listeProprietesFilm);
+            this.flowLayoutPanelInfos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanelInfos.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanelInfos.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
+            this.flowLayoutPanelInfos.Name = "flowLayoutPanelInfos";
+            this.flowLayoutPanelInfos.Size = new System.Drawing.Size(325, 466);
+            this.flowLayoutPanelInfos.TabIndex = 19;
+            // 
             // flowLayoutPanelInfosFilm
             // 
-            this.flowLayoutPanelInfosFilm.AutoScroll = true;
+            this.flowLayoutPanelInfosFilm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanelInfosFilm.AutoSize = true;
             this.flowLayoutPanelInfosFilm.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanelInfosFilm.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanelInfosFilm.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.flowLayoutPanelInfosFilm.Controls.Add(this.buttonSupprimerAlternatives);
             this.flowLayoutPanelInfosFilm.Controls.Add(this.flowLayoutPanelPasTrouve);
-            this.flowLayoutPanelInfosFilm.Controls.Add(this.pictureBoxAffiche);
-            this.flowLayoutPanelInfosFilm.Controls.Add(this.flowLayoutPanelInfos);
-            this.flowLayoutPanelInfosFilm.Controls.Add(this.labelResume);
-            this.flowLayoutPanelInfosFilm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelInfosFilm.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanelInfosFilm.Name = "flowLayoutPanelInfosFilm";
-            this.flowLayoutPanelInfosFilm.Size = new System.Drawing.Size(325, 453);
+            this.flowLayoutPanelInfosFilm.Size = new System.Drawing.Size(328, 126);
             this.flowLayoutPanelInfosFilm.TabIndex = 7;
+            // 
+            // buttonSupprimerAlternatives
+            // 
+            this.flowLayoutPanelInfosFilm.SetFlowBreak(this.buttonSupprimerAlternatives, true);
+            this.buttonSupprimerAlternatives.Location = new System.Drawing.Point(3, 3);
+            this.buttonSupprimerAlternatives.Name = "buttonSupprimerAlternatives";
+            this.buttonSupprimerAlternatives.Size = new System.Drawing.Size(218, 23);
+            this.buttonSupprimerAlternatives.TabIndex = 8;
+            this.buttonSupprimerAlternatives.Text = "Supprimer les autres alternatives";
+            this.buttonSupprimerAlternatives.UseVisualStyleBackColor = true;
+            this.buttonSupprimerAlternatives.Click += new System.EventHandler(this.ButtonSupprimerAlternatives_Click);
             // 
             // flowLayoutPanelPasTrouve
             // 
             this.flowLayoutPanelPasTrouve.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanelPasTrouve.AutoScroll = true;
             this.flowLayoutPanelPasTrouve.BackColor = System.Drawing.Color.White;
             this.flowLayoutPanelPasTrouve.Controls.Add(label8);
             this.flowLayoutPanelPasTrouve.Controls.Add(this.textBoxTitrePasTrouve);
             this.flowLayoutPanelPasTrouve.Controls.Add(this.buttonRelancerPasTrouve);
             this.flowLayoutPanelInfosFilm.SetFlowBreak(this.flowLayoutPanelPasTrouve, true);
-            this.flowLayoutPanelPasTrouve.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanelPasTrouve.Location = new System.Drawing.Point(3, 32);
             this.flowLayoutPanelPasTrouve.Name = "flowLayoutPanelPasTrouve";
-            this.flowLayoutPanelPasTrouve.Size = new System.Drawing.Size(350, 91);
+            this.flowLayoutPanelPasTrouve.Size = new System.Drawing.Size(322, 91);
             this.flowLayoutPanelPasTrouve.TabIndex = 16;
             // 
             // textBoxTitrePasTrouve
@@ -657,263 +661,16 @@ namespace CollectionDeFilms
             // 
             // pictureBoxAffiche
             // 
-            this.pictureBoxAffiche.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBoxAffiche.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxAffiche.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanelInfosFilm.SetFlowBreak(this.pictureBoxAffiche, true);
-            this.pictureBoxAffiche.Location = new System.Drawing.Point(3, 100);
+            this.pictureBoxAffiche.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxAffiche.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.flowLayoutPanelInfos.SetFlowBreak(this.pictureBoxAffiche, true);
+            this.pictureBoxAffiche.Location = new System.Drawing.Point(3, 135);
             this.pictureBoxAffiche.Name = "pictureBoxAffiche";
-            this.pictureBoxAffiche.Size = new System.Drawing.Size(100, 50);
+            this.pictureBoxAffiche.Size = new System.Drawing.Size(100, 100);
             this.pictureBoxAffiche.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBoxAffiche.TabIndex = 17;
             this.pictureBoxAffiche.TabStop = false;
             this.pictureBoxAffiche.WaitOnLoad = true;
-            // 
-            // flowLayoutPanelInfos
-            // 
-            this.flowLayoutPanelInfos.AutoSize = true;
-            this.flowLayoutPanelInfos.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanelInfos.Controls.Add(this.buttonSupprimerAlternatives);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyRealisateur);
-            this.flowLayoutPanelInfos.Controls.Add(this.linkLabelRealisateur);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyActeurs);
-            this.flowLayoutPanelInfos.Controls.Add(this.linkLabelActeurs);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyGenres);
-            this.flowLayoutPanelInfos.Controls.Add(this.linkLabelGenres);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyDateSortie);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelDateSortie);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyNationalite);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelNationalite);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyEtiquettes);
-            this.flowLayoutPanelInfos.Controls.Add(this.linkLabelEtiquettes);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyDuree);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelDuree);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyVuLe);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelVuLe);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelKeyAjouteLe);
-            this.flowLayoutPanelInfos.Controls.Add(this.labelAjouteLe);
-            this.flowLayoutPanelInfosFilm.SetFlowBreak(this.flowLayoutPanelInfos, true);
-            this.flowLayoutPanelInfos.Location = new System.Drawing.Point(3, 156);
-            this.flowLayoutPanelInfos.Name = "flowLayoutPanelInfos";
-            this.flowLayoutPanelInfos.Size = new System.Drawing.Size(290, 200);
-            this.flowLayoutPanelInfos.TabIndex = 19;
-            // 
-            // buttonSupprimerAlternatives
-            // 
-            this.flowLayoutPanelInfos.SetFlowBreak(this.buttonSupprimerAlternatives, true);
-            this.buttonSupprimerAlternatives.Location = new System.Drawing.Point(3, 3);
-            this.buttonSupprimerAlternatives.Name = "buttonSupprimerAlternatives";
-            this.buttonSupprimerAlternatives.Size = new System.Drawing.Size(218, 23);
-            this.buttonSupprimerAlternatives.TabIndex = 8;
-            this.buttonSupprimerAlternatives.Text = "Supprimer les autres alternatives";
-            this.buttonSupprimerAlternatives.UseVisualStyleBackColor = true;
-            this.buttonSupprimerAlternatives.Click += new System.EventHandler(this.ButtonSupprimerAlternatives_Click);
-            // 
-            // labelKeyRealisateur
-            // 
-            this.labelKeyRealisateur.BackColor = System.Drawing.Color.Transparent;
-            this.labelKeyRealisateur.Location = new System.Drawing.Point(3, 32);
-            this.labelKeyRealisateur.Margin = new System.Windows.Forms.Padding(3);
-            this.labelKeyRealisateur.Name = "labelKeyRealisateur";
-            this.labelKeyRealisateur.Size = new System.Drawing.Size(60, 13);
-            this.labelKeyRealisateur.TabIndex = 37;
-            this.labelKeyRealisateur.Text = "Réalisateur:";
-            // 
-            // linkLabelRealisateur
-            // 
-            this.linkLabelRealisateur.AutoSize = true;
-            this.flowLayoutPanelInfos.SetFlowBreak(this.linkLabelRealisateur, true);
-            this.linkLabelRealisateur.Location = new System.Drawing.Point(69, 29);
-            this.linkLabelRealisateur.Name = "linkLabelRealisateur";
-            this.linkLabelRealisateur.Size = new System.Drawing.Size(55, 13);
-            this.linkLabelRealisateur.TabIndex = 38;
-            this.linkLabelRealisateur.TabStop = true;
-            this.linkLabelRealisateur.Text = "linkLabel1";
-            this.linkLabelRealisateur.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onLinkLabelClicked);
-            // 
-            // labelKeyActeurs
-            // 
-            this.labelKeyActeurs.BackColor = System.Drawing.Color.Transparent;
-            this.labelKeyActeurs.Location = new System.Drawing.Point(3, 51);
-            this.labelKeyActeurs.Margin = new System.Windows.Forms.Padding(3);
-            this.labelKeyActeurs.Name = "labelKeyActeurs";
-            this.labelKeyActeurs.Size = new System.Drawing.Size(60, 13);
-            this.labelKeyActeurs.TabIndex = 21;
-            this.labelKeyActeurs.Text = "Avec:";
-            // 
-            // linkLabelActeurs
-            // 
-            this.linkLabelActeurs.AutoSize = true;
-            this.flowLayoutPanelInfos.SetFlowBreak(this.linkLabelActeurs, true);
-            this.linkLabelActeurs.LinkArea = new System.Windows.Forms.LinkArea(0, 10);
-            this.linkLabelActeurs.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabelActeurs.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.linkLabelActeurs.Location = new System.Drawing.Point(69, 48);
-            this.linkLabelActeurs.Name = "linkLabelActeurs";
-            this.linkLabelActeurs.Size = new System.Drawing.Size(55, 13);
-            this.linkLabelActeurs.TabIndex = 31;
-            this.linkLabelActeurs.TabStop = true;
-            this.linkLabelActeurs.Text = "linkLabel1";
-            this.linkLabelActeurs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onLinkLabelClicked);
-            // 
-            // labelKeyGenres
-            // 
-            this.labelKeyGenres.BackColor = System.Drawing.Color.Transparent;
-            this.labelKeyGenres.Location = new System.Drawing.Point(3, 70);
-            this.labelKeyGenres.Margin = new System.Windows.Forms.Padding(3);
-            this.labelKeyGenres.Name = "labelKeyGenres";
-            this.labelKeyGenres.Size = new System.Drawing.Size(60, 13);
-            this.labelKeyGenres.TabIndex = 23;
-            this.labelKeyGenres.Text = "Genre:";
-            // 
-            // linkLabelGenres
-            // 
-            this.linkLabelGenres.AutoSize = true;
-            this.flowLayoutPanelInfos.SetFlowBreak(this.linkLabelGenres, true);
-            this.linkLabelGenres.Location = new System.Drawing.Point(69, 67);
-            this.linkLabelGenres.Name = "linkLabelGenres";
-            this.linkLabelGenres.Size = new System.Drawing.Size(55, 13);
-            this.linkLabelGenres.TabIndex = 33;
-            this.linkLabelGenres.TabStop = true;
-            this.linkLabelGenres.Text = "linkLabel1";
-            this.linkLabelGenres.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onLinkLabelClicked);
-            // 
-            // labelKeyDateSortie
-            // 
-            this.labelKeyDateSortie.BackColor = System.Drawing.Color.Transparent;
-            this.labelKeyDateSortie.Location = new System.Drawing.Point(3, 89);
-            this.labelKeyDateSortie.Margin = new System.Windows.Forms.Padding(3);
-            this.labelKeyDateSortie.Name = "labelKeyDateSortie";
-            this.labelKeyDateSortie.Size = new System.Drawing.Size(60, 13);
-            this.labelKeyDateSortie.TabIndex = 25;
-            this.labelKeyDateSortie.Text = "Sortie:";
-            // 
-            // labelDateSortie
-            // 
-            this.labelDateSortie.AutoSize = true;
-            this.labelDateSortie.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanelInfos.SetFlowBreak(this.labelDateSortie, true);
-            this.labelDateSortie.Location = new System.Drawing.Point(69, 86);
-            this.labelDateSortie.Name = "labelDateSortie";
-            this.labelDateSortie.Size = new System.Drawing.Size(47, 13);
-            this.labelDateSortie.TabIndex = 26;
-            this.labelDateSortie.Text = "xxxxxxxx";
-            // 
-            // labelKeyNationalite
-            // 
-            this.labelKeyNationalite.BackColor = System.Drawing.Color.Transparent;
-            this.labelKeyNationalite.Location = new System.Drawing.Point(3, 108);
-            this.labelKeyNationalite.Margin = new System.Windows.Forms.Padding(3);
-            this.labelKeyNationalite.Name = "labelKeyNationalite";
-            this.labelKeyNationalite.Size = new System.Drawing.Size(60, 13);
-            this.labelKeyNationalite.TabIndex = 27;
-            this.labelKeyNationalite.Text = "Nationalité:";
-            // 
-            // labelNationalite
-            // 
-            this.labelNationalite.AutoSize = true;
-            this.labelNationalite.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanelInfos.SetFlowBreak(this.labelNationalite, true);
-            this.labelNationalite.Location = new System.Drawing.Point(69, 105);
-            this.labelNationalite.Name = "labelNationalite";
-            this.labelNationalite.Size = new System.Drawing.Size(47, 13);
-            this.labelNationalite.TabIndex = 28;
-            this.labelNationalite.Text = "xxxxxxxx";
-            // 
-            // labelKeyEtiquettes
-            // 
-            this.labelKeyEtiquettes.BackColor = System.Drawing.Color.Transparent;
-            this.labelKeyEtiquettes.Location = new System.Drawing.Point(3, 127);
-            this.labelKeyEtiquettes.Margin = new System.Windows.Forms.Padding(3);
-            this.labelKeyEtiquettes.Name = "labelKeyEtiquettes";
-            this.labelKeyEtiquettes.Size = new System.Drawing.Size(60, 13);
-            this.labelKeyEtiquettes.TabIndex = 29;
-            this.labelKeyEtiquettes.Text = "Etiquettes:";
-            // 
-            // linkLabelEtiquettes
-            // 
-            this.linkLabelEtiquettes.AutoSize = true;
-            this.flowLayoutPanelInfos.SetFlowBreak(this.linkLabelEtiquettes, true);
-            this.linkLabelEtiquettes.Location = new System.Drawing.Point(69, 124);
-            this.linkLabelEtiquettes.Name = "linkLabelEtiquettes";
-            this.linkLabelEtiquettes.Size = new System.Drawing.Size(55, 13);
-            this.linkLabelEtiquettes.TabIndex = 34;
-            this.linkLabelEtiquettes.TabStop = true;
-            this.linkLabelEtiquettes.Text = "linkLabel1";
-            this.linkLabelEtiquettes.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onLinkLabelClicked);
-            // 
-            // labelKeyDuree
-            // 
-            this.labelKeyDuree.BackColor = System.Drawing.Color.Transparent;
-            this.labelKeyDuree.Location = new System.Drawing.Point(3, 146);
-            this.labelKeyDuree.Margin = new System.Windows.Forms.Padding(3);
-            this.labelKeyDuree.Name = "labelKeyDuree";
-            this.labelKeyDuree.Size = new System.Drawing.Size(60, 13);
-            this.labelKeyDuree.TabIndex = 39;
-            this.labelKeyDuree.Text = "Durée:";
-            // 
-            // labelDuree
-            // 
-            this.labelDuree.AutoSize = true;
-            this.labelDuree.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanelInfos.SetFlowBreak(this.labelDuree, true);
-            this.labelDuree.Location = new System.Drawing.Point(69, 143);
-            this.labelDuree.Name = "labelDuree";
-            this.labelDuree.Size = new System.Drawing.Size(34, 13);
-            this.labelDuree.TabIndex = 40;
-            this.labelDuree.Text = "00:00";
-            // 
-            // labelKeyVuLe
-            // 
-            this.labelKeyVuLe.Location = new System.Drawing.Point(3, 165);
-            this.labelKeyVuLe.Margin = new System.Windows.Forms.Padding(3);
-            this.labelKeyVuLe.Name = "labelKeyVuLe";
-            this.labelKeyVuLe.Size = new System.Drawing.Size(60, 13);
-            this.labelKeyVuLe.TabIndex = 35;
-            this.labelKeyVuLe.Text = "Vu le:";
-            // 
-            // labelVuLe
-            // 
-            this.labelVuLe.AutoSize = true;
-            this.flowLayoutPanelInfos.SetFlowBreak(this.labelVuLe, true);
-            this.labelVuLe.Location = new System.Drawing.Point(69, 162);
-            this.labelVuLe.Name = "labelVuLe";
-            this.labelVuLe.Size = new System.Drawing.Size(54, 13);
-            this.labelVuLe.TabIndex = 36;
-            this.labelVuLe.Text = "labelVuLe";
-            // 
-            // labelKeyAjouteLe
-            // 
-            this.labelKeyAjouteLe.Location = new System.Drawing.Point(3, 184);
-            this.labelKeyAjouteLe.Margin = new System.Windows.Forms.Padding(3);
-            this.labelKeyAjouteLe.Name = "labelKeyAjouteLe";
-            this.labelKeyAjouteLe.Size = new System.Drawing.Size(60, 13);
-            this.labelKeyAjouteLe.TabIndex = 41;
-            this.labelKeyAjouteLe.Text = "Ajouté le:";
-            // 
-            // labelAjouteLe
-            // 
-            this.labelAjouteLe.AutoSize = true;
-            this.flowLayoutPanelInfos.SetFlowBreak(this.labelAjouteLe, true);
-            this.labelAjouteLe.Location = new System.Drawing.Point(69, 181);
-            this.labelAjouteLe.Name = "labelAjouteLe";
-            this.labelAjouteLe.Size = new System.Drawing.Size(35, 13);
-            this.labelAjouteLe.TabIndex = 42;
-            this.labelAjouteLe.Text = "label2";
-            // 
-            // labelResume
-            // 
-            this.labelResume.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelResume.AutoSize = true;
-            this.labelResume.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanelInfosFilm.SetFlowBreak(this.labelResume, true);
-            this.labelResume.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelResume.Location = new System.Drawing.Point(3, 359);
-            this.labelResume.Name = "labelResume";
-            this.labelResume.Size = new System.Drawing.Size(49, 15);
-            this.labelResume.TabIndex = 32;
-            this.labelResume.Text = "résumé";
             // 
             // tabpageAlternatives
             // 
@@ -923,7 +680,7 @@ namespace CollectionDeFilms
             this.tabpageAlternatives.Location = new System.Drawing.Point(4, 22);
             this.tabpageAlternatives.Name = "tabpageAlternatives";
             this.tabpageAlternatives.Padding = new System.Windows.Forms.Padding(3);
-            this.tabpageAlternatives.Size = new System.Drawing.Size(331, 459);
+            this.tabpageAlternatives.Size = new System.Drawing.Size(331, 472);
             this.tabpageAlternatives.TabIndex = 1;
             this.tabpageAlternatives.Text = "Alternatives";
             this.tabpageAlternatives.UseVisualStyleBackColor = true;
@@ -960,7 +717,7 @@ namespace CollectionDeFilms
             this.listViewAlternatives.Name = "listViewAlternatives";
             this.listViewAlternatives.ShowGroups = false;
             this.listViewAlternatives.ShowItemToolTips = true;
-            this.listViewAlternatives.Size = new System.Drawing.Size(325, 424);
+            this.listViewAlternatives.Size = new System.Drawing.Size(325, 437);
             this.listViewAlternatives.SmallImageList = this.imageList2;
             this.listViewAlternatives.TabIndex = 7;
             this.listViewAlternatives.UseCompatibleStateImageBehavior = false;
@@ -969,42 +726,14 @@ namespace CollectionDeFilms
             // 
             // imageList2
             // 
-            this.imageList2.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList2.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
             this.imageList2.ImageSize = new System.Drawing.Size(96, 96);
             this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // linkLabelChemin
-            // 
-            this.linkLabelChemin.AutoSize = true;
-            this.linkLabelChemin.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabelChemin.LinkColor = System.Drawing.Color.Black;
-            this.linkLabelChemin.Location = new System.Drawing.Point(2, 26);
-            this.linkLabelChemin.Name = "linkLabelChemin";
-            this.linkLabelChemin.Size = new System.Drawing.Size(55, 13);
-            this.linkLabelChemin.TabIndex = 25;
-            this.linkLabelChemin.TabStop = true;
-            this.linkLabelChemin.Text = "linkLabel1";
-            this.linkLabelChemin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.onLinkCheminClicked);
-            // 
-            // linkLabelTitre
-            // 
-            this.linkLabelTitre.AutoSize = true;
-            this.linkLabelTitre.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabelTitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabelTitre.ForeColor = System.Drawing.Color.White;
-            this.linkLabelTitre.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabelTitre.LinkColor = System.Drawing.Color.White;
-            this.linkLabelTitre.Location = new System.Drawing.Point(2, 0);
-            this.linkLabelTitre.Name = "linkLabelTitre";
-            this.linkLabelTitre.Size = new System.Drawing.Size(59, 26);
-            this.linkLabelTitre.TabIndex = 24;
-            this.linkLabelTitre.TabStop = true;
-            this.linkLabelTitre.Text = "Titre";
             // 
             // labelEtat
             // 
             this.labelEtat.AutoSize = true;
-            this.labelEtat.Location = new System.Drawing.Point(2, 39);
+            this.labelEtat.Location = new System.Drawing.Point(3, 26);
             this.labelEtat.Name = "labelEtat";
             this.labelEtat.Size = new System.Drawing.Size(35, 13);
             this.labelEtat.TabIndex = 23;
@@ -1016,7 +745,7 @@ namespace CollectionDeFilms
             this.listViewFilms.BackColor = System.Drawing.Color.Gray;
             this.listViewFilms.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewFilms.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewFilms.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listViewFilms.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listViewFilms.ForeColor = System.Drawing.Color.White;
             this.listViewFilms.GridLines = true;
             this.listViewFilms.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
@@ -1062,7 +791,7 @@ namespace CollectionDeFilms
             this.splitContainer1.Size = new System.Drawing.Size(1754, 681);
             this.splitContainer1.SplitterDistance = 543;
             this.splitContainer1.TabIndex = 0;
-            this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.SplitContainer1_SplitterMoved);
+            this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.onSplitContainer1Moved);
             // 
             // consoleRichTextBox
             // 
@@ -1200,6 +929,7 @@ namespace CollectionDeFilms
             // textboxFiltre
             // 
             this.textboxFiltre.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(210)))), ((int)(((byte)(238)))));
+            this.textboxFiltre.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.textboxFiltre.HideSelection = false;
             this.textboxFiltre.Name = "textboxFiltre";
             this.textboxFiltre.ShortcutsEnabled = false;
@@ -1216,42 +946,6 @@ namespace CollectionDeFilms
             this.toolStripButton1.Size = new System.Drawing.Size(36, 68);
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.Click += new System.EventHandler(this.onCliqueEffaceRequete);
-            // 
-            // multiStateToolstripMenuItemVus
-            // 
-            this.multiStateToolstripMenuItemVus.AssociatedEnumValue = null;
-            this.multiStateToolstripMenuItemVus.AutoSize = false;
-            this.multiStateToolstripMenuItemVus.CheckOnClick = true;
-            this.multiStateToolstripMenuItemVus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.multiStateToolstripMenuItemVus.ForeColor = System.Drawing.Color.White;
-            this.multiStateToolstripMenuItemVus.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
-            this.multiStateToolstripMenuItemVus.Name = "multiStateToolstripMenuItemVus";
-            this.multiStateToolstripMenuItemVus.Padding = new System.Windows.Forms.Padding(4);
-            this.multiStateToolstripMenuItemVus.Size = new System.Drawing.Size(122, 71);
-            this.multiStateToolstripMenuItemVus.States = new string[] {
-        "Indifférent",
-        "Vus",
-        "Non vus"};
-            this.multiStateToolstripMenuItemVus.Text = "Films vus:";
-            this.multiStateToolstripMenuItemVus.EtatChange += new System.EventHandler(this.onClicFilmsVus);
-            // 
-            // multistateToolstripMenuItem2
-            // 
-            this.multistateToolstripMenuItem2.AssociatedEnumValue = null;
-            this.multistateToolstripMenuItem2.AutoSize = false;
-            this.multistateToolstripMenuItem2.CheckOnClick = true;
-            this.multistateToolstripMenuItem2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.multistateToolstripMenuItem2.ForeColor = System.Drawing.Color.White;
-            this.multistateToolstripMenuItem2.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
-            this.multistateToolstripMenuItem2.Name = "multistateToolstripMenuItem2";
-            this.multistateToolstripMenuItem2.Padding = new System.Windows.Forms.Padding(4);
-            this.multistateToolstripMenuItem2.Size = new System.Drawing.Size(122, 71);
-            this.multistateToolstripMenuItem2.States = new string[] {
-        "Indifférent",
-        "A voir",
-        "Pas à voir"};
-            this.multistateToolstripMenuItem2.Text = "Films à voir:";
-            this.multistateToolstripMenuItem2.EtatChange += new System.EventHandler(this.onClicFilmsAVoir);
             // 
             // genresToolStripMenuItem1
             // 
@@ -1314,6 +1008,71 @@ namespace CollectionDeFilms
             this.toolStripComboBoxTri.Size = new System.Drawing.Size(121, 71);
             this.toolStripComboBoxTri.SelectedIndexChanged += new System.EventHandler(this.onTriSelectedChanged);
             // 
+            // listeProprietesFilm
+            // 
+            this.listeProprietesFilm.Alternées = true;
+            this.listeProprietesFilm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listeProprietesFilm.AutoSize = true;
+            this.listeProprietesFilm.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.listeProprietesFilm.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.listeProprietesFilm.DeuxiemeCouleur = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
+            this.flowLayoutPanelInfos.SetFlowBreak(this.listeProprietesFilm, true);
+            this.listeProprietesFilm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listeProprietesFilm.Interligne = 3;
+            this.listeProprietesFilm.Location = new System.Drawing.Point(3, 241);
+            this.listeProprietesFilm.MinimumSize = new System.Drawing.Size(327, 72);
+            this.listeProprietesFilm.Name = "listeProprietesFilm";
+            this.listeProprietesFilm.Size = new System.Drawing.Size(327, 72);
+            this.listeProprietesFilm.TabIndex = 18;
+            // 
+            // multiStateToolstripMenuItemVus
+            // 
+            this.multiStateToolstripMenuItemVus.AssociatedEnumValue = null;
+            this.multiStateToolstripMenuItemVus.AutoSize = false;
+            this.multiStateToolstripMenuItemVus.CheckOnClick = true;
+            this.multiStateToolstripMenuItemVus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.multiStateToolstripMenuItemVus.ForeColor = System.Drawing.Color.White;
+            this.multiStateToolstripMenuItemVus.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.multiStateToolstripMenuItemVus.Name = "multiStateToolstripMenuItemVus";
+            this.multiStateToolstripMenuItemVus.Padding = new System.Windows.Forms.Padding(4);
+            this.multiStateToolstripMenuItemVus.Size = new System.Drawing.Size(122, 71);
+            this.multiStateToolstripMenuItemVus.States = new string[] {
+        "Indifférent",
+        "Vus",
+        "Non vus"};
+            this.multiStateToolstripMenuItemVus.Text = "Films vus:";
+            this.multiStateToolstripMenuItemVus.EtatChange += new System.EventHandler(this.onClicFilmsVus);
+            // 
+            // multistateToolstripMenuItem2
+            // 
+            this.multistateToolstripMenuItem2.AssociatedEnumValue = null;
+            this.multistateToolstripMenuItem2.AutoSize = false;
+            this.multistateToolstripMenuItem2.CheckOnClick = true;
+            this.multistateToolstripMenuItem2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.multistateToolstripMenuItem2.ForeColor = System.Drawing.Color.White;
+            this.multistateToolstripMenuItem2.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.multistateToolstripMenuItem2.Name = "multistateToolstripMenuItem2";
+            this.multistateToolstripMenuItem2.Padding = new System.Windows.Forms.Padding(4);
+            this.multistateToolstripMenuItem2.Size = new System.Drawing.Size(122, 71);
+            this.multistateToolstripMenuItem2.States = new string[] {
+        "Indifférent",
+        "A voir",
+        "Pas à voir"};
+            this.multistateToolstripMenuItem2.Text = "Films à voir:";
+            this.multistateToolstripMenuItem2.EtatChange += new System.EventHandler(this.onClicFilmsAVoir);
+            // 
+            // labelTitre
+            // 
+            this.labelTitre.AutoSize = true;
+            this.labelTitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTitre.ForeColor = System.Drawing.Color.White;
+            this.labelTitre.Location = new System.Drawing.Point(1, 0);
+            this.labelTitre.Name = "labelTitre";
+            this.labelTitre.Size = new System.Drawing.Size(70, 26);
+            this.labelTitre.TabIndex = 27;
+            this.labelTitre.Text = "label1";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1337,14 +1096,12 @@ namespace CollectionDeFilms
             this.splitContainer2.ResumeLayout(false);
             this.tabControlAlternatives.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.flowLayoutPanelInfos.ResumeLayout(false);
+            this.flowLayoutPanelInfos.PerformLayout();
             this.flowLayoutPanelInfosFilm.ResumeLayout(false);
-            this.flowLayoutPanelInfosFilm.PerformLayout();
             this.flowLayoutPanelPasTrouve.ResumeLayout(false);
             this.flowLayoutPanelPasTrouve.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAffiche)).EndInit();
-            this.flowLayoutPanelInfos.ResumeLayout(false);
-            this.flowLayoutPanelInfos.PerformLayout();
             this.tabpageAlternatives.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -1363,28 +1120,10 @@ namespace CollectionDeFilms
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.ListView listViewFilms;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.LinkLabel linkLabelChemin;
-        private System.Windows.Forms.LinkLabel linkLabelTitre;
         private System.Windows.Forms.Label labelEtat;
         private System.Windows.Forms.TabControl tabControlAlternatives;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelInfosFilm;
-        private System.Windows.Forms.TextBox textBoxTitrePasTrouve;
-        private System.Windows.Forms.Button buttonRelancerPasTrouve;
-        private System.Windows.Forms.PictureBox pictureBoxAffiche;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelInfos;
-        private System.Windows.Forms.Label labelKeyActeurs;
-        private System.Windows.Forms.LinkLabel linkLabelActeurs;
-        private System.Windows.Forms.Label labelKeyGenres;
-        private System.Windows.Forms.LinkLabel linkLabelGenres;
-        private System.Windows.Forms.Label labelKeyDateSortie;
-        private System.Windows.Forms.Label labelDateSortie;
-        private System.Windows.Forms.Label labelKeyNationalite;
-        private System.Windows.Forms.Label labelNationalite;
-        private System.Windows.Forms.Label labelKeyEtiquettes;
-        private System.Windows.Forms.LinkLabel linkLabelEtiquettes;
-        private System.Windows.Forms.Label labelResume;
-        private System.Windows.Forms.Button buttonSupprimerAlternatives;
         private System.Windows.Forms.TabPage tabpageAlternatives;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ListView listViewAlternatives;
@@ -1406,13 +1145,6 @@ namespace CollectionDeFilms
         private System.Windows.Forms.ContextMenuStrip contextMenuFilm;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ImageList imageList2;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelPasTrouve;
-        private System.Windows.Forms.Label labelKeyVuLe;
-        private System.Windows.Forms.Label labelVuLe;
-        private System.Windows.Forms.Label labelKeyRealisateur;
-        private System.Windows.Forms.LinkLabel linkLabelRealisateur;
-        private System.Windows.Forms.Label labelKeyDuree;
-        private System.Windows.Forms.Label labelDuree;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuCollections;
         private System.Windows.Forms.ToolStripMenuItem exporterLaListeDesFilmsToolStripMenuItem;
@@ -1430,12 +1162,18 @@ namespace CollectionDeFilms
         private MultistateToolstripMenuItem multistateToolstripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem triToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxTri;
-        private System.Windows.Forms.Label labelKeyAjouteLe;
-        private System.Windows.Forms.Label labelAjouteLe;
         private System.Windows.Forms.ToolStripMenuItem genresToolStripMenuItem1;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxGenres;
         private System.Windows.Forms.ToolStripMenuItem etiquettesToolStripMenuItem;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxEtiquettes;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelInfos;
+        private System.Windows.Forms.Button buttonSupprimerAlternatives;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelPasTrouve;
+        private System.Windows.Forms.TextBox textBoxTitrePasTrouve;
+        private System.Windows.Forms.Button buttonRelancerPasTrouve;
+        private System.Windows.Forms.PictureBox pictureBoxAffiche;
+        private ControlesUtilisateur.ListeProprietes listeProprietesFilm;
+        private System.Windows.Forms.Label labelTitre;
     }
 }
 

@@ -393,7 +393,7 @@ namespace CollectionDeFilms.Films
             }
             set
             {
-                BaseFilms.instance.sauveImage(_id, Images.retaille(value, Configuration.largeurMaxImages));
+                BaseFilms.instance.sauveImage(_id, ImagesUtils.retaille(value, Configuration.largeurMaxImages));
                 changeEtat();
             }
         }
@@ -568,18 +568,18 @@ namespace CollectionDeFilms.Films
             switch (Etat)
             {
                 case ETAT.NOUVEAU:
-                    etiquette = Images.copie(Resources.film_nouveau);
+                    etiquette = ImagesUtils.copie(Resources.film_nouveau);
                     break;
 
                 case ETAT.DANS_LA_QUEUE:
-                    etiquette = Images.copie(Resources.film_dans_la_queue);
+                    etiquette = ImagesUtils.copie(Resources.film_dans_la_queue);
                     break;
                 case ETAT.PAS_TROUVE:
-                    etiquette = Images.copie(Resources.film_non_trouve);
+                    etiquette = ImagesUtils.copie(Resources.film_non_trouve);
                     break;
 
                 case ETAT.RECHERCHE:
-                    etiquette = Images.copie(Resources.film_recherche_en_cours);
+                    etiquette = ImagesUtils.copie(Resources.film_recherche_en_cours);
                     break;
                 default:
                     etiquette = null;
@@ -635,7 +635,7 @@ namespace CollectionDeFilms.Films
                     return getimageAlternatives(bounds);
                 else
                     // Utiliser l'image "pas d'affiche"
-                    return Images.copie(Resources.film_nouveau);
+                    return ImagesUtils.copie(Resources.film_nouveau);
             }
             else
             {
@@ -651,9 +651,9 @@ namespace CollectionDeFilms.Films
             {
                 Rectangle zoom = new Rectangle(bounds.Left, bounds.Top, bounds.Width, bounds.Height);
                 zoom.Inflate(-8, -8);
-                imageGrandeIcone = Images.zoomImage(imageGrandeIcone, zoom);
-                imageGrandeIcone = Images.cadre(imageGrandeIcone, Color.White, 2);
-                imageGrandeIcone = Images.ombre(imageGrandeIcone, 4);
+                imageGrandeIcone = ImagesUtils.zoomImage(imageGrandeIcone, zoom);
+                imageGrandeIcone = ImagesUtils.cadre(imageGrandeIcone, Color.White, 2);
+                imageGrandeIcone = ImagesUtils.ombre(imageGrandeIcone, 4);
             }
 
             return imageGrandeIcone;

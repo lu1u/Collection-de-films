@@ -146,7 +146,7 @@ namespace CollectionDeFilms.Database
                 using (SQLiteCommand cmdImage = new SQLiteCommand($"INSERT INTO {TABLE_IMAGES} {IMAGES_FILM_ID}, {IMAGES_IMAGE} VALUES (@id, @image)"))
                 {
                     cmdImage.Parameters.AddWithValue("@id", f.Id);
-                    cmdImage.Parameters.AddWithValue("@image", BaseFilms.SqlBinaryPeutEtreNull(Images.imageToByteArray(f.Affiche)));
+                    cmdImage.Parameters.AddWithValue("@image", BaseFilms.SqlBinaryPeutEtreNull(ImagesUtils.imageToByteArray(f.Affiche)));
                     executeNonQuery(cmdImage);
                 }
                 sauveAlternatives(f.Id, f.Alternatives());

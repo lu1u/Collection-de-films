@@ -192,7 +192,7 @@ namespace CollectionDeFilms.Internet
 
             string imglink = cumuleExtract(doc, xpathAffiche); MainForm.WriteMessageToConsole("Affiche: " + imglink);
             if (imglink != null)
-                info._image = Images.retaille(await InternetUtils.loadImage(imglink, Configuration.largeurMaxImages), Configuration.largeurMaxImages);
+                info._image = ImagesUtils.retaille(await InternetUtils.loadImage(imglink, Configuration.largeurMaxImages), Configuration.largeurMaxImages);
             return info;
         }
 

@@ -7,6 +7,7 @@ using CollectionDeFilms.Internet;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -31,25 +32,27 @@ namespace CollectionDeFilms
             }
 
             WriteMessageToConsole($"Film: {film.Titre}, Id={film.Id}");
+            TimeSpan s = film.Duree;
 
             flowLayoutPanelInfosFilm.Show();
             flowLayoutPanelInfosFilm.SuspendLayout();
+            listeProprietesFilm.Clear();
             labelEtat.Text = film.getTextEtat();
-            afficheInfoLink(null, linkLabelTitre, film.Titre, InternetUtils.urlRecherche(film.Titre));
-            afficheInfoLink(null, linkLabelChemin, film.Chemin, new ProcessStartInfo(getExplorerPath(), " /select, \"" + film.Chemin + "\""));
-            afficheInfoLinks(labelKeyRealisateur, linkLabelRealisateur, film.Realisateur);
-            afficheInfoLinks(labelKeyActeurs, linkLabelActeurs, film.Acteurs);
-            afficheInfoLinks(labelKeyGenres, linkLabelGenres, film.Genres);
-            afficheInfo(labelKeyDateSortie, labelDateSortie, film.DateSortie);
-            afficheInfo(labelKeyNationalite, labelNationalite, film.Nationalite);
-            afficheInfo(labelKeyVuLe, labelVuLe, film.DateVu.Ticks == 0 ? null : film.DateVu.ToLongDateString());
-            afficheInfo(labelKeyAjouteLe, labelAjouteLe, film.DateCreation.ToLongDateString());
-            afficheInfoLinks(labelKeyEtiquettes, linkLabelEtiquettes, film.Etiquettes);
+            labelTitre.Text = film.Titre;
+            afficheInfoLink("Titre:", film.Titre, (a) => InternetUtils.rechercheSurInternet("film+" + a));
+            afficheInfoLinks("Etiquettes:", film.Etiquettes, (a) => selectEtiquette(a));
+            afficheInfoLinks("Genres:", film.Genres, (a) => selectGenre(a));
+            afficheInfo("Durée:", s.Equals(TimeSpan.Zero) ? "" : $"{s:hh\\:mm\\:ss}");
+            afficheInfo("Vue le:", film.DateVu.Ticks == 0 ? null : film.DateVu.ToLongDateString());
+            afficheInfoLinks("Réalisateur:", film.Realisateur, (a) => InternetUtils.rechercheSurInternet(a));
+            afficheInfoLinks("Acteurs:", film.Acteurs, (a) => InternetUtils.rechercheSurInternet(a));
+            afficheInfo("Date sortie:", film.DateSortie);
+            afficheInfo("Nationalité", film.Nationalite);
+            afficheInfo("Ajouté le:", film.DateCreation.ToLongDateString());
+            afficheInfoLink("Chemin:", film.Chemin, (a) => FileDriveUtils.OpenFolderAndSelectItem(a));
 
-            TimeSpan s = film.Duree;
-            afficheInfo(labelKeyDuree, labelDuree, s.Equals(TimeSpan.Zero) ? "" : $"{s:hh\\:mm\\:ss}");
-
-            labelResume.Text = film.Resume;
+            if (film.Resume?.Length > 0)
+                listeProprietesFilm.AjoutePropriete(new ControlesUtilisateur.ProprieteSimple(film.Resume));
 
             switch (film.Etat)
             {
@@ -122,30 +125,17 @@ namespace CollectionDeFilms
         /// <param name="key"></param>
         /// <param name="link"></param>
         /// <param name="texte"></param>
-        private void afficheInfoLinks(Label key, LinkLabel link, string texte)
+        private void afficheInfoLinks(string nom, string texte, ControlesUtilisateur.ProprieteLink.onClickLink onClick)
         {
             if (texte?.Length > 0)
             {
-                key.Show();
-                link.Show();
-                link.Links.Clear();
                 string[] valeurs = texte.Split(BaseFilms.SEPARATEUR_LISTES_CHAR);
-                string label = "";
-                int start = 0;
-                foreach (string url in valeurs)
-                {
-                    label += url + ", ";
-                    int length = url.Length;
-                    LinkLabel.Link lk = new LinkLabel.Link(start, length, $"https://www.google.com/search?q={InternetUtils.urlRecherche(url)}");
-                    link.Links.Add(lk);
-                    start += length + 2;
-                }
-                link.Text = label;
-            }
-            else
-            {
-                key?.Hide();
-                link?.Hide();
+
+                ControlesUtilisateur.ProprieteLink.Link[] links = new ControlesUtilisateur.ProprieteLink.Link[valeurs.Length];
+                for (int i = 0; i < valeurs.Length; i++)
+                    links[i] = new ControlesUtilisateur.ProprieteLink.Link(valeurs[i], valeurs[i], onClick);
+                ControlesUtilisateur.ProprieteLink propriete = new ControlesUtilisateur.ProprieteLink(nom, links);
+                listeProprietesFilm.AjoutePropriete(propriete);
             }
         }
 
@@ -156,19 +146,10 @@ namespace CollectionDeFilms
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <param name="texte"></param>
-        private void afficheInfo(Label key, Label value, string texte)
+        private void afficheInfo(string nom, string texte)
         {
             if (texte?.Length > 0)
-            {
-                key.Visible = true;
-                value.Visible = true;
-                value.Text = texte;
-            }
-            else
-            {
-                key.Visible = false;
-                value.Visible = false;
-            }
+                listeProprietesFilm.AjoutePropriete(new ControlesUtilisateur.ProprieteTexte(nom, texte));
         }
 
         /// <summary>
@@ -178,29 +159,19 @@ namespace CollectionDeFilms
         /// <param name="link"></param>
         /// <param name="texte"></param>
         /// <param name="data"></param>
-        private void afficheInfoLink(Label key, LinkLabel link, string texte, object data)
+        private void afficheInfoLink(string nom, string texte, ControlesUtilisateur.ProprieteLink.onClickLink onClick)
         {
             if (texte?.Length > 0)
             {
-                key?.Show();
-                link.Show();
-                link.Links.Clear();
-                link.Text = texte;
-                link.Links.Add(0, texte.Length, data);
-            }
-            else
-            {
-                key?.Hide();
-                link?.Hide();
+                ControlesUtilisateur.ProprieteLink.Link[] links = new ControlesUtilisateur.ProprieteLink.Link[1];
+                links[0] = new ControlesUtilisateur.ProprieteLink.Link(texte, texte, onClick);
+                ControlesUtilisateur.ProprieteLink propriete = new ControlesUtilisateur.ProprieteLink(nom, links);
+                listeProprietesFilm.AjoutePropriete(propriete);
             }
         }
 
 
 
-        private string getExplorerPath()
-        {
-            return Path.Combine(Environment.GetEnvironmentVariable("WINDIR"), "explorer.exe");
-        }
 
         /// <summary>
         /// Remplir la listview des films en fonction du filtre courant

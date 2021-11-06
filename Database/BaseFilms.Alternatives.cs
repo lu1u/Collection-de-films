@@ -63,7 +63,7 @@ namespace CollectionDeFilms.Database
                         command.Parameters.AddWithValue("@nationalite", alternative._nationalite);
                         command.Parameters.AddWithValue("@datesortie", alternative._dateSortie);
                         command.Parameters.AddWithValue("@resume", alternative._resume);
-                        command.Parameters.AddWithValue("@affiche", BaseFilms.SqlBinaryPeutEtreNull(Images.imageToByteArray(alternative._image)));
+                        command.Parameters.AddWithValue("@affiche", BaseFilms.SqlBinaryPeutEtreNull(ImagesUtils.imageToByteArray(alternative._image)));
                         executeNonQuery(command);
                     }
         }
@@ -150,7 +150,7 @@ namespace CollectionDeFilms.Database
             using (SQLiteCommand command = new SQLiteCommand($"INSERT INTO {TABLE_IMAGES}  VALUES (@id, @image)"))
             {
                 command.Parameters.AddWithValue("@id", id);
-                command.Parameters.AddWithValue("@image", BaseFilms.SqlBinaryPeutEtreNull(Images.imageToByteArray(image)));
+                command.Parameters.AddWithValue("@image", BaseFilms.SqlBinaryPeutEtreNull(ImagesUtils.imageToByteArray(image)));
                 executeNonQuery(command);
             }
         }

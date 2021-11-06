@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
 namespace CollectionDeFilms
 {
-    class Images
+    class ImagesUtils
     {
         /// <summary>
         /// Retaille proportionnellement une image pour s'assurer qu'elle ne depasse pas la largeur donnée

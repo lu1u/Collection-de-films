@@ -119,7 +119,7 @@ namespace CollectionDeFilms.Internet
                 MainForm.WriteMessageToConsole($"Nationalité {info._nationalite}");
                 MainForm.WriteMessageToConsole($"Acteurs {info._acteurs}");
                 if (image != null)
-                    info._image = Images.retaille(image, Configuration.largeurMaxImages);
+                    info._image = ImagesUtils.retaille(image, Configuration.largeurMaxImages);
                 return info;
             }
             catch (Exception e)

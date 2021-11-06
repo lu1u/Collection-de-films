@@ -125,7 +125,7 @@ namespace CollectionDeFilms.Fenetres
         {
             if (Clipboard.ContainsImage())
             {
-                pictureBoxAffiche.Image = Images.retaille( Clipboard.GetImage(), Configuration.largeurMaxImages );
+                pictureBoxAffiche.Image = ImagesUtils.retaille( Clipboard.GetImage(), Configuration.largeurMaxImages );
                 afficheChangee = true;
             }
         }

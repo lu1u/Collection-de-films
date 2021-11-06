@@ -54,7 +54,7 @@ namespace CollectionDeFilms.Films
             if (alternatives == null)
                 return null;
             if (alternatives.Count == 0)
-                return Images.copie(Resources.film_alternatives);
+                return ImagesUtils.copie(Resources.film_alternatives);
 
             Image newImage = new Bitmap(bounds.Width, bounds.Height);
             using (Graphics g = Graphics.FromImage(newImage))
@@ -65,7 +65,7 @@ namespace CollectionDeFilms.Films
                 PointF[] positions = MOSAIQUES[nbImages];
                 for (int i = 0; i < nbImages; i++)
                 {
-                    using (Image image = Images.ombre(alternatives[i]._image, 10))
+                    using (Image image = ImagesUtils.ombre(alternatives[i]._image, 10))
                         g.DrawImage(image, (MOSAIQUES[nbImages][i].X * bounds.Width) - (taille / 2), (MOSAIQUES[nbImages][i].Y * bounds.Height) - (taille / 2), taille, taille);
                 }
 

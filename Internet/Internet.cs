@@ -92,7 +92,7 @@ namespace CollectionDeFilms.Internet
                 if ((mystream = wresp.GetResponseStream()) != null)
                 {
                     Bitmap bmp = new Bitmap(mystream);
-                    return Images.retaille(bmp, largeurMax);
+                    return ImagesUtils.retaille(bmp, largeurMax);
                 }
             }
             finally
@@ -114,7 +114,13 @@ namespace CollectionDeFilms.Internet
         /// <returns></returns>
         public static string urlRecherche(string u)
         {
-            return @"https://www.google.com/search?q=film+" + u.Replace(" ", "+").Replace("/", "").Replace("&", "+").Replace("++", "+");
+            return @"https://www.google.com/search?q=" + u.Replace(" ", "+").Replace("/", "").Replace("&", "+").Replace("++", "+");
+        }
+
+        public static void rechercheSurInternet(string u)
+        {
+            string url = urlRecherche(u);
+            System.Diagnostics.Process.Start(url);
         }
     }
 }
