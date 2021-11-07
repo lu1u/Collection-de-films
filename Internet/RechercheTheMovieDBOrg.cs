@@ -20,33 +20,37 @@ namespace CollectionDeFilms.Internet
         //public const string formatUrlRecherche = "https://api.themoviedb.org/3/search/movie?api_key={1}&language=fr&query={0}&page=1&include_adult=true";
         //public const string formatUrlFilm = "https://api.themoviedb.org/3/movie/{0}?api_key={1}&language=fr-FR";
         //public const string formatUrlImage = "https://image.tmdb.org/t/p/w500{0}";
+        public const int MAX_ACTEURS = 4; // Nb max d'acteurs qu'on récupère
         public RechercheTheMovieDBOrg()
         {
             nom = "The Movie DB";
-
         }
-        internal async override Task<List<Films.InfosFilm>> recherche(Film film)
+
+        /// <summary>
+        /// Retrouve les films correspondant au titre
+        /// </summary>
+        /// <param name="film"></param>
+        /// <returns></returns>
+        internal async override Task<List<InfosFilm>> recherche(Film film)
         {
             try
             {
                 // Charger une liste des pages referencant ce film
-                MainForm.WriteMessageToConsole("Recherche: " + nom);
+                MainForm.WriteMessageToConsole("Recherche: " + nom + ":" + film.Titre);
                 string url = string.Format(Configuration.urlTMDBChercherFilm, requete(film.Titre));
                 List<int> ids = await getTMDBFilmIds(url);
-                if (ids == null)
-                    return null;
-                if (ids.Count == 0)
+                if (ids == null || ids.Count == 0)
                 {
                     MainForm.WriteMessageToConsole($"{film.Titre}: non trouvé sur TMDB.org");
                     return null;
                 }
 
                 // Analyser chaque page referencant ce film
-                List<Films.InfosFilm> infos = new List<Films.InfosFilm>();
+                List<InfosFilm> infos = new List<InfosFilm>();
                 foreach (int id in ids)
                 {
                     string urlIndfos = string.Format(Configuration.urlTMDBInfosFilm, id);
-                    Films.InfosFilm info = await chargePageInfosFilm(urlIndfos);
+                    InfosFilm info = await chargePageInfosFilm(urlIndfos);
                     if (!(info == null || info.estVide()))
                         infos.Add(info);
                 }
@@ -110,14 +114,10 @@ namespace CollectionDeFilms.Internet
                 info._genres = getGenres(film); MainForm.WriteMessageToConsole("Genres: " + info._genres);
                 info._resume = film.overview; MainForm.WriteMessageToConsole("Résumé: " + info._resume);
                 info._dateSortie = getDate(film.release_date); MainForm.WriteMessageToConsole("Date sortie: " + info._dateSortie);
-                info._nationalite = getNationalite(film);
-                info._acteurs = getActeurs(film);
+                info._nationalite = getNationalite(film); MainForm.WriteMessageToConsole($"Nationalité {info._nationalite}");
+                info._acteurs = getActeurs(film); MainForm.WriteMessageToConsole($"Acteurs {info._acteurs}");
+
                 Image image = await getImage(film);
-                MainForm.WriteMessageToConsole($"Genres {info._genres}");
-                MainForm.WriteMessageToConsole($"Résumé {info._resume}");
-                MainForm.WriteMessageToConsole($"Date sortie {info._dateSortie}");
-                MainForm.WriteMessageToConsole($"Nationalité {info._nationalite}");
-                MainForm.WriteMessageToConsole($"Acteurs {info._acteurs}");
                 if (image != null)
                     info._image = ImagesUtils.retaille(image, Configuration.largeurMaxImages);
                 return info;
@@ -142,7 +142,7 @@ namespace CollectionDeFilms.Internet
             foreach (TMDBInfosFilm.Crew c in film.credits.crew)
                 if ("director".Equals(c.job.ToLower()))
                     return c.name;
-            
+
             return "";
         }
 
@@ -150,16 +150,17 @@ namespace CollectionDeFilms.Internet
         {
             string res = "";
             int nbActeurs = 0;
-            foreach (TMDBInfosFilm.Cast c in film.credits.cast)
-            {
-                if (res.Length > 0)
-                    res += "|";
+            if (film.credits.cast != null)
+                foreach (TMDBInfosFilm.Cast c in film.credits.cast)
+                {
+                    if (res.Length > 0)
+                        res += "|";
 
-                res += c.name;
-                nbActeurs++;
-                if (nbActeurs > 4) // Seulement les acteurs principaux
-                    break;
-            }
+                    res += c.name;
+                    nbActeurs++;
+                    if (nbActeurs >= MAX_ACTEURS)
+                        break;
+                }
 
             return res;
         }
@@ -192,7 +193,7 @@ namespace CollectionDeFilms.Internet
             }
             catch
             {
-                // Recupération standard échouée, on peut peut être faire qq chose
+                // Recupération standard échouée, on peut peut être faire qq chose pour certains pays connus
                 switch (name.iso_3166_1.ToUpper())
                 {
                     case "GB": return "Angleterre";

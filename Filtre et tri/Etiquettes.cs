@@ -65,6 +65,7 @@ namespace CollectionDeFilms.Filtre_et_tri
                 if (m?.Length > 0)
                 {
                     string s = m.Trim().ToLower() ;
+                    // Ajouter l'etiquette si elle n'est pas déjà dans la liste
                     if (!recherche(res, s))
                         res.Add(s);
                 }

@@ -116,6 +116,7 @@
       <DependentUpon>ListeProprietes.cs</DependentUpon>
     </Compile>
     <Compile Include="ControlesUtilisateur\Propriete.cs" />
+    <Compile Include="ControlesUtilisateur\ProprieteImage.cs" />
     <Compile Include="ControlesUtilisateur\ProprieteLink.cs" />
     <Compile Include="ControlesUtilisateur\ProprieteSimple.cs" />
     <Compile Include="ControlesUtilisateur\ProprieteTexte.cs" />

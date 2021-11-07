@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CollectionDeFilms.ControlesUtilisateur
@@ -11,32 +7,27 @@ namespace CollectionDeFilms.ControlesUtilisateur
     class ProprieteSimple : Propriete
     {
         private string _label ;
-        private SizeF _sLabel;
-        private StringFormat _format;
-
+        
         public ProprieteSimple(string label)
         {
             _label = label;
-            _sLabel = TextRenderer.MeasureText(label, _fonte);
-            _format = new StringFormat(StringFormatFlags.DisplayFormatControl);
         }
 
-        public override void Dessine(Graphics g, RectangleF bounds)
+        public override void Dessine(Graphics g, RectangleF bounds, ListeProprietes.Attributs attributs)
         {
-            g.DrawString(_label, _fonte, _brush, bounds, _format );
+            g.DrawString(_label, attributs._fonte, attributs._BrushText, bounds);
         }
 
-        public override SizeF GetLargeurLabel()
+        public override SizeF GetLargeurLabel(ListeProprietes.Attributs attributs)
         {
             return new SizeF(0,0) ;
         }
 
-        public override Size getTaille(int largeur)
+        public override Size getTaille(int largeur, ListeProprietes.Attributs attributs)
         {
-            using(Graphics g = Graphics.FromHwnd((IntPtr)0))
-                _sLabel = g.MeasureString(_label, _fonte, largeur);
-
-            return new Size((int)_sLabel.Width, (int)_sLabel.Height);
+            Graphics g = Graphics.FromHwnd((IntPtr)0);
+            SizeF s= g.MeasureString(_label, attributs._fonte, largeur);
+            return new Size((int)s.Width, (int)s.Height + attributs._interligne);
         }
     }
 }

@@ -31,29 +31,17 @@ namespace CollectionDeFilms.ControlesUtilisateur
 
             public Size CalculeTaille(Font f)
             {
-                SizeF s = TextRenderer.MeasureText(_texte, f);
+                Graphics g = Graphics.FromHwnd((IntPtr)0);
+                SizeF s = g.MeasureString(_texte, f);
                 return new Size((int)s.Width, (int)s.Height);
             }
         }
 
         public const int MARGE = 3;
         private string _label;
-        private Size _tailleLabel;
         private Link[] _links;
         private Font _fonteLink;
-        static Brush _brushOver;
-        static Brush _brushVisite;
-        static Brush _brushNonVisite;
-        static Pen _penHover;
 
-        static ProprieteLink()
-        {
-            _brushOver = new SolidBrush(Color.FromArgb(255, 170, 210, 238));
-            _brushVisite = new SolidBrush(Color.FromArgb(255, 128, 0, 128));
-            _brushNonVisite = new SolidBrush(Color.FromArgb(255, 0, 0, 255));
-            _penHover = new Pen(Color.Black);
-            _penHover.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-        }
 
         public ProprieteLink(string label, Link[] links)
         {
@@ -61,18 +49,9 @@ namespace CollectionDeFilms.ControlesUtilisateur
             _links = links;
         }
 
-        public override void setFont(Font f, Brush b)
-        {
-            base.setFont(f, b);
-            _fonteLink = new Font(_fonte.FontFamily, _fonte.Size, _fonte.Style | FontStyle.Underline);
-
-            _tailleLabel = TextRenderer.MeasureText(_label, _fonte);
-        }
-
         public override void SetLargeurLabel(float xValeur, int largeurTotale)
         {
             base.SetLargeurLabel(xValeur, largeurTotale);
-            CalculeRectangles();
         }
 
         /// <summary>
@@ -80,30 +59,35 @@ namespace CollectionDeFilms.ControlesUtilisateur
         /// </summary>
         /// <param name="g"></param>
         /// <param name="bounds"></param>
-        public override void Dessine(Graphics g, RectangleF bounds)
+        public override void Dessine(Graphics g, RectangleF bounds, ListeProprietes.Attributs attributs)
         {
+            if (_fonteLink == null)
+                _fonteLink = new Font(attributs._fonte, FontStyle.Underline);
             //g.DrawRectangle(Pens.Aqua, _rectangle);
 
-            g.DrawString(_label, _fonte, _brush, bounds.Left, bounds.Top);
+            g.DrawString(_label, attributs._fonte, attributs._BrushText, bounds.Left, bounds.Top);
 
             foreach (Link l in _links)
             {
                 if (l._hover)
                 {
-                    g.FillRectangle(_brushOver, l._rect.Left, l._rect.Top, l._rect.Width, l._rect.Height);
-                    g.DrawRectangle(_penHover, l._rect.Left, l._rect.Top, l._rect.Width, l._rect.Height);
+                    Rectangle rLink = new Rectangle(l._rect.Left, l._rect.Top, l._rect.Width, l._rect.Height);
+                    rLink.Inflate(2, 2);
+
+                    g.FillRectangle(attributs._BrushHover, rLink);
+                    g.DrawRectangle(attributs._penHover, rLink);
                 }
-                g.DrawString(l._texte, _fonteLink, l._visite ? _brushVisite : _brushNonVisite, l._rect.Left, l._rect.Top);
+                g.DrawString(l._texte, _fonteLink, l._visite ? attributs._BrushVisite : attributs._BrushLien, l._rect.Left, l._rect.Top);
             }
         }
 
-        private int CalculeRectangles()
+        private int CalculeRectangles(Font fonte)
         {
             int x = 0;
-            int hauteurTotale = (int)TextRenderer.MeasureText(_label, _fonte).Height;
+            int hauteurTotale = (int)TextRenderer.MeasureText(_label, fonte).Height;
             foreach (Link l in _links)
             {
-                Size s = l.CalculeTaille(_fonte);
+                Size s = l.CalculeTaille(fonte);
                 l._rect = new Rectangle(_rectangle.Left + (int)_xValeur + x, _rectangle.Top, s.Width, s.Height);
                 x += s.Width + MARGE;
             }
@@ -113,20 +97,19 @@ namespace CollectionDeFilms.ControlesUtilisateur
         public override void SetRectangle(Rectangle r)
         {
             base.SetRectangle(r);
-            CalculeRectangles();
         }
 
-        public override Size getTaille(int largeur)
+        public override Size getTaille(int largeur, ListeProprietes.Attributs attributs)
         {
-            int hauteur = CalculeRectangles();
+            int hauteur = CalculeRectangles(attributs._fonte);
 
-            return new Size(largeur, hauteur);
+            return new Size(largeur, hauteur + attributs._interligne);
         }
 
-        public override Cursor OnMouseMove(RectangleF bounds, float X, float Y, out bool invalidate)
+        public override Cursor OnMouseMove(float X, float Y, ref bool invalidate)
         {
             Cursor c = null;
-            invalidate = false;
+
             foreach (Link l in _links)
             {
                 if (l._rect.Contains((int)X, (int)Y))
@@ -135,6 +118,7 @@ namespace CollectionDeFilms.ControlesUtilisateur
                         invalidate = true;
                     l._hover = true;
                     c = Cursors.Hand;
+                    break;
                 }
                 else
                 {
@@ -147,12 +131,12 @@ namespace CollectionDeFilms.ControlesUtilisateur
             return c;
         }
 
-        public override SizeF GetLargeurLabel()
+        public override SizeF GetLargeurLabel(ListeProprietes.Attributs attributs)
         {
-            return _tailleLabel;
+            return TextRenderer.MeasureText(_label, attributs._fonte);
         }
 
-        internal override bool OnClick(RectangleF rProp, float X, float Y)
+        internal override bool OnClick(float X, float Y)
         {
             foreach (Link l in _links)
             {

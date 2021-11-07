@@ -12,8 +12,6 @@ namespace CollectionDeFilms.ControlesUtilisateur
     public abstract class Propriete
     {
         protected float _xValeur = 10;
-        protected Font _fonte;
-        protected Brush _brush;
         protected Rectangle _rectangle;
         public Propriete()
         {
@@ -25,29 +23,25 @@ namespace CollectionDeFilms.ControlesUtilisateur
             _rectangle = r;
         }
 
-        public virtual void setFont(Font f, Brush b)
-        {
-            _fonte = f;
-            _brush = b;
-        }
+
 
         public virtual void Resize( int Largeur )
         {
 
         }
 
-        public abstract Size getTaille(int Largeur);
-        public abstract void Dessine(Graphics g, RectangleF bounds);
-        public virtual Cursor OnMouseMove(RectangleF bounds, float X, float Y, out bool invalidate ) { invalidate = false;  return null; }
+        public abstract Size getTaille(int Largeur, ListeProprietes.Attributs attributs);
+        public abstract void Dessine(Graphics g, RectangleF bounds, ListeProprietes.Attributs attributs);
+        public virtual Cursor OnMouseMove(float X, float Y, ref bool invalidate ) {  return null; }
 
         public virtual void SetLargeurLabel(float x, int largeurTotale)
         {
             _xValeur = x;
         }
 
-        public abstract SizeF GetLargeurLabel();
+        public abstract SizeF GetLargeurLabel(ListeProprietes.Attributs attributs);
 
-        internal virtual bool OnClick(RectangleF rProp, float v1, float v2)
+        internal virtual bool OnClick(float v1, float v2)
         {
             return false;
         }

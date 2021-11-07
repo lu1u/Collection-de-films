@@ -36,23 +36,26 @@ namespace CollectionDeFilms
 
             flowLayoutPanelInfosFilm.Show();
             flowLayoutPanelInfosFilm.SuspendLayout();
+            listeProprietesFilm.StartAjouteProprietes();
             listeProprietesFilm.Clear();
             labelEtat.Text = film.getTextEtat();
             labelTitre.Text = film.Titre;
-            afficheInfoLink("Titre:", film.Titre, (a) => InternetUtils.rechercheSurInternet("film+" + a));
-            afficheInfoLinks("Etiquettes:", film.Etiquettes, (a) => selectEtiquette(a));
-            afficheInfoLinks("Genres:", film.Genres, (a) => selectGenre(a));
+            listeProprietesFilm.AjoutePropriete(new ControlesUtilisateur.ProprieteImage(film.Affiche));
+            afficheInfoLinks("Titre:", film.Titre, (a) => { Cursor = Cursors.AppStarting; InternetUtils.rechercheSurInternet("film+" + a); Cursor = Cursors.Default; });
+            afficheInfoLinks("Etiquettes:", film.Etiquettes, (a) => selectEtiquette(a) );
+            afficheInfoLinks("Genres:", film.Genres, (a)=> selectGenre(a));
             afficheInfo("Durée:", s.Equals(TimeSpan.Zero) ? "" : $"{s:hh\\:mm\\:ss}");
             afficheInfo("Vue le:", film.DateVu.Ticks == 0 ? null : film.DateVu.ToLongDateString());
-            afficheInfoLinks("Réalisateur:", film.Realisateur, (a) => InternetUtils.rechercheSurInternet(a));
-            afficheInfoLinks("Acteurs:", film.Acteurs, (a) => InternetUtils.rechercheSurInternet(a));
+            afficheInfoLinks("Réalisateur:", film.Realisateur, (a) => { Cursor = Cursors.AppStarting; InternetUtils.rechercheSurInternet(a); Cursor = Cursors.Default; });
+            afficheInfoLinks("Acteurs:", film.Acteurs, (a) => { Cursor = Cursors.AppStarting; InternetUtils.rechercheSurInternet(a); Cursor = Cursors.Default; });
             afficheInfo("Date sortie:", film.DateSortie);
             afficheInfo("Nationalité", film.Nationalite);
             afficheInfo("Ajouté le:", film.DateCreation.ToLongDateString());
-            afficheInfoLink("Chemin:", film.Chemin, (a) => FileDriveUtils.OpenFolderAndSelectItem(a));
+            afficheInfoLinks("Chemin:", film.Chemin, (a) => { Cursor = Cursors.AppStarting; FileDriveUtils.OpenFolderAndSelectItem(a); Cursor = Cursors.Default; });
 
             if (film.Resume?.Length > 0)
                 listeProprietesFilm.AjoutePropriete(new ControlesUtilisateur.ProprieteSimple(film.Resume));
+            listeProprietesFilm.StopAjouteProprietes();
 
             switch (film.Etat)
             {
@@ -67,8 +70,6 @@ namespace CollectionDeFilms
                     textBoxTitrePasTrouve.Text = film.Titre;
                     break;
             }
-
-            pictureBoxAffiche.Image = film.Affiche;
 
             listViewAlternatives.Items.Clear();
             List<InfosFilm> alternatives = film.Alternatives();
@@ -119,23 +120,25 @@ namespace CollectionDeFilms
         }
 
         /// <summary>
-        /// Affiche un champ contenant plusieurs informations, separes par SEPARATEUR_LISTE,
+        /// Affiche un champ contenant plusieurs liens, separes par SEPARATEUR_LISTE,
         /// un lien pour chaque morceau d'information
         /// </summary>
         /// <param name="key"></param>
-        /// <param name="link"></param>
-        /// <param name="texte"></param>
-        private void afficheInfoLinks(string nom, string texte, ControlesUtilisateur.ProprieteLink.onClickLink onClick)
+        /// <param name="liens"></param>
+        /// <param name="onClick"></param>
+        private void afficheInfoLinks(string nom, string liens, ControlesUtilisateur.ProprieteLink.onClickLink onClick)
         {
-            if (texte?.Length > 0)
+            if (liens?.Length > 0)
             {
-                string[] valeurs = texte.Split(BaseFilms.SEPARATEUR_LISTES_CHAR);
-
-                ControlesUtilisateur.ProprieteLink.Link[] links = new ControlesUtilisateur.ProprieteLink.Link[valeurs.Length];
-                for (int i = 0; i < valeurs.Length; i++)
-                    links[i] = new ControlesUtilisateur.ProprieteLink.Link(valeurs[i], valeurs[i], onClick);
-                ControlesUtilisateur.ProprieteLink propriete = new ControlesUtilisateur.ProprieteLink(nom, links);
-                listeProprietesFilm.AjoutePropriete(propriete);
+                string[] valeurs = liens.Split(BaseFilms.SEPARATEUR_LISTES_CHAR);
+                if (valeurs?.Length > 0)
+                {
+                    ControlesUtilisateur.ProprieteLink.Link[] links = new ControlesUtilisateur.ProprieteLink.Link[valeurs.Length];
+                    for (int i = 0; i < valeurs.Length; i++)
+                        links[i] = new ControlesUtilisateur.ProprieteLink.Link(valeurs[i], valeurs[i], onClick);
+                    ControlesUtilisateur.ProprieteLink propriete = new ControlesUtilisateur.ProprieteLink(nom, links);
+                    listeProprietesFilm.AjoutePropriete(propriete);
+                }
             }
         }
 
@@ -151,27 +154,6 @@ namespace CollectionDeFilms
             if (texte?.Length > 0)
                 listeProprietesFilm.AjoutePropriete(new ControlesUtilisateur.ProprieteTexte(nom, texte));
         }
-
-        /// <summary>
-        /// Montrer une valeur avec un lien
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="link"></param>
-        /// <param name="texte"></param>
-        /// <param name="data"></param>
-        private void afficheInfoLink(string nom, string texte, ControlesUtilisateur.ProprieteLink.onClickLink onClick)
-        {
-            if (texte?.Length > 0)
-            {
-                ControlesUtilisateur.ProprieteLink.Link[] links = new ControlesUtilisateur.ProprieteLink.Link[1];
-                links[0] = new ControlesUtilisateur.ProprieteLink.Link(texte, texte, onClick);
-                ControlesUtilisateur.ProprieteLink propriete = new ControlesUtilisateur.ProprieteLink(nom, links);
-                listeProprietesFilm.AjoutePropriete(propriete);
-            }
-        }
-
-
-
 
         /// <summary>
         /// Remplir la listview des films en fonction du filtre courant
@@ -201,6 +183,7 @@ namespace CollectionDeFilms
                 listViewFilms.FocusedItem = listViewFilms.Items[0];
                 listViewFilms.Items[0].Selected = true;
                 listViewFilms.Select();
+                listViewFilms.EnsureVisible(0);
             }
 
             listViewFilms.EndUpdate();
@@ -221,9 +204,10 @@ namespace CollectionDeFilms
             toolStripComboBoxEtiquettes.Items.Clear();
             string etiquette = _filtre.Etiquette.ToUpper();
             int selected = 0;
-            // Option specifique pour pas de genre selectionne
 
+            // Option specifique pour pas d'etiquette selectionnee
             toolStripComboBoxEtiquettes.Items.Add("[Pas d'etiquette sélectionnée]");
+
             foreach (string s in liste)
             {
                 if (s.ToUpper().Equals(etiquette))

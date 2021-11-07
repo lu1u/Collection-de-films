@@ -80,6 +80,7 @@ namespace CollectionDeFilms
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.labelTitre = new System.Windows.Forms.Label();
             this.tabControlAlternatives = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.flowLayoutPanelInfos = new System.Windows.Forms.FlowLayoutPanel();
@@ -88,7 +89,7 @@ namespace CollectionDeFilms
             this.flowLayoutPanelPasTrouve = new System.Windows.Forms.FlowLayoutPanel();
             this.textBoxTitrePasTrouve = new System.Windows.Forms.TextBox();
             this.buttonRelancerPasTrouve = new System.Windows.Forms.Button();
-            this.pictureBoxAffiche = new System.Windows.Forms.PictureBox();
+            this.listeProprietesFilm = new CollectionDeFilms.ControlesUtilisateur.ListeProprietes();
             this.tabpageAlternatives = new System.Windows.Forms.TabPage();
             this.label7 = new System.Windows.Forms.Label();
             this.listViewAlternatives = new System.Windows.Forms.ListView();
@@ -111,16 +112,14 @@ namespace CollectionDeFilms
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             this.textboxFiltre = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.multiStateToolstripMenuItemVus = new CollectionDeFilms.MultistateToolstripMenuItem();
+            this.multistateToolstripMenuItem2 = new CollectionDeFilms.MultistateToolstripMenuItem();
             this.genresToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBoxGenres = new System.Windows.Forms.ToolStripComboBox();
             this.etiquettesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBoxEtiquettes = new System.Windows.Forms.ToolStripComboBox();
             this.triToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBoxTri = new System.Windows.Forms.ToolStripComboBox();
-            this.listeProprietesFilm = new CollectionDeFilms.ControlesUtilisateur.ListeProprietes();
-            this.multiStateToolstripMenuItemVus = new CollectionDeFilms.MultistateToolstripMenuItem();
-            this.multistateToolstripMenuItem2 = new CollectionDeFilms.MultistateToolstripMenuItem();
-            this.labelTitre = new System.Windows.Forms.Label();
             columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -161,7 +160,6 @@ namespace CollectionDeFilms
             this.flowLayoutPanelInfos.SuspendLayout();
             this.flowLayoutPanelInfosFilm.SuspendLayout();
             this.flowLayoutPanelPasTrouve.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAffiche)).BeginInit();
             this.tabpageAlternatives.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -561,6 +559,17 @@ namespace CollectionDeFilms
             this.splitContainer2.TabIndex = 0;
             this.splitContainer2.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.onSplitContainer2Moved);
             // 
+            // labelTitre
+            // 
+            this.labelTitre.AutoSize = true;
+            this.labelTitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTitre.ForeColor = System.Drawing.Color.White;
+            this.labelTitre.Location = new System.Drawing.Point(1, 0);
+            this.labelTitre.Name = "labelTitre";
+            this.labelTitre.Size = new System.Drawing.Size(70, 26);
+            this.labelTitre.TabIndex = 27;
+            this.labelTitre.Text = "label1";
+            // 
             // tabControlAlternatives
             // 
             this.tabControlAlternatives.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -591,7 +600,6 @@ namespace CollectionDeFilms
             this.flowLayoutPanelInfos.AutoScroll = true;
             this.flowLayoutPanelInfos.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanelInfos.Controls.Add(this.flowLayoutPanelInfosFilm);
-            this.flowLayoutPanelInfos.Controls.Add(this.pictureBoxAffiche);
             this.flowLayoutPanelInfos.Controls.Add(this.listeProprietesFilm);
             this.flowLayoutPanelInfos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelInfos.Location = new System.Drawing.Point(3, 3);
@@ -659,18 +667,28 @@ namespace CollectionDeFilms
             this.buttonRelancerPasTrouve.UseVisualStyleBackColor = true;
             this.buttonRelancerPasTrouve.Click += new System.EventHandler(this.ButtonRelancerPasTrouve_Click);
             // 
-            // pictureBoxAffiche
+            // listeProprietesFilm
             // 
-            this.pictureBoxAffiche.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxAffiche.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.flowLayoutPanelInfos.SetFlowBreak(this.pictureBoxAffiche, true);
-            this.pictureBoxAffiche.Location = new System.Drawing.Point(3, 135);
-            this.pictureBoxAffiche.Name = "pictureBoxAffiche";
-            this.pictureBoxAffiche.Size = new System.Drawing.Size(100, 100);
-            this.pictureBoxAffiche.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBoxAffiche.TabIndex = 17;
-            this.pictureBoxAffiche.TabStop = false;
-            this.pictureBoxAffiche.WaitOnLoad = true;
+            this.listeProprietesFilm.Alternées = true;
+            this.listeProprietesFilm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listeProprietesFilm.AutoSize = true;
+            this.listeProprietesFilm.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.listeProprietesFilm.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.listeProprietesFilm.CouleurLien = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+            this.listeProprietesFilm.CouleurLienHover = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(210)))), ((int)(((byte)(238)))));
+            this.listeProprietesFilm.CouleurLienVisite = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
+            this.listeProprietesFilm.CouleurTexte = System.Drawing.SystemColors.ControlText;
+            this.listeProprietesFilm.DeuxiemeCouleur = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(247)))), ((int)(((byte)(252)))));
+            this.flowLayoutPanelInfos.SetFlowBreak(this.listeProprietesFilm, true);
+            this.listeProprietesFilm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listeProprietesFilm.Fonte = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.listeProprietesFilm.Interligne = 5;
+            this.listeProprietesFilm.Location = new System.Drawing.Point(3, 135);
+            this.listeProprietesFilm.MinimumSize = new System.Drawing.Size(327, 72);
+            this.listeProprietesFilm.Name = "listeProprietesFilm";
+            this.listeProprietesFilm.Size = new System.Drawing.Size(327, 72);
+            this.listeProprietesFilm.TabIndex = 18;
             // 
             // tabpageAlternatives
             // 
@@ -947,6 +965,42 @@ namespace CollectionDeFilms
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.Click += new System.EventHandler(this.onCliqueEffaceRequete);
             // 
+            // multiStateToolstripMenuItemVus
+            // 
+            this.multiStateToolstripMenuItemVus.AssociatedEnumValue = null;
+            this.multiStateToolstripMenuItemVus.AutoSize = false;
+            this.multiStateToolstripMenuItemVus.CheckOnClick = true;
+            this.multiStateToolstripMenuItemVus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.multiStateToolstripMenuItemVus.ForeColor = System.Drawing.Color.White;
+            this.multiStateToolstripMenuItemVus.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.multiStateToolstripMenuItemVus.Name = "multiStateToolstripMenuItemVus";
+            this.multiStateToolstripMenuItemVus.Padding = new System.Windows.Forms.Padding(4);
+            this.multiStateToolstripMenuItemVus.Size = new System.Drawing.Size(122, 71);
+            this.multiStateToolstripMenuItemVus.States = new string[] {
+        "Indifférent",
+        "Vus",
+        "Non vus"};
+            this.multiStateToolstripMenuItemVus.Text = "Films vus:";
+            this.multiStateToolstripMenuItemVus.EtatChange += new System.EventHandler(this.onClicFilmsVus);
+            // 
+            // multistateToolstripMenuItem2
+            // 
+            this.multistateToolstripMenuItem2.AssociatedEnumValue = null;
+            this.multistateToolstripMenuItem2.AutoSize = false;
+            this.multistateToolstripMenuItem2.CheckOnClick = true;
+            this.multistateToolstripMenuItem2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.multistateToolstripMenuItem2.ForeColor = System.Drawing.Color.White;
+            this.multistateToolstripMenuItem2.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
+            this.multistateToolstripMenuItem2.Name = "multistateToolstripMenuItem2";
+            this.multistateToolstripMenuItem2.Padding = new System.Windows.Forms.Padding(4);
+            this.multistateToolstripMenuItem2.Size = new System.Drawing.Size(122, 71);
+            this.multistateToolstripMenuItem2.States = new string[] {
+        "Indifférent",
+        "A voir",
+        "Pas à voir"};
+            this.multistateToolstripMenuItem2.Text = "Films à voir:";
+            this.multistateToolstripMenuItem2.EtatChange += new System.EventHandler(this.onClicFilmsAVoir);
+            // 
             // genresToolStripMenuItem1
             // 
             this.genresToolStripMenuItem1.ForeColor = System.Drawing.Color.White;
@@ -1008,71 +1062,6 @@ namespace CollectionDeFilms
             this.toolStripComboBoxTri.Size = new System.Drawing.Size(121, 71);
             this.toolStripComboBoxTri.SelectedIndexChanged += new System.EventHandler(this.onTriSelectedChanged);
             // 
-            // listeProprietesFilm
-            // 
-            this.listeProprietesFilm.Alternées = true;
-            this.listeProprietesFilm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listeProprietesFilm.AutoSize = true;
-            this.listeProprietesFilm.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.listeProprietesFilm.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.listeProprietesFilm.DeuxiemeCouleur = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.flowLayoutPanelInfos.SetFlowBreak(this.listeProprietesFilm, true);
-            this.listeProprietesFilm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listeProprietesFilm.Interligne = 3;
-            this.listeProprietesFilm.Location = new System.Drawing.Point(3, 241);
-            this.listeProprietesFilm.MinimumSize = new System.Drawing.Size(327, 72);
-            this.listeProprietesFilm.Name = "listeProprietesFilm";
-            this.listeProprietesFilm.Size = new System.Drawing.Size(327, 72);
-            this.listeProprietesFilm.TabIndex = 18;
-            // 
-            // multiStateToolstripMenuItemVus
-            // 
-            this.multiStateToolstripMenuItemVus.AssociatedEnumValue = null;
-            this.multiStateToolstripMenuItemVus.AutoSize = false;
-            this.multiStateToolstripMenuItemVus.CheckOnClick = true;
-            this.multiStateToolstripMenuItemVus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.multiStateToolstripMenuItemVus.ForeColor = System.Drawing.Color.White;
-            this.multiStateToolstripMenuItemVus.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
-            this.multiStateToolstripMenuItemVus.Name = "multiStateToolstripMenuItemVus";
-            this.multiStateToolstripMenuItemVus.Padding = new System.Windows.Forms.Padding(4);
-            this.multiStateToolstripMenuItemVus.Size = new System.Drawing.Size(122, 71);
-            this.multiStateToolstripMenuItemVus.States = new string[] {
-        "Indifférent",
-        "Vus",
-        "Non vus"};
-            this.multiStateToolstripMenuItemVus.Text = "Films vus:";
-            this.multiStateToolstripMenuItemVus.EtatChange += new System.EventHandler(this.onClicFilmsVus);
-            // 
-            // multistateToolstripMenuItem2
-            // 
-            this.multistateToolstripMenuItem2.AssociatedEnumValue = null;
-            this.multistateToolstripMenuItem2.AutoSize = false;
-            this.multistateToolstripMenuItem2.CheckOnClick = true;
-            this.multistateToolstripMenuItem2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.multistateToolstripMenuItem2.ForeColor = System.Drawing.Color.White;
-            this.multistateToolstripMenuItem2.Margin = new System.Windows.Forms.Padding(20, 0, 20, 0);
-            this.multistateToolstripMenuItem2.Name = "multistateToolstripMenuItem2";
-            this.multistateToolstripMenuItem2.Padding = new System.Windows.Forms.Padding(4);
-            this.multistateToolstripMenuItem2.Size = new System.Drawing.Size(122, 71);
-            this.multistateToolstripMenuItem2.States = new string[] {
-        "Indifférent",
-        "A voir",
-        "Pas à voir"};
-            this.multistateToolstripMenuItem2.Text = "Films à voir:";
-            this.multistateToolstripMenuItem2.EtatChange += new System.EventHandler(this.onClicFilmsAVoir);
-            // 
-            // labelTitre
-            // 
-            this.labelTitre.AutoSize = true;
-            this.labelTitre.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitre.ForeColor = System.Drawing.Color.White;
-            this.labelTitre.Location = new System.Drawing.Point(1, 0);
-            this.labelTitre.Name = "labelTitre";
-            this.labelTitre.Size = new System.Drawing.Size(70, 26);
-            this.labelTitre.TabIndex = 27;
-            this.labelTitre.Text = "label1";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1101,7 +1090,6 @@ namespace CollectionDeFilms
             this.flowLayoutPanelInfosFilm.ResumeLayout(false);
             this.flowLayoutPanelPasTrouve.ResumeLayout(false);
             this.flowLayoutPanelPasTrouve.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAffiche)).EndInit();
             this.tabpageAlternatives.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -1171,7 +1159,6 @@ namespace CollectionDeFilms
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelPasTrouve;
         private System.Windows.Forms.TextBox textBoxTitrePasTrouve;
         private System.Windows.Forms.Button buttonRelancerPasTrouve;
-        private System.Windows.Forms.PictureBox pictureBoxAffiche;
         private ControlesUtilisateur.ListeProprietes listeProprietesFilm;
         private System.Windows.Forms.Label labelTitre;
     }
