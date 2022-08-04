@@ -22,20 +22,22 @@ namespace CollectionDeFilms.ControlesUtilisateur
             public Brush _BrushHover;
             public Brush _BrushText;
             public Brush _BrushVisite = new SolidBrush(Color.FromArgb(255, 128, 0, 128));
-            public Pen _penHover = new Pen(Color.Black);
+            public Pen _penHover;
             public Font _fonte;
             public Attributs()
             {
                 _alternee = true;
                 _BrushDeuxieme = new SolidBrush(_couleurDeuxieme);
                 _BrushLien = new SolidBrush(_couleurLien);
-                _BrushHover  = new SolidBrush(_couleurHover);
+                _BrushHover = new SolidBrush(_couleurHover);
                 _BrushVisite = new SolidBrush(_couleurVisite);
                 _BrushText = new SolidBrush(_couleurTexte);
+                _penHover = new Pen(Color.Black);
+                _penHover.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
                 _fonte = SystemFonts.DialogFont;
             }
         };
-        private Attributs _attributs= new Attributs();
+        private Attributs _attributs = new Attributs();
 
         [Description("Interligne"), Category("Apparence")] public int Interligne { get => _attributs._interligne; set { _attributs._interligne = value; Invalidate(); } }
         [Description("Lignes alternées"), Category("Apparence")] public bool Alternées { get => _attributs._alternee; set { _attributs._alternee = value; Invalidate(); } }
@@ -45,7 +47,7 @@ namespace CollectionDeFilms.ControlesUtilisateur
         [Description("Couleur Liens Hover"), Category("Apparence")] public Color CouleurLienHover { get => _attributs._couleurHover; set { _attributs._couleurHover = value; _attributs._BrushHover = new SolidBrush(_attributs._couleurHover); Invalidate(); } }
         [Description("Couleur Liens Visité"), Category("Apparence")] public Color CouleurLienVisite { get => _attributs._couleurVisite; set { _attributs._couleurVisite = value; _attributs._BrushVisite = new SolidBrush(_attributs._couleurVisite); Invalidate(); } }
         [Description("Couleur Texte"), Category("Apparence")] public Color CouleurTexte { get => _attributs._couleurTexte; set { _attributs._couleurTexte = value; _attributs._BrushText = new SolidBrush(_attributs._couleurTexte); Invalidate(); } }
-        [Description("Fonte texte"), Category("Apparence")] public Font Fonte { get => _attributs._fonte; set { _attributs._fonte = value;  Invalidate(); } }
+        [Description("Fonte texte"), Category("Apparence")] public Font Fonte { get => _attributs._fonte; set { _attributs._fonte = value; Invalidate(); } }
 
         private List<Propriete> _listeProprietes = new List<Propriete>();
 
@@ -57,20 +59,19 @@ namespace CollectionDeFilms.ControlesUtilisateur
 
         private void ListeProprietes_Load(object sender, EventArgs e)
         {
-            _attributs._penHover.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
+
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
             UpdateStyles();
-            Brush b = new SolidBrush(this.ForeColor);
-            AjoutePropriete(new ProprieteTexte("Un:", "1"));
-            AjoutePropriete(new ProprieteTexte("Deux:", "22"));
-            AjoutePropriete(new ProprieteTexte("Trois:", "333"));
-            
-            ProprieteLink.Link[] links = new ProprieteLink.Link[3];
-            links[0] = new ProprieteLink.Link("Un", "un_link", (a) => { MainForm.WriteMessageToConsole("A: " + a); });
-            links[1] = new ProprieteLink.Link("Deux", "deux_link", (a) => { MainForm.WriteMessageToConsole("A: " + a); });
-            links[2] = new ProprieteLink.Link("Trois", "trois_link", (a) => { MainForm.WriteMessageToConsole("A: " + a); });
-            AjoutePropriete(new ProprieteLink("Link:", links));
-            
+            //Brush b = new SolidBrush(this.ForeColor);
+            //AjoutePropriete(new ProprieteTexte("Un:", "1"));
+            //AjoutePropriete(new ProprieteTexte("Deux:", "22"));
+            //AjoutePropriete(new ProprieteTexte("Trois:", "333"));
+            //
+            //ProprieteLink.Link[] links = new ProprieteLink.Link[3];
+            //links[0] = new ProprieteLink.Link("Un", "un_link", (a) => { MainForm.WriteMessageToConsole("A: " + a); });
+            //links[1] = new ProprieteLink.Link("Deux", "deux_link", (a) => { MainForm.WriteMessageToConsole("A: " + a); });
+            //links[2] = new ProprieteLink.Link("Trois", "trois_link", (a) => { MainForm.WriteMessageToConsole("A: " + a); });
+            //AjoutePropriete(new ProprieteLink("Link:", links));            
         }
 
         public void Clear()
@@ -87,12 +88,22 @@ namespace CollectionDeFilms.ControlesUtilisateur
         public void StopAjouteProprietes()
         {
             _placerProprietes = true;
+            CalculeDeuxiemeColonne();
             PlaceProprietes();
         }
 
         public void AjoutePropriete(Propriete propriete)
         {
             _listeProprietes.Add(propriete);
+            if (_placerProprietes)
+            {
+                CalculeDeuxiemeColonne();
+                PlaceProprietes();
+            }
+        }
+
+        private void CalculeDeuxiemeColonne()
+        {
             float xLabel = 0;
             foreach (Propriete p in _listeProprietes)
             {
@@ -105,9 +116,6 @@ namespace CollectionDeFilms.ControlesUtilisateur
 
             foreach (Propriete p in _listeProprietes)
                 p.SetLargeurLabel(xLabel + 10, ClientRectangle.Width);
-
-            if (_placerProprietes)
-                PlaceProprietes();
         }
 
         private void PlaceProprietes()
@@ -146,7 +154,7 @@ namespace CollectionDeFilms.ControlesUtilisateur
                 }
 
                 p.Dessine(e.Graphics, bounds, _attributs);
-                y += s.Height ;
+                y += s.Height;
             }
         }
 
@@ -157,8 +165,6 @@ namespace CollectionDeFilms.ControlesUtilisateur
         /// <param name="e"></param>
         private void onMouseMove(object sender, MouseEventArgs e)
         {
-            RectangleF rPropriete;
-            float py = 0;
             bool invalidate = false;
             Cursor change = Cursors.Default;
             foreach (Propriete p in _listeProprietes)
@@ -192,7 +198,7 @@ namespace CollectionDeFilms.ControlesUtilisateur
                 {
                     return p;
                 }
-                py += s.Height ;
+                py += s.Height;
             }
 
             rPropriete = new RectangleF();

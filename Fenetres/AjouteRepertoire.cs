@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Collection_de_films.Fenetres
@@ -43,7 +36,7 @@ namespace Collection_de_films.Fenetres
             checkBoxSousRepertoires.Checked = sousrepertoires;
             checkBoxTagRepertoire.Checked = tagrepertoire;
             textBoxEtiquettes.Text = etiquettes;
-            switch( actionSiDupplique)
+            switch (actionSiDupplique)
             {
                 case ACTION_SI_DUPPLIQUE.IGNORER_NOUVEAU:
                     radioButtonIgnorerNouveau.Checked = true;
@@ -77,7 +70,7 @@ namespace Collection_de_films.Fenetres
 
         internal static ACTION_SI_DUPPLIQUE toACTION(int action)
         {
-            switch(action)
+            switch (action)
             {
                 case 0: return ACTION_SI_DUPPLIQUE.REMPLACER_ANCIEN;
                 case 1: return ACTION_SI_DUPPLIQUE.IGNORER_NOUVEAU;
@@ -87,15 +80,15 @@ namespace Collection_de_films.Fenetres
 
         internal static int toInt(ACTION_SI_DUPPLIQUE action)
         {
-            switch( action)
+            switch (action)
             {
-                case ACTION_SI_DUPPLIQUE.REMPLACER_ANCIEN:  return 0;
-                case ACTION_SI_DUPPLIQUE.IGNORER_NOUVEAU: return 1 ;
-                default: return 2 ;
+                case ACTION_SI_DUPPLIQUE.REMPLACER_ANCIEN: return 0;
+                case ACTION_SI_DUPPLIQUE.IGNORER_NOUVEAU: return 1;
+                default: return 2;
             }
         }
 
-        
+
         private void ButtonBrowse_Click(object sender, EventArgs e)
         {
             folderBrowserDialog.SelectedPath = textBoxRepertoire.Text;

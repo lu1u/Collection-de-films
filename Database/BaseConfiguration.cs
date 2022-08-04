@@ -49,7 +49,7 @@ namespace CollectionDeFilms.Database
                                              + " WHERE " + CONFIGURATION_NOM + " = @nom"))
             {
                 cmd.Parameters.AddWithValue("@nom", nom);
-                return Convert.ToString( executeScalar(cmd));
+                return Convert.ToString(executeScalar(cmd));
             }
         }
 

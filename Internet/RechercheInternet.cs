@@ -1,11 +1,6 @@
-﻿using CollectionDeFilms.Database;
-using CollectionDeFilms.Films;
-using HtmlAgilityPack;
-using System;
+﻿using CollectionDeFilms.Films;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web;
-using SqlDataReader = System.Data.SQLite.SQLiteDataReader;
 
 namespace CollectionDeFilms.Internet
 {
@@ -30,5 +25,5 @@ namespace CollectionDeFilms.Internet
     }
 
 
-       
+
 }

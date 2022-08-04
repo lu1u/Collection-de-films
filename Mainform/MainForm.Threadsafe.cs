@@ -1,6 +1,5 @@
 ﻿using CollectionDeFilms.Films;
 using CollectionDeFilms.Filtre_et_tri;
-using System.Windows.Forms;
 
 namespace CollectionDeFilms
 {

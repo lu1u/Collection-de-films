@@ -22,11 +22,11 @@ namespace CollectionDeFilms
         ToolStripStatusLabel _statusFichiersACopier;
         ToolStripProgressBar _statusProgressTotal;
         private bool _annule;
-        
+
         /// <summary>
         /// Retourne vrai s'il y a des copies a faire
         /// </summary>
-        public bool yaDesCopiesEnCours { get => BaseFilms.instance.getNbCopies() >0; }
+        public bool yaDesCopiesEnCours { get => BaseFilms.instance.getNbCopies() > 0; }
 
         public CopieFichiers(ToolStripStatusLabel statusLabelTotal, ToolStripProgressBar statusProgressTotal)
         {

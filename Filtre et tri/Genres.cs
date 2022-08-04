@@ -1,5 +1,4 @@
 ﻿using CollectionDeFilms.Database;
-using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Text;
@@ -58,7 +57,7 @@ namespace CollectionDeFilms.Filtre_et_tri
         {
             genres = genres.Trim();
             string[] morceaux = genres.Split(BaseFilms.SEPARATEUR_LISTES_CHAR);
-            foreach(string m in morceaux)
+            foreach (string m in morceaux)
             {
                 if (m?.Length > 0)
                 {
@@ -93,7 +92,7 @@ namespace CollectionDeFilms.Filtre_et_tri
                 for (int i = 0; i < v.Length; i++)
                 {
                     if (precedentSeparateur)
-                        res.Append( char.ToUpper(v[i]));
+                        res.Append(char.ToUpper(v[i]));
                     else
                         res.Append(v[i]);
 

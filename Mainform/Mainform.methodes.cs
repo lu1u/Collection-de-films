@@ -6,7 +6,6 @@ using CollectionDeFilms.Filtre_et_tri;
 using CollectionDeFilms.Internet;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
@@ -40,10 +39,12 @@ namespace CollectionDeFilms
             listeProprietesFilm.Clear();
             labelEtat.Text = film.getTextEtat();
             labelTitre.Text = film.Titre;
-            listeProprietesFilm.AjoutePropriete(new ControlesUtilisateur.ProprieteImage(film.Affiche));
+            Image affiche = film.Affiche;
+            if (affiche != null)
+                listeProprietesFilm.AjoutePropriete(new ControlesUtilisateur.ProprieteImage(affiche));
             afficheInfoLinks("Titre:", film.Titre, (a) => { Cursor = Cursors.AppStarting; InternetUtils.rechercheSurInternet("film+" + a); Cursor = Cursors.Default; });
-            afficheInfoLinks("Etiquettes:", film.Etiquettes, (a) => selectEtiquette(a) );
-            afficheInfoLinks("Genres:", film.Genres, (a)=> selectGenre(a));
+            afficheInfoLinks("Etiquettes:", film.Etiquettes, (a) => selectEtiquette(a));
+            afficheInfoLinks("Genres:", film.Genres, (a) => selectGenre(a));
             afficheInfo("Durée:", s.Equals(TimeSpan.Zero) ? "" : $"{s:hh\\:mm\\:ss}");
             afficheInfo("Vue le:", film.DateVu.Ticks == 0 ? null : film.DateVu.ToLongDateString());
             afficheInfoLinks("Réalisateur:", film.Realisateur, (a) => { Cursor = Cursors.AppStarting; InternetUtils.rechercheSurInternet(a); Cursor = Cursors.Default; });

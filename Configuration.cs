@@ -1,6 +1,5 @@
 ﻿using CollectionDeFilms.Database;
 using System;
-using System.Threading.Tasks;
 
 namespace CollectionDeFilms
 {
@@ -63,8 +62,8 @@ namespace CollectionDeFilms
 
         public string vue
         {
-            get => getStringValue(CONFIGURATION_VUE, "details"); 
-            set => setValue(CONFIGURATION_VUE, value); 
+            get => getStringValue(CONFIGURATION_VUE, "details");
+            set => setValue(CONFIGURATION_VUE, value);
         }
         public string baseFilms
         {

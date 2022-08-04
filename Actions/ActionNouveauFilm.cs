@@ -24,7 +24,7 @@ namespace CollectionDeFilms.Actions
             if (_film == null)
                 return;
             if (!await BaseFilms.instance.existe(_film.Id))
-                return ;
+                return;
 
             _film.chargeDonneesInternet();
         }

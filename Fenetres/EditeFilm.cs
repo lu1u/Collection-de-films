@@ -37,8 +37,8 @@ namespace CollectionDeFilms.Fenetres
             for (int i = 0; i < Film.TEXTES_ETATS.Length; i++)
                 comboBoxEtat.Items.Add(Film.TEXTES_ETATS[i]);
 
-            comboBoxEtat.SelectedIndex = film.EtatInt ;
-            
+            comboBoxEtat.SelectedIndex = film.EtatInt;
+
             Image image = film.Affiche;
             if (image != null)
                 pictureBoxAffiche.Image = image;
@@ -125,7 +125,7 @@ namespace CollectionDeFilms.Fenetres
         {
             if (Clipboard.ContainsImage())
             {
-                pictureBoxAffiche.Image = ImagesUtils.retaille( Clipboard.GetImage(), Configuration.largeurMaxImages );
+                pictureBoxAffiche.Image = ImagesUtils.retaille(Clipboard.GetImage(), Configuration.largeurMaxImages);
                 afficheChangee = true;
             }
         }
@@ -148,7 +148,7 @@ namespace CollectionDeFilms.Fenetres
             film.Resume = textBoxResume.Text;
             film.Etat = Film.intToEtat(comboBoxEtat.SelectedIndex);
 
-            BaseFilms.instance.update(film, afficheChangee? pictureBoxAffiche.Image : null );
+            BaseFilms.instance.update(film, afficheChangee ? pictureBoxAffiche.Image : null);
             MainForm.changeEtat(film);
 
             DialogResult = DialogResult.OK;

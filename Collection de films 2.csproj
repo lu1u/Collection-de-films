@@ -31,7 +31,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -149,6 +150,12 @@
     <Compile Include="Fenetres\ConfigurationDlg.Designer.cs">
       <DependentUpon>ConfigurationDlg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Fenetres\EtiquettesDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fenetres\EtiquettesDlg.Designer.cs">
+      <DependentUpon>EtiquettesDlg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Fenetres\OldConfigurationDlg.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -251,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Fenetres\ConfigurationDlg.resx">
       <DependentUpon>ConfigurationDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fenetres\EtiquettesDlg.resx">
+      <DependentUpon>EtiquettesDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Fenetres\OldConfigurationDlg.resx" />
     <EmbeddedResource Include="Fenetres\DestinationCopie.resx">

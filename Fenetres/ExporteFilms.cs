@@ -150,8 +150,8 @@ namespace CollectionDeFilms.Fenetres
                 return;
 
             if (b.Length > 0)
-                    b.Append(",");
-                b.Append(chaine);           
+                b.Append(",");
+            b.Append(chaine);
         }
 
         private void onButtonCancel(object sender, EventArgs e)

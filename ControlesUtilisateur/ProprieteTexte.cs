@@ -25,7 +25,7 @@ namespace CollectionDeFilms.ControlesUtilisateur
         {
             SizeF label = TextRenderer.MeasureText(_label, attributs._fonte);
             SizeF texte = TextRenderer.MeasureText(_valeur, attributs._fonte);
-            return new Size((int)(label.Width + texte.Width), (int)Math.Max( label.Height, texte.Height) + attributs._interligne);
+            return new Size((int)(label.Width + texte.Width), (int)Math.Max(label.Height, texte.Height) + attributs._interligne);
         }
 
         public override SizeF GetLargeurLabel(ListeProprietes.Attributs attributs)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Common;
 using System.Data.SQLite;
 using System.Drawing;
 using System.IO;

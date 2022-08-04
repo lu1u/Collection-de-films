@@ -1,7 +1,6 @@
 ﻿using CollectionDeFilms.Internet;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data.SQLite;
 
 namespace CollectionDeFilms.Database

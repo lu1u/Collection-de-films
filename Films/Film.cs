@@ -196,12 +196,12 @@ namespace CollectionDeFilms.Films
         private string getListViewItemText(Filtre f)
         {
             string res = "";
-            switch( f.tri)
+            switch (f.tri)
             {
                 case Filtre.TRI.DUREE:
                     {
                         TimeSpan s = Duree;
-                        res=  s.Equals(TimeSpan.Zero) ? "" : $"Durée {s:hh\\:mm\\:ss}\n";
+                        res = s.Equals(TimeSpan.Zero) ? "" : $"Durée {s:hh\\:mm\\:ss}\n";
                     }
                     break;
                 case Filtre.TRI.DATE_VUE:
@@ -310,7 +310,7 @@ namespace CollectionDeFilms.Films
                     _dateVu = getDateVue(reader, _etat);
                     _dateCreation = getDateCreation(reader);
                     _duree = TimeSpan.FromSeconds(reader.GetInt64(reader.GetOrdinal(BaseFilms.FILMS_DUREE)));
-                    
+
                     _fichierNonTrouve = false;
                     _donneesChargees = true;
                 }
@@ -326,7 +326,7 @@ namespace CollectionDeFilms.Films
             }
             catch (Exception)
             {
-                return File.GetCreationTime(_chemin) ;
+                return File.GetCreationTime(_chemin);
             }
         }
 
@@ -611,7 +611,7 @@ namespace CollectionDeFilms.Films
             MainForm.WriteMessageToConsole("Date sortie " + DateSortie);
 
             _etat = ETAT.OK;
-            baseFilms.update(this,null);
+            baseFilms.update(this, null);
             if (Configuration.supprimerAutresAlternatives)
             {
                 MainForm.WriteMessageToConsole("Suppression des autres alternatives");

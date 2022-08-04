@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CollectionDeFilms.Fenetres
@@ -68,7 +61,7 @@ namespace CollectionDeFilms.Fenetres
             Configuration.urlTMDBChercherFilm = textBoxChercherFilm.Text;
             Configuration.urlTMDBInfosFilm = textBoxInfosFilm.Text;
             Configuration.urlTMDBAfficheFilm = textBoxAfficheFilm.Text;
-            
+
             int taille;
             switch (comboBoxRetailleImages.SelectedIndex)
             {
@@ -146,14 +139,14 @@ namespace CollectionDeFilms.Fenetres
         {
             string url = textBoxChercherFilm.Text;
             // Verifier qu'il y a bien http: ou https:
-            if ( ! url.StartsWith("http:") && ! url.StartsWith("https:"))
+            if (!url.StartsWith("http:") && !url.StartsWith("https:"))
             {
                 MessageBox.Show("L'url doit commencer par http:// ou https://", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             // Verifier que la clef a ete inserée
-            if ( url.IndexOf("VOTRE_CLEF_TMDB") != -1)
+            if (url.IndexOf("VOTRE_CLEF_TMDB") != -1)
                 if (!url.StartsWith("http:") && !url.StartsWith("https:"))
                 {
                     MessageBox.Show("Vous devez intégrer votre clef TMDB dans l'ur", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);

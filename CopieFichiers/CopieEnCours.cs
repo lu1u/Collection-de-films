@@ -1,7 +1,6 @@
 ﻿using CollectionDeFilms.Database;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Windows.Forms;
 
 namespace CollectionDeFilms
@@ -70,7 +69,7 @@ namespace CollectionDeFilms
                 listBoxFichiersACopier.BeginUpdate();
                 listBoxFichiersACopier.Items.Clear();
                 IEnumerator<(string, string, string)> iCopies = BaseFilms.instance.getCopiesEnumerator();
-                
+
                 while (iCopies.MoveNext())
                 {
                     (string texte, string source, string destination) = iCopies.Current;
@@ -79,7 +78,7 @@ namespace CollectionDeFilms
                     item.SubItems.Add(destination);
                     listBoxFichiersACopier.Items.Add(item);
                 }
-                
+
                 listBoxFichiersACopier.EndUpdate();
                 buttonCancel.Enabled = listBoxFichiersACopier.Items.Count > 0;
             }
@@ -88,7 +87,7 @@ namespace CollectionDeFilms
         private void onClickCancel(object sender, EventArgs e)
         {
             _annule = true;
-            System.Media.SystemSounds.Exclamation.Play() ;
+            System.Media.SystemSounds.Exclamation.Play();
             buttonCancel.Text = "Annulation en cours...";
             buttonCancel.Enabled = false;
         }
@@ -100,12 +99,12 @@ namespace CollectionDeFilms
         internal void signaleAnnulationTerminee()
         {
             if (InvokeRequired)
-                Invoke(new signaleAnnulationTermineeDelegate(signaleAnnulationTerminee), new object[] {  });
+                Invoke(new signaleAnnulationTermineeDelegate(signaleAnnulationTerminee), new object[] { });
             else
             {
                 buttonCancel.Text = "Annulé";
             }
-            
+
         }
     }
 }

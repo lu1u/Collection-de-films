@@ -1,6 +1,5 @@
 ﻿using CollectionDeFilms.Database;
 using CollectionDeFilms.Films;
-using System;
 using System.Data.SQLite;
 /// <summary>
 /// Filtre de selection pour afficher la liste des films: UI => requete SQL
@@ -17,13 +16,13 @@ namespace CollectionDeFilms
         private string _critereTri = $" ORDER BY {BaseFilms.FILMS_TITRE} ";
         private string _genre = "";
         private string _etiquette = "";
-        
+
         private TROIS_ETATS _vu = TROIS_ETATS.INDIFFERENT;
         private TROIS_ETATS _aVoir = TROIS_ETATS.INDIFFERENT;
         private TROIS_ETATS _alternatives = TROIS_ETATS.INDIFFERENT;
         public bool change { get; set; }
 
-        public  TRI tri { get; set; }
+        public TRI tri { get; set; }
 
         public string Recherche
         {
@@ -71,7 +70,7 @@ namespace CollectionDeFilms
                 if (_recherche.StartsWith("-"))
                 {
                     // Recherche quelque chose qui ne CONTIENT pas
-                    string rech = "'%" + _recherche.Substring(1).ToUpper() + "%'";
+                    string rech = "'%" + _recherche.Substring(1) + "%'";
                     contient = string.Format("("
                         + $"    (UPPER({BaseFilms.FILMS_CHEMIN}) not like {{0}})"
                         + $" AND (UPPER({BaseFilms.FILMS_TITRE}) not like {{0}})"
@@ -87,7 +86,7 @@ namespace CollectionDeFilms
                 else
                 {
                     // Recherche quelque chose qui contient
-                    string rech = "'%" + _recherche.ToUpper() + "%'";
+                    string rech = "'%" + _recherche.Trim() + "%'";
                     contient = string.Format("("
                                                 + $"    (UPPER({BaseFilms.FILMS_CHEMIN}) like {{0}})"
                                                 + $" OR (UPPER({BaseFilms.FILMS_TITRE}) like {{0}})"
@@ -144,7 +143,7 @@ namespace CollectionDeFilms
             // Filtre sur le genre
             if (_genre?.Length > 0)
             {
-                string rech = "'%" + _genre.ToUpper() + "%'";
+                string rech = "'%" + _genre + "%'";
                 contient = string.Format($"(UPPER({BaseFilms.FILMS_GENRES}) like {{0}})", rech);
                 _requeteSQL += mayBeAnd(_requeteSQL) + contient;
             }
@@ -152,7 +151,7 @@ namespace CollectionDeFilms
             // Filtre sur les etiquettes
             if (_etiquette?.Length > 0)
             {
-                string rech = "'%" + _etiquette.ToUpper() + "%'";
+                string rech = "'%" + _etiquette + "%'";
                 contient = string.Format($"(UPPER({BaseFilms.FILMS_TAG}) like {{0}})", rech);
                 _requeteSQL += mayBeAnd(_requeteSQL) + contient;
             }
@@ -185,12 +184,12 @@ namespace CollectionDeFilms
         }
 
 
-        internal void TriPar(TRI tri, ORDRE o )
+        internal void TriPar(TRI tri, ORDRE o)
         {
-            string critere="";
-            string ordre="";
+            string critere = "";
+            string ordre = "";
             this.tri = tri;
-            switch( tri)
+            switch (tri)
             {
                 case TRI.TITRE: critere = BaseFilms.FILMS_TITRE; break;
                 case TRI.DATE_AJOUT: critere = BaseFilms.FILMS_DATECREATION; break;
@@ -198,9 +197,9 @@ namespace CollectionDeFilms
                 case TRI.DATE_VUE: critere = BaseFilms.FILMS_DATEVU; break;
             }
 
-            switch( o)
+            switch (o)
             {
-                case ORDRE.CROISSANT: ordre = "ASC";break;
+                case ORDRE.CROISSANT: ordre = "ASC"; break;
                 case ORDRE.DECROISSANT: ordre = "DESC"; break;
             }
 

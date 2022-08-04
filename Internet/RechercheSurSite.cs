@@ -1,6 +1,5 @@
 ﻿using CollectionDeFilms.Database;
 using CollectionDeFilms.Films;
-using CollectionDeFilms.Internet;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;

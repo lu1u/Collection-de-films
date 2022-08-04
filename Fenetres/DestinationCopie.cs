@@ -71,7 +71,7 @@ namespace CollectionDeFilms.Fenetres
             }
 
             remplitListDevices();
-            
+
         }
 
         private void remplitListDevices()
@@ -190,8 +190,8 @@ namespace CollectionDeFilms.Fenetres
             // listViewDevices
             // 
             this.listViewDevices.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.listViewDevices.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.listViewDevices.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewDevices.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -282,7 +282,7 @@ namespace CollectionDeFilms.Fenetres
             // 
             // pictureBoxAffiche
             // 
-            this.pictureBoxAffiche.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pictureBoxAffiche.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBoxAffiche.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.pictureBoxAffiche.Location = new System.Drawing.Point(12, 12);

@@ -39,7 +39,7 @@ namespace CollectionDeFilms.Internet
                 web.UserAgent = "Mozilla/5.0 (Windows NT x.y; WOW64; rv:10.0) Gecko/20100101 Firefox/10.0";
                 return await web.LoadFromWebAsync(requete);
             }
-            catch( HtmlWebException e)
+            catch (HtmlWebException e)
             {
                 MainForm.WriteErrorToConsole("Erreur lors du chargmement d'une page: " + requete);
                 MainForm.WriteExceptionToConsole(e);

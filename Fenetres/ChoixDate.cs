@@ -30,11 +30,11 @@ namespace CollectionDeFilms.Fenetres
 
         private void onLoad(object sender, EventArgs e)
         {
-            if (date != null && date.Year>1990)
+            if (date != null && date.Year > 1990)
                 dateTimePicker.Value = date;
 
             // Si on ouvre cette fenetre, c'est pour changer le statut 'vu' donc si le film n'est pas vu, on coche 'vu'
-            if (! Vu)
+            if (!Vu)
             {
                 radioButtonVu.Checked = true;
                 radioButtonNonVu.Checked = false;

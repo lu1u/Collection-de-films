@@ -1,11 +1,8 @@
 ﻿using CollectionDeFilms.Films;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SQLite;
 using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace CollectionDeFilms.Database
 {
@@ -231,7 +228,7 @@ namespace CollectionDeFilms.Database
             using (SQLiteCommand command = new SQLiteCommand($"DELETE FROM {TABLE_FILMS} WHERE {FILMS_ID} = @id"))
             {
                 supprimeAlternatives(id);
-                supprimeImages( id );
+                supprimeImages(id);
                 command.Parameters.AddWithValue("@id", id);
                 executeNonQuery(command);
             }

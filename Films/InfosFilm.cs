@@ -17,7 +17,7 @@ namespace CollectionDeFilms.Films
         public string _dateSortie = "";
         public Image _image;
 
-        
+
         public InfosFilm()
         {
 

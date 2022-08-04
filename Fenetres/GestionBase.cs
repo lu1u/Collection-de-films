@@ -145,8 +145,8 @@ namespace CollectionDeFilms.Fenetres
             // 
             this.listViewBases.Alignment = System.Windows.Forms.ListViewAlignment.Default;
             this.listViewBases.AllowColumnReorder = true;
-            this.listViewBases.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.listViewBases.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewBases.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderNom,

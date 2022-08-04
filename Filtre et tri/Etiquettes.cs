@@ -1,10 +1,6 @@
 ﻿using CollectionDeFilms.Database;
-using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollectionDeFilms.Filtre_et_tri
 {
@@ -38,7 +34,7 @@ namespace CollectionDeFilms.Filtre_et_tri
                     _etiquettes[i] = Genres.magnifique(_etiquettes[i]);
 
                 _etiquettes.Sort();
-                }
+            }
 
             return _etiquettes;
         }
@@ -64,7 +60,7 @@ namespace CollectionDeFilms.Filtre_et_tri
             {
                 if (m?.Length > 0)
                 {
-                    string s = m.Trim().ToLower() ;
+                    string s = m.Trim().ToLower();
                     // Ajouter l'etiquette si elle n'est pas déjà dans la liste
                     if (!recherche(res, s))
                         res.Add(s);

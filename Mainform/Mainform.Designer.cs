@@ -58,12 +58,15 @@ namespace CollectionDeFilms
             System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
             System.Windows.Forms.ToolStripMenuItem toolStripMenuItem12;
             System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem20;
             System.Windows.Forms.ToolStripMenuItem toolStripMenuItem14;
             System.Windows.Forms.ToolStripMenuItem toolStripMenuItem15;
             System.Windows.Forms.ToolStripMenuItem toolStripMenuItem18;
             System.Windows.Forms.ToolStripMenuItem separateurToolStripMenuItem;
             System.Windows.Forms.ToolStripLabel toolStripLabel1;
             System.Windows.Forms.Label label8;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem19;
+            System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
             this.toolStripStatusLabelNbFilmsBD = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabelNbAffiches = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -109,7 +112,6 @@ namespace CollectionDeFilms
             this.contextMenuFilm = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             this.textboxFiltre = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.multiStateToolstripMenuItemVus = new CollectionDeFilms.MultistateToolstripMenuItem();
@@ -144,12 +146,15 @@ namespace CollectionDeFilms
             toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem20 = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem14 = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem15 = new System.Windows.Forms.ToolStripMenuItem();
             toolStripMenuItem18 = new System.Windows.Forms.ToolStripMenuItem();
             separateurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             label8 = new System.Windows.Forms.Label();
+            toolStripMenuItem19 = new System.Windows.Forms.ToolStripMenuItem();
+            toolStripMenuItem11 = new System.Windows.Forms.ToolStripMenuItem();
             statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -251,11 +256,11 @@ namespace CollectionDeFilms
             // toolStripMenuItem5
             // 
             toolStripMenuItem5.Name = "toolStripMenuItem5";
-            toolStripMenuItem5.ShortcutKeyDisplayString = "Alt+L";
-            toolStripMenuItem5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
+            toolStripMenuItem5.ShortcutKeyDisplayString = "Alt+I";
+            toolStripMenuItem5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.I)));
             toolStripMenuItem5.Size = new System.Drawing.Size(323, 22);
-            toolStripMenuItem5.Text = "Lire le film";
-            toolStripMenuItem5.Click += new System.EventHandler(this.onFilmContextMenuLireLeFilm);
+            toolStripMenuItem5.Text = "Etiquettes";
+            toolStripMenuItem5.Click += new System.EventHandler(this.onFilmContextMenuEtiquettes);
             // 
             // toolStripMenuItem6
             // 
@@ -388,6 +393,7 @@ namespace CollectionDeFilms
             toolStripMenuItem12,
             this.toolStripSeparator1,
             toolStripMenuItem13,
+            toolStripMenuItem20,
             toolStripMenuItem14,
             this.toolStripSeparator2,
             toolStripMenuItem15,
@@ -446,6 +452,14 @@ namespace CollectionDeFilms
             toolStripMenuItem13.Text = "Editer";
             toolStripMenuItem13.Click += new System.EventHandler(this.onFilmContextMenuLireEditer);
             // 
+            // toolStripMenuItem20
+            // 
+            toolStripMenuItem20.Name = "toolStripMenuItem20";
+            toolStripMenuItem20.ShortcutKeyDisplayString = "Alt+I";
+            toolStripMenuItem20.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.I)));
+            toolStripMenuItem20.Size = new System.Drawing.Size(348, 22);
+            toolStripMenuItem20.Text = "Etiquettes";
+            // 
             // toolStripMenuItem14
             // 
             toolStripMenuItem14.Name = "toolStripMenuItem14";
@@ -503,7 +517,6 @@ namespace CollectionDeFilms
             separateurToolStripMenuItem.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             separateurToolStripMenuItem.Name = "separateurToolStripMenuItem";
             separateurToolStripMenuItem.Size = new System.Drawing.Size(21, 71);
-            separateurToolStripMenuItem.Text = "separateur";
             // 
             // toolStripLabel1
             // 
@@ -528,6 +541,26 @@ namespace CollectionDeFilms
             label8.TabIndex = 3;
             label8.Text = "Film non trouvé sur internet, vous pouvez tenter de corriger le titre et relancer" +
     " la recherche";
+            // 
+            // toolStripMenuItem19
+            // 
+            toolStripMenuItem19.Name = "toolStripMenuItem19";
+            toolStripMenuItem19.ShortcutKeyDisplayString = "Alt+L";
+            toolStripMenuItem19.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.L)));
+            toolStripMenuItem19.Size = new System.Drawing.Size(323, 22);
+            toolStripMenuItem19.Text = "Lire le film";
+            toolStripMenuItem19.Click += new System.EventHandler(this.onFilmContextMenuLireLeFilm);
+            // 
+            // toolStripMenuItem11
+            // 
+            toolStripMenuItem11.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
+            toolStripMenuItem11.AutoSize = false;
+            toolStripMenuItem11.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            toolStripMenuItem11.Enabled = false;
+            toolStripMenuItem11.Image = global::CollectionDeFilms.Resources.logo;
+            toolStripMenuItem11.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            toolStripMenuItem11.Name = "toolStripMenuItem11";
+            toolStripMenuItem11.Size = new System.Drawing.Size(177, 71);
             // 
             // imageList1
             // 
@@ -684,10 +717,11 @@ namespace CollectionDeFilms
             this.listeProprietesFilm.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listeProprietesFilm.Fonte = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.listeProprietesFilm.Interligne = 5;
-            this.listeProprietesFilm.Location = new System.Drawing.Point(3, 135);
-            this.listeProprietesFilm.MinimumSize = new System.Drawing.Size(327, 72);
+            this.listeProprietesFilm.Location = new System.Drawing.Point(4, 135);
+            this.listeProprietesFilm.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.listeProprietesFilm.MinimumSize = new System.Drawing.Size(327, 0);
             this.listeProprietesFilm.Name = "listeProprietesFilm";
-            this.listeProprietesFilm.Size = new System.Drawing.Size(327, 72);
+            this.listeProprietesFilm.Size = new System.Drawing.Size(327, 0);
             this.listeProprietesFilm.TabIndex = 18;
             // 
             // tabpageAlternatives
@@ -760,7 +794,7 @@ namespace CollectionDeFilms
             // listViewFilms
             // 
             this.listViewFilms.Activation = System.Windows.Forms.ItemActivation.OneClick;
-            this.listViewFilms.BackColor = System.Drawing.Color.Gray;
+            this.listViewFilms.BackColor = System.Drawing.Color.DimGray;
             this.listViewFilms.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewFilms.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewFilms.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -879,12 +913,13 @@ namespace CollectionDeFilms
             // 
             this.contextMenuFilm.BackColor = System.Drawing.SystemColors.Menu;
             this.contextMenuFilm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            toolStripMenuItem5,
+            toolStripMenuItem19,
             toolStripMenuItem6,
             toolStripMenuItem7,
             toolStripMenuItem8,
             this.toolStripSeparator3,
             toolStripMenuItem9,
+            toolStripMenuItem5,
             toolStripMenuItem10,
             this.toolStripSeparator4,
             rechargerLesInformationsToolStripMenuItem,
@@ -894,7 +929,7 @@ namespace CollectionDeFilms
             this.copierSurToolStripMenuItem});
             this.contextMenuFilm.Name = "contextMenuStripFilm";
             this.contextMenuFilm.ShowImageMargin = false;
-            this.contextMenuFilm.Size = new System.Drawing.Size(324, 242);
+            this.contextMenuFilm.Size = new System.Drawing.Size(324, 264);
             // 
             // openFileDialog
             // 
@@ -908,7 +943,7 @@ namespace CollectionDeFilms
             this.menuStrip1.BackgroundImage = global::CollectionDeFilms.Resources.toolbar;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem11,
+            toolStripMenuItem11,
             toolStripMenu,
             filmsToolStripMenuItem,
             configurationToolStripMenuItem,
@@ -934,15 +969,6 @@ namespace CollectionDeFilms
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MenuStrip1_ItemClicked);
-            // 
-            // toolStripMenuItem11
-            // 
-            this.toolStripMenuItem11.AutoSize = false;
-            this.toolStripMenuItem11.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripMenuItem11.Image = global::CollectionDeFilms.Resources.logo;
-            this.toolStripMenuItem11.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(200, 68);
             // 
             // textboxFiltre
             // 
@@ -1133,7 +1159,6 @@ namespace CollectionDeFilms
         private System.Windows.Forms.ContextMenuStrip contextMenuFilm;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ImageList imageList2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem11;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuCollections;
         private System.Windows.Forms.ToolStripMenuItem exporterLaListeDesFilmsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ajouterDesFichiersToolStripMenuItem;

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CollectionDeFilms.Database
@@ -45,22 +43,22 @@ namespace CollectionDeFilms.Database
             await executeNonQueryAsync($"DELETE FROM {TABLE_COPIES};");
         }
 
-       /// <summary>
-       /// Ajoute une copie a la table des copies
-       /// </summary>
-       /// <param name="texte"></param>
-       /// <param name="source"></param>
-       /// <param name="destination"></param>
-       /// <returns>Id de l'enregistrement</returns>
+        /// <summary>
+        /// Ajoute une copie a la table des copies
+        /// </summary>
+        /// <param name="texte"></param>
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
+        /// <returns>Id de l'enregistrement</returns>
         public async Task<int> ajouteCopie(string texte, string source, string destination)
         {
             using (SQLiteCommand command = new SQLiteCommand($"INSERT into {TABLE_COPIES}  ({COPIES_TEXTE}, {COPIES_SOURCE}, {COPIES_DESTINATION})"
                     + " VALUES (@texte, @source, @destination)"))
             {
-                command.Parameters.AddWithValue("@texte", texte );
-                command.Parameters.AddWithValue("@source", source );
+                command.Parameters.AddWithValue("@texte", texte);
+                command.Parameters.AddWithValue("@source", source);
                 command.Parameters.AddWithValue("@destination", destination);
-                
+
                 executeNonQuery(command);
 
                 // Obtenir l'id du dernier film ajoute
@@ -104,7 +102,7 @@ namespace CollectionDeFilms.Database
                     source = reader.GetString(reader.GetOrdinal(BaseFilms.COPIES_SOURCE));
                     destination = reader.GetString(reader.GetOrdinal(BaseFilms.COPIES_DESTINATION));
 
-                    
+
                     return true;
                 }
             }
@@ -153,7 +151,7 @@ namespace CollectionDeFilms.Database
                         string source = reader.GetString(reader.GetOrdinal(BaseFilms.COPIES_SOURCE));
                         string destination = reader.GetString(reader.GetOrdinal(BaseFilms.COPIES_DESTINATION));
 
-                        yield return ( texte, source, destination);
+                        yield return (texte, source, destination);
                     }
 
                 reader.Close();

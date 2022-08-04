@@ -261,6 +261,8 @@ namespace CollectionDeFilms
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 changeEtat(selected);
+                RemplitListeGenres();
+                RemplitListeEtiquettes();
             }
         }
 
@@ -536,7 +538,7 @@ namespace CollectionDeFilms
             }
         }
 
-       
+
 
 
         private void onEtiquettesToolStripMenuItemDropDownOpening(object sender, EventArgs e)
@@ -690,7 +692,7 @@ namespace CollectionDeFilms
         {
             if (toolStripComboBoxGenres.SelectedIndex >= 0)
             {
-                string genre = toolStripComboBoxGenres.SelectedIndex == 0? "" : toolStripComboBoxGenres.Items[toolStripComboBoxGenres.SelectedIndex].ToString();
+                string genre = toolStripComboBoxGenres.SelectedIndex == 0 ? "" : toolStripComboBoxGenres.Items[toolStripComboBoxGenres.SelectedIndex].ToString();
                 selectGenre(genre);
             }
         }
@@ -727,5 +729,27 @@ namespace CollectionDeFilms
                 remplitListFilms();
             }
         }
+
+        /// <summary>
+        /// Ouvrir la fenetre des etiquettes pour le film selectionne
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>        
+        private void onFilmContextMenuEtiquettes(object sender, EventArgs e)
+        {
+            Film selected = getSelectedFilm();
+            if (selected == null)
+                return;
+
+            EtiquettesDlg dlg = new EtiquettesDlg();
+            dlg.film = selected;
+
+            if (dlg.ShowDialog(this) == DialogResult.OK)
+            {
+                updatePanneauInfo(selected);
+                RemplitListeEtiquettes();
+            }
+        }
+
     }
 }

@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Collection_de_films_2.Resources
@@ -21,7 +15,7 @@ namespace Collection_de_films_2.Resources
             Application.Run(form);
         }
 
-        public static void Show(Form parent, string message )
+        public static void Show(Form parent, string message)
         {
             Toast t = new Toast();
             t.Visible = false;
@@ -41,7 +35,7 @@ namespace Collection_de_films_2.Resources
             timer.Start();
 
             SizeF textSize = CreateGraphics().MeasureString(message, SystemFonts.CaptionFont);
-            this.Size = new Size((int)textSize.Width+8, (int)textSize.Height+8) ;
+            this.Size = new Size((int)textSize.Width + 8, (int)textSize.Height + 8);
 
             this.Location = Cursor.Position;
         }

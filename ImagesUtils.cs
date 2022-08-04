@@ -129,12 +129,12 @@ namespace CollectionDeFilms
             if (decalage < 1)
                 decalage = 1;
 
-            Image img = new Bitmap(image.Width + decalage*2, image.Height + decalage*2);
+            Image img = new Bitmap(image.Width + decalage * 2, image.Height + decalage * 2);
             using (Graphics g = Graphics.FromImage(img))
             {
-                 using (Brush b = new SolidBrush(Color.FromArgb((int)(128.0f / (float)decalage), 0, 0, 0)))
-                     for (int i = 1; i <= decalage; i++)
-                         g.FillRectangle(b, i, i, image.Width, image.Height);
+                using (Brush b = new SolidBrush(Color.FromArgb((int)(128.0f / (float)decalage), 0, 0, 0)))
+                    for (int i = 1; i <= decalage; i++)
+                        g.FillRectangle(b, i, i, image.Width, image.Height);
 
                 //Rectangle rect = new Rectangle(0, 0, image.Width + decalage, image.Height + decalage);
                 //
@@ -195,12 +195,12 @@ namespace CollectionDeFilms
 
         internal static Image cadre(Image image, Color couleur, int largeur)
         {
-            Image img = new Bitmap(image.Width + largeur*2, image.Height + largeur*2);
+            Image img = new Bitmap(image.Width + largeur * 2, image.Height + largeur * 2);
             using (Graphics g = Graphics.FromImage(img))
             {
                 g.DrawImageUnscaled(image, largeur, largeur);
                 using (Pen p = new Pen(couleur, largeur))
-                    g.DrawRectangle(p, largeur/2, largeur/2, img.Width-largeur, img.Height-largeur);
+                    g.DrawRectangle(p, largeur / 2, largeur / 2, img.Width - largeur, img.Height - largeur);
             }
 
             return img;
